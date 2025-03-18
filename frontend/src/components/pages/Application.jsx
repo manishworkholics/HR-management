@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 
-
-const Dashboard = () => {
+const Application = () => {
     const [employees, setEmployees] = useState([]); // State to store employees
 
     // Fetch Employees
     const fetchEmployees = async () => {
         try {
-            const response = await fetch("http://localhost:4000/api/users", {
+            const response = await fetch("http://localhost:4000/api/applications", {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
             });
@@ -24,6 +23,8 @@ const Dashboard = () => {
     useEffect(() => {
         fetchEmployees(); // Fetch employees on load
     }, []);
+
+
     return (
         <div>
             <div className='container'>
@@ -34,9 +35,11 @@ const Dashboard = () => {
                             <thead>
                                 <tr>
                                     <th>S.no</th>
-                                    <th>Username</th>
+                                    <th>Title</th>
+                                    <th>Body</th>
                                     <th>Name</th>
-                                    <th>Role</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -44,10 +47,18 @@ const Dashboard = () => {
                                     employees.map((employee, index) => (
                                         <tr key={employee.id}>
                                             <th>{index + 1}</th>
-                                            <td>{employee.username}</td>
-                                            <td>{employee.name}</td>
-                                            <td>{employee.role}</td>
-
+                                            <td>{employee.title}</td>
+                                            <td>{employee.body}</td>
+                                            <td>{employee.user_id.name}</td>
+                                            <td>{employee.status}</td>
+                                            <td>
+                                                <button className="btn btn-warning btn-sm me-2" >
+                                                    Approve
+                                                </button>
+                                                <button className="btn btn-danger btn-sm" >
+                                                    Reject
+                                                </button>
+                                            </td>
 
                                         </tr>
                                     ))
@@ -67,4 +78,4 @@ const Dashboard = () => {
     )
 }
 
-export default Dashboard
+export default Application

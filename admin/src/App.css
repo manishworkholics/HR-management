@@ -1,0 +1,70 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Bg-Color */
+.bg-303030 {
+  background-color: #303030;
+}
+.bg-ffffff94 {
+  background-color: #ffffff94;
+}
+
+/* Text-Color */
+.text-303030 {
+  color: #303030;
+}
+
+/* Navbar-CSS Start */
+.header {
+  .navbar-brand .logo{
+    width: 280px;
+  }
+  .navbar-expand-lg .navbar-nav .nav-link {
+    padding-right: 15px;
+    padding-left: 15px;
+    border-radius: 40px;
+  }
+
+  .navbar-nav .nav-link.active,
+  .navbar-nav .nav-link.show {
+    color: white;
+    background: #303030;
+    border-radius: 40px;
+  }
+
+  .navbar-nav .nav-link:focus,
+  .navbar-nav .nav-link:hover {
+    color: white;
+    background: #303030;
+    border-radius: 40px;
+  }
+
+  .navbar-nav-white .nav-link,
+  .navbar-nav-white .nav-link {
+    color: #303030;
+    background: #FFF;
+    border-radius: 40px;
+  }
+}
+
+/* Navbar-CSS End */
+
+/* Employee-Page-CSS Start */
+.employee-page{
+  .tbl-empImg{
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50px;
+    margin-right: 10px;
+  }
+  .table tr th,
+  .table tr td
+  {
+    vertical-align: middle;
+  }
+}
+/* Employee-Page-CSS End */

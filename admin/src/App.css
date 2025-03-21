@@ -18,6 +18,12 @@
   color: #303030;
 }
 
+/* Login-CSS Start */
+.login-page{
+  height: 100vh;
+}
+/* Login-CSS End */
+
 /* Navbar-CSS Start */
 .header {
   .navbar-brand .logo {
@@ -50,6 +56,12 @@
     background: #FFF;
     border-radius: 40px;
   }
+  .dropdown-menu[data-bs-popper] {
+    top: 130%;
+    right: 0;
+    left: auto;
+    margin-top: var(--bs-dropdown-spacer);
+}
 }
 
 /* Navbar-CSS End */
@@ -101,9 +113,9 @@
     box-shadow: 0 0 0 0.25rem rgba(0, 120, 250, 0.1);
   }
 
-  ::-webkit-datetime-edit {}
+  /* ::-webkit-datetime-edit {}
 
-  ::-webkit-datetime-edit-fields-wrapper {}
+  ::-webkit-datetime-edit-fields-wrapper {} */
 
   ::-webkit-datetime-edit-month-field:hover,
   ::-webkit-datetime-edit-day-field:hover,

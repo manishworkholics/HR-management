@@ -9,12 +9,14 @@ import Dashboard from './Pages/Dashboard';
 import Employee from './Pages/Employee';
 import Attendance from './Pages/Attendance';
 import LeaveRequest from './Pages/LeaveRequest';
+import Login from './Pages/Login';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
     <Routes>
-      <Route path='/' element={<Dashboard />} />
+      <Route path='/login' element={<Login />} />
+      <Route path='/dashboard' element={<Dashboard />} />
       <Route path='/employee' element={<Employee />} />
       <Route path='/attendance' element={<Attendance />} />
       <Route path='/leave-request' element={<LeaveRequest />} />

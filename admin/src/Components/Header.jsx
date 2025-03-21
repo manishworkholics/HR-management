@@ -1,6 +1,6 @@
 import React from 'react'
 import Logo from '../assets/images/logo.png'
-import { Link, NavLink } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useNavigate } from "react-router-dom";
 
 const Header = () => {

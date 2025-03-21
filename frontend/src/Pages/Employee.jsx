@@ -5,7 +5,6 @@ import ProfileImg from '../assets/images/pro-img.png'
 
 const Employee = () => {
     const [employees, setEmployees] = useState([]);
-
     const [formData, setFormData] = useState({
         username: "",
         password: "",
@@ -13,7 +12,6 @@ const Employee = () => {
         role: "",
         wages_per_day: "",
     });
-    
     const [selectedEmployee, setSelectedEmployee] = useState(null);
     const [showEditModal, setShowEditModal] = useState(false);
 

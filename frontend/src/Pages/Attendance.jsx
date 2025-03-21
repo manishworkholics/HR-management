@@ -3,13 +3,14 @@ import { useState, useEffect } from "react";
 import Header from '../Components/Header'
 import ProfileImg from '../assets/images/pro-img.png'
 
-const LeaveRequest = () => {
+const Attendance = () => {
     const [employees, setEmployees] = useState([]);
+    const [currentDate, setCurrentDate] = useState(new Date().toISOString().split("T")[0]);
 
     // Get Employees
     const getEmployees = async () => {
         try {
-            const response = await fetch("http://localhost:4000/api/applications", {
+            const response = await fetch("http://localhost:4000/api/users", {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
             });
@@ -32,12 +33,15 @@ const LeaveRequest = () => {
                 <div className="px-lg-5 px-0">
                     <div className="row">
                         <div className="col-12 px-4">
-                            <h1 className="my-4">Leave Request</h1>
+                            <h1 className="my-4">Attendance</h1>
                         </div>
                         <div className="col-md-12 mb-4">
                             <div className="card bg-ffffff94 border-0 rounded-5 h-100">
                                 <div className="card-header pt-3 d-flex justify-content-between bg-transparent border-bottom-0">
                                     <h4 className="mb-0 fw-bold ">Attendance List</h4>
+                                    <div className="">
+                                        <input type="date" value={currentDate} onChange={(e) => setCurrentDate(e.target.value)} />
+                                    </div>
                                 </div>
                                 <div className="card-body">
                                     <div className="table-responsive">
@@ -45,15 +49,11 @@ const LeaveRequest = () => {
                                             <thead>
                                                 <tr className="table-warning">
                                                     <th scope="col">#</th>
-                                                    <th scope="col">Image</th>
-                                                    <th scope="col">User Name</th>
                                                     <th scope="col">Name</th>
-                                                    <th scope="col">Leave Type</th>
-                                                    <th scope="col">From</th>
-                                                    <th scope="col">To</th>
-                                                    <th scope="col">Reason</th>
-                                                    <th scope="col">Status</th>
-                                                    <th scope="col" className=''>Action</th>
+                                                    <th scope="col">User Name</th>
+                                                    <th scope="col">Job Title</th>
+                                                    <th scope="col">Attendance</th>
+                                                    <th scope="col">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -65,22 +65,19 @@ const LeaveRequest = () => {
                                                                 <img src={ProfileImg} alt="" className="tbl-empImg" />
                                                                 {employee.name}
                                                             </td>
-                                                            <td>{employee.user_id.username}</td>
-                                                            <td>{employee.user_id.name}</td>
-
-                                                            <td>{employee.leave_type}</td>
-                                                            <td>{employee.from_date}</td>
-                                                            <td>{employee.to_date}</td>
-                                                            <td>{employee.reason}</td>
-                                                            <td>{employee.status}</td>
+                                                            <td>{employee.username}</td>
+                                                            <td>{employee.role}</td>
                                                             <td>
-                                                                <button type="button" className="btn btn-success text-white rounded-5 me-3">
-                                                                    Aprove
-                                                                    <span className="ms-2"><i className="fa-solid fa-thumbs-up"></i></span>
-                                                                </button>
-                                                                <button type="button" className="btn btn-danger text-white rounded-5 me-3">
-                                                                    Reject
-                                                                    <span className="ms-2"><i className="fa-solid fa-thumbs-down"></i></span>
+                                                                <select class="form-select" aria-label="Default select example">
+                                                                    <option value="1" selected>Present</option>
+                                                                    <option value="2">Absent</option>
+                                                                    <option value="3">WFH</option>
+                                                                </select>
+                                                            </td>
+                                                            <td>
+                                                                <button type="button" className="btn btn-warning text-white rounded-5 me-3">
+                                                                    Edit
+                                                                    <span className="ms-2"><i className="fa-solid fa-user-pen"></i></span>
                                                                 </button>
                                                             </td>
                                                         </tr>
@@ -88,7 +85,7 @@ const LeaveRequest = () => {
                                                 ) : (
                                                     <tr>
                                                         <td colSpan="9" className="text-center">
-                                                         
+                                                            No employees found
                                                         </td>
                                                     </tr>
                                                 )}
@@ -105,7 +102,4 @@ const LeaveRequest = () => {
     )
 }
 
-export default LeaveRequest
-
-
-
+export default Attendance

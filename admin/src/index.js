@@ -10,6 +10,7 @@ import Employee from './Pages/Employee';
 import Attendance from './Pages/Attendance';
 import LeaveRequest from './Pages/LeaveRequest';
 import Login from './Pages/Login';
+import MonthlyAttendance from './Pages/MonthlyAttendance';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -19,6 +20,7 @@ root.render(
       <Route path='/dashboard' element={<Dashboard />} />
       <Route path='/employee' element={<Employee />} />
       <Route path='/attendance' element={<Attendance />} />
+      <Route path='/monthly-attendance' element={<MonthlyAttendance />} />
       <Route path='/leave-request' element={<LeaveRequest />} />
     </Routes>
   </BrowserRouter>

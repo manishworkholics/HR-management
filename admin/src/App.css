@@ -8,6 +8,7 @@
 .bg-303030 {
   background-color: #303030;
 }
+
 .bg-ffffff94 {
   background-color: #ffffff94;
 }
@@ -19,9 +20,10 @@
 
 /* Navbar-CSS Start */
 .header {
-  .navbar-brand .logo{
+  .navbar-brand .logo {
     width: 280px;
   }
+
   .navbar-expand-lg .navbar-nav .nav-link {
     padding-right: 15px;
     padding-left: 15px;
@@ -52,19 +54,92 @@
 
 /* Navbar-CSS End */
 
+/* Common CSS Start */
+.tbl-empImg {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50px;
+  margin-right: 10px;
+}
+
+.table tr th,
+.table tr td {
+  vertical-align: middle;
+}
+
+/* Common CSS End */
+
 /* Employee-Page-CSS Start */
-.employee-page{
-  .tbl-empImg{
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
-    border-radius: 50px;
-    margin-right: 10px;
-  }
+.employee-page {
+
   .table tr th,
-  .table tr td
-  {
+  .table tr td {
     vertical-align: middle;
   }
 }
+
 /* Employee-Page-CSS End */
+
+/* Attendance-Page-CSS Start */
+.attendance-page {
+  input[type="date"] {
+    display: block;
+    position: relative;
+    padding: 6px 40px 6px 12px;
+    font-size: 1rem;
+    font-family: monospace;
+    border: 1px solid #8292a2;
+    border-radius: 1.25rem;
+    background: white url(data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2720%27 height=%2722%27 viewBox=%270 0 20 22%27%3E%3Cg fill=%27none%27 fill-rule=%27evenodd%27 stroke=%27%23688EBB%27 stroke-linecap=%27round%27 stroke-linejoin=%27round%27 stroke-width=%272%27 transform=%27translate%281 1%29%27%3E%3Crect width=%2718%27 height=%2718%27 y=%272%27 rx=%272%27/%3E%3Cpath d=%27M13 0L13 4M5 0L5 4M0 8L18 8%27/%3E%3C/g%3E%3C/svg%3E) right 0.7rem center no-repeat;
+    cursor: pointer;
+  }
+
+  input[type="date"]:focus {
+    outline: none;
+    border-color: #3acfff;
+    box-shadow: 0 0 0 0.25rem rgba(0, 120, 250, 0.1);
+  }
+
+  ::-webkit-datetime-edit {}
+
+  ::-webkit-datetime-edit-fields-wrapper {}
+
+  ::-webkit-datetime-edit-month-field:hover,
+  ::-webkit-datetime-edit-day-field:hover,
+  ::-webkit-datetime-edit-year-field:hover {
+    background: rgba(0, 120, 250, 0.1);
+  }
+
+  ::-webkit-datetime-edit-text {
+    opacity: 0;
+  }
+
+  ::-webkit-clear-button,
+  ::-webkit-inner-spin-button {
+    display: none;
+  }
+
+  ::-webkit-calendar-picker-indicator {
+    position: absolute;
+    width: 2.5rem;
+    height: 100%;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+    cursor: pointer;
+    color: rgba(0, 120, 250, 1);
+    background: rgba(0, 120, 250, 1);
+  }
+
+  input[type="date"]:hover::-webkit-calendar-picker-indicator {
+    opacity: 0.05;
+  }
+
+  input[type="date"]:hover::-webkit-calendar-picker-indicator:hover {
+    opacity: 0.15;
+  }
+}
+
+/* Attendance-Page-CSS End */

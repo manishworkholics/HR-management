@@ -15,6 +15,36 @@ exports.createUser = async (req, res) => {
     }
 };
 
+exports.loginUser = async (req, res) => {
+    try {
+        const { username, password } = req.body;
+
+        // Check if user exists
+        const user = await User.findOne({ username });
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Compare passwords
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(401).json({ message: 'Invalid credentials' });
+        }
+
+        // Generate JWT Token
+        const token = jwt.sign(
+            { userId: user._id, role: user.role },
+            process.env.JWT_SECRET,
+            { expiresIn: '1d' }
+        );
+
+        res.status(200).json({ message: 'Login successful', token });
+    } catch (error) {
+        console.error('Login Error:', error);
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
 exports.getAllUsers = async (req, res) => {
     try {
         const users = await User.find();

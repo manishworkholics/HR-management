@@ -1,0 +1,167 @@
+.calendar-main {
+    ul {
+        list-style-type: none;
+        margin: 0;
+        padding-left: 0;
+    }
+
+    h1 {
+        font-size: 23px;
+    }
+
+    h2 {
+        font-size: 17px;
+    }
+
+    p {
+        font-size: 15px;
+    }
+
+    a {
+        text-decoration: none;
+        font-size: 15px;
+    }
+
+    h1,
+    h2,
+    p,
+    a,
+    span {
+        color: #263859;
+    }
+
+    .icon {
+        font-size: 25px;
+    }
+
+    /* CONTAINER */
+    .container {
+        width: 300px;
+        background: #fefefe;
+        box-shadow: 0 0 20px -3px #bbb;
+    }
+
+    /* HEADER */
+    h2.titular {
+        display: block;
+        line-height: 40px;
+        margin: 0;
+        font-family: sans-serif;
+        text-align: center;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+    }
+
+    /* NAVIGATION ARROWS */
+    .arrow-btn-container {
+        position: relative;
+    }
+
+    .arrow-btn {
+        position: absolute;
+        display: flex;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #f4f4f4;
+        align-items: center;
+        justify-content: center;
+        transition: 0.3s;
+        border: 2px solid #263859;
+    }
+
+    .arrow-btn:hover {
+        background: #16417e;
+
+        i {
+            color: #fff;
+        }
+    }
+
+    .arrow-btn.left {
+        left: 10px;
+        top: 0;
+    }
+
+    .arrow-btn.right {
+        right: 10px;
+        top: 0;
+    }
+
+    .icon {
+        font-size: 18px;
+        color: #263859;
+    }
+
+    .arrow-btn:hover .icon {
+        color: #e0e0e0;
+    }
+
+    /* CALENDAR */
+    .calendar-month {
+        text-align: center;
+    }
+
+    .calendar {
+        margin: 10px auto;
+        text-align: center;
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .calendar a {
+        font-size: 17px;
+        display: block;
+        line-height: 38px;
+        text-align: center;
+    }
+
+    .calendar th,
+    .calendar td {
+        width: 40px;
+        height: 40px;
+        transition: 0.1s;
+    }
+
+    .calendar th {
+        font-weight: bold;
+        color: #222a37;
+        font-family: sans-serif;
+    }
+
+    .calendar td {
+        cursor: pointer;
+        border-radius: 50%;
+    }
+
+    .calendar td:hover {
+        background: #d3def3;
+        border: 1px solid #263859;
+        border-radius: 50%;
+    }
+
+    /* SELECTED DAY */
+    .selectedDay {
+        background: #d9605a;
+        border-radius: 50%;
+    }
+
+    .selectedDay a {
+        color: white;
+    }
+
+    .selectedDay:hover {
+        background: #b94e4e;
+    }
+
+    /* DISABLED DAYS */
+    .disabledDay a {
+        color: #8c8d8f;
+    }
+
+    .disabledDay:hover {
+        background: transparent;
+        border: none;
+        cursor: default;
+    }
+}

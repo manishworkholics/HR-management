@@ -2,9 +2,9 @@ const Attendance = require('../models/attendance.model');
 
 exports.markAttendance = async (req, res) => {
     try {
-        const { user_id, user_entry_time, user_exit_time } = req.body;
+        const { user_id, date, user_entry_time, user_exit_time } = req.body;
 
-        const attendance = new Attendance({ user_id, user_entry_time, user_exit_time });
+        const attendance = new Attendance({ user_id, date, user_entry_time, user_exit_time });
         await attendance.save();
 
         res.status(201).json({ message: 'Attendance recorded', attendance });

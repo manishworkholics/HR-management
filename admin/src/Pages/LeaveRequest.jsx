@@ -9,7 +9,7 @@ const LeaveRequest = () => {
     // Get Employees
     const getEmployees = async () => {
         try {
-            const response = await fetch("http://localhost:4000/api/users", {
+            const response = await fetch("http://localhost:4000/api/applications", {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
             });
@@ -45,12 +45,14 @@ const LeaveRequest = () => {
                                             <thead>
                                                 <tr className="table-warning">
                                                     <th scope="col">#</th>
+                                                    <th scope="col">Image</th>
                                                     <th scope="col">User Name</th>
                                                     <th scope="col">Name</th>
                                                     <th scope="col">Leave Type</th>
                                                     <th scope="col">From</th>
                                                     <th scope="col">To</th>
                                                     <th scope="col">Reason</th>
+                                                    <th scope="col">Status</th>
                                                     <th scope="col" className=''>Action</th>
                                                 </tr>
                                             </thead>
@@ -59,15 +61,18 @@ const LeaveRequest = () => {
                                                     employees.map((employee, index) => (
                                                         <tr key={employee.id}>
                                                             <th scope="row">{index + 1}</th>
-                                                            <td>{employee.username}</td>
                                                             <td>
                                                                 <img src={ProfileImg} alt="" className="tbl-empImg" />
                                                                 {employee.name}
                                                             </td>
-                                                            <td>Casual Leave</td>
-                                                            <td>12/03/2021</td>
-                                                            <td>14/03/2021</td>
-                                                            <td>Going to Holiday</td>
+                                                            <td>{employee.user_id.username}</td>
+                                                            <td>{employee.user_id.name}</td>
+
+                                                            <td>{employee.leave_type}</td>
+                                                            <td>{employee.from_date}</td>
+                                                            <td>{employee.to_date}</td>
+                                                            <td>{employee.reason}</td>
+                                                            <td>{employee.status}</td>
                                                             <td>
                                                                 <button type="button" className="btn btn-success text-white rounded-5 me-3">
                                                                     Aprove
@@ -83,7 +88,7 @@ const LeaveRequest = () => {
                                                 ) : (
                                                     <tr>
                                                         <td colSpan="9" className="text-center">
-                                                            No employees found
+                                                         
                                                         </td>
                                                     </tr>
                                                 )}
@@ -101,3 +106,6 @@ const LeaveRequest = () => {
 }
 
 export default LeaveRequest
+
+
+

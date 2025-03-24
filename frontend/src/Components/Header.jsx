@@ -9,6 +9,7 @@ const Header = () => {
 
     const handleLogout = () => {
         localStorage.removeItem("authToken");
+
         navigate("/login");
     };
 
@@ -31,14 +32,8 @@ const Header = () => {
                                 <li className="nav-item">
                                     <Link className="nav-link  me-1" aria-current="page" to="/employee">Employee</Link>
                                 </li>
-                                <li class="nav-item dropdown">
-                                    <Link class="nav-link dropdown-toggle me-1" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        Attendance
-                                    </Link>
-                                    <ul class="dropdown-menu">
-                                        <li><Link class="dropdown-item" to="/attendance">Take Attendance</Link></li>
-                                        <li><Link class="dropdown-item" to="/monthly-attendance">Monthly Attendance</Link></li>
-                                    </ul>
+                                <li className="nav-item">
+                                    <Link className="nav-link  me-1" aria-current="page" to="/attendance">Attendance</Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link className="nav-link active me-1" aria-current="page" to="/leave-request">Requests</Link>

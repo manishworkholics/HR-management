@@ -56,6 +56,7 @@ exports.getAllAttendance = async (req, res) => {
                             user_name: "$userDetails.name", // Get user name
                             user_entry_time: "$user_entry_time",
                             user_exit_time: "$user_exit_time",
+                            status: "$status",
                             created_at: "$created_at",
                             updated_at: "$updated_at"
                         }
@@ -99,6 +100,7 @@ exports.bulkAttendance = async (req, res) => {
                     $set: {
                         user_entry_time: record.user_entry_time,
                         user_exit_time: record.user_exit_time,
+                        status: record.status,
                         updated_at: new Date()
                     }
                 },

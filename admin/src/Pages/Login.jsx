@@ -1,49 +1,37 @@
 import React, { useState } from 'react'
-import Logo from '../assets/images/logo.png'
-import { Link, useNavigate  } from 'react-router-dom'
+import Logo from '../assets/images/logo.png';
+import { Link, useNavigate } from 'react-router-dom';
+import callAPI from '../Pages/Common_Method/api';
 
 const Login = () => {
-    const [email, setEmail] = useState("");
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [rememberMe, setRememberMe] = useState(false);
     const [error, setError] = useState("");
     const [isLoading, setIsLoading] = useState(false);
-    const history = useNavigate ();
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!email || !password) {
+        if (!username || !password) {
             setError("Please fill in both email and password");
             return;
         }
 
-        const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-        if (!emailPattern.test(email)) {
-            setError("please enter a valid email address");
-            return;
-        }
 
         setError("");
         setIsLoading(true);
 
         try {
-            const response = await fetch("http://localhost:4000/api/admin/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ email, password, rememberMe }),
-            });
-
-            const data = await response.json();
-
-            if (response.ok) {
+            const response = await callAPI.post("/admin/login", { username, password});
+            const data = response.data;
+            if (response.status === 200) { 
                 console.log("Login Successful", data);
-                localStorage.setItem("authToken", data.token);
-                history.push("/dashboard");
+                localStorage.setItem("authToken", data.token); 
+                navigate("/dashboard");
             } else {
-                setError(data.message || "Login failed, please try again.")
+                setError(data.message || "Login failed, please try again.");
             }
         } catch (error) {
             setError("An error occurred. Please try again later.");
@@ -70,11 +58,11 @@ const Login = () => {
                                         <div className="row gy-2 overflow-hidden">
                                             <div className="col-12">
                                                 <div className="form-floating mb-3">
-                                                    <input type="email" className="form-control" name="email" id="email" placeholder="name@example.com"
-                                                        value={email}
-                                                        onChange={(e) => setEmail(e.target.value)}
+                                                    <input type="text" className="form-control" name="username" id="username" placeholder="name@123"
+                                                        value={username}
+                                                        onChange={(e) => setUsername(e.target.value)}
                                                         required />
-                                                    <label htmlFor="email" className="form-label">Email</label>
+                                                    <label htmlFor="text" className="form-label">User Name</label>
                                                 </div>
                                             </div>
                                             <div className="col-12">

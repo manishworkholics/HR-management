@@ -117,12 +117,118 @@ exports.bulkAttendance = async (req, res) => {
 // Get attendance of a specific user
 exports.getUserAttendance = async (req, res) => {
     try {
-        const { user_id } = req.params;
-        const attendanceRecords = await Attendance.find({ user_id }).sort({ date: -1 });
+        const { id } = req.params;  // Extract user_id from params
+
+        if (!id) {
+            return res.status(400).json({ message: "User ID is required" });
+        }
+
+        const attendanceRecords = await Attendance.find({ user_id: id })
+            .populate('user_id', 'name email')  // Fetch user details
+            .sort({ date: -1 });
+
+        if (!attendanceRecords.length) {
+            return res.status(404).json({ message: "No attendance records found for this user" });
+        }
 
         res.status(200).json(attendanceRecords);
     } catch (error) {
-        console.error('Error fetching user attendance:', error);
-        res.status(500).json({ message: 'Server error' });
+        console.error("Error fetching user attendance:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+};
+
+
+exports.calculateSalary = async (req, res) => {
+    try {
+        const { user_id } = req.params; // Extract user_id from request
+        const { start_date, end_date } = req.query; // Get date filter from query params
+
+        if (!user_id || !start_date || !end_date) {
+            return res.status(400).json({ message: "User ID, Start Date, and End Date are required" });
+        }
+
+        // Find employee details
+        const user = await User.findById(user_id);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        // Fetch attendance records in the given date range
+        const attendanceRecords = await Attendance.find({
+            user_id,
+            date: { $gte: start_date, $lte: end_date }
+        });
+
+        // Count the number of present days
+        const presentDays = attendanceRecords.length; // Assuming each record is a present day
+
+        // Calculate total salary
+        const totalSalary = presentDays * user.wages_per_day;
+
+        res.status(200).json({
+            user_id: user._id,
+            name: user.name,
+            total_present_days: presentDays,
+            wages_per_day: user.wages_per_day,
+            total_salary: totalSalary,
+            start_date,
+            end_date
+        });
+
+    } catch (error) {
+        console.error("Error calculating salary:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+};
+
+
+
+
+exports.getAllEmployeeSalaries = async (req, res) => {
+    try {
+        const { start_date, end_date } = req.query; // Get date range filter from query params
+
+        if (!start_date || !end_date) {
+            return res.status(400).json({ message: "Start Date and End Date are required" });
+        }
+
+        // Fetch all employees
+        const users = await User.find();
+
+        // Create an array to store salary details
+        const salaryDetails = [];
+
+        for (let user of users) {
+            // Fetch attendance records for the given date range
+            const attendanceRecords = await Attendance.find({
+                user_id: user._id,
+                date: { $gte: start_date, $lte: end_date }
+            });
+
+            // Count the number of present days
+            const presentDays = attendanceRecords.length; // Assuming each record is a present day
+
+            // Calculate total salary
+            const totalSalary = presentDays * user.wages_per_day;
+
+            // Store the salary details
+            salaryDetails.push({
+                user_id: user._id,
+                name: user.name,
+                role: user.role,
+                total_present_days: presentDays,
+                wages_per_day: user.wages_per_day,
+                total_salary: totalSalary,
+                start_date,
+                end_date
+            });
+        }
+
+        res.status(200).json(salaryDetails);
+
+    } catch (error) {
+        console.error("Error fetching employee salaries:", error);
+        res.status(500).json({ message: "Server error" });
     }
 };

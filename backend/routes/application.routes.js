@@ -10,5 +10,6 @@ const { authenticate } = require('../middlewares/auth.middleware');
 router.post('/', applicationController.createApplication);
 router.get('/', applicationController.getApplications);
 router.put('/:id', applicationController.updateApplicationStatus);
+router.get('/:user_id', applicationController.getApplicationsByUserId);
 
 module.exports = router;

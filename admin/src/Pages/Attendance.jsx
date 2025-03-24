@@ -5,48 +5,37 @@ import ProfileImg from '../assets/images/pro-img.png'
 import callAPI from './Common_Method/api';
 
 const Attendance = () => {
-    const [attendanceEmployees, setAttendanceEmployees] = useState([]);
     const [attendance, setAttendance] = useState([]);
     const [currentDate, setCurrentDate] = useState(new Date().toISOString().split("T")[0]);
 
-    // Get Employees
-    // const getEmployees = async () => {
-    //     try {
-    //         const response = await fetch("http://localhost:4000/api/attendance/employees", {
-    //             method: "GET",
-    //             headers: { "Content-Type": "application/json" },
-    //         });
-    //         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`)
-    //         const result = await response.json();
-    //         setAttendanceEmployees(result);
-    //     } catch (error) {
-    //         console.error("Error fetching employees:", error.message);
-    //     }
-    // };
+    const getTodayDate = () => {
+        const today = new Date();
+        return today.toISOString().split("T")[0]; 
+    };
 
     const getAttendance = async () => {
         try {
-            const response = await callAPI.post("/attendance/bulk", {
-                attendanceRecords: attendanceEmployees.map(emp => ({
-                    user_id: emp._id,
-                    date: currentDate,
-                    user_entry_time: emp.user_entry_time || "09:00 AM", 
-                    user_exit_time: emp.user_exit_time || "06:00 PM",  
-                }))
-            });
-            console.log("API Response:", response.data);
+            const response = await callAPI.get("/attendance");
+            console.log("API Response:", response.data); 
     
-            if (response?.data?.attendanceRecords) {
-                setAttendance(response.data.attendanceRecords);
+            if (response?.data?.length > 0) {
+                const selectedDate = getTodayDate(); 
+                const filteredData = response.data.find(item => item._id === selectedDate);
+                
+                if (filteredData) {
+                    setAttendance(filteredData.records || []);
+                    console.log("Updated Attendance State:", filteredData.records);
+                } else {
+                    setAttendance([]);
+                    console.log("No records found for", selectedDate);
+                }
             }
         } catch (error) {
             console.error("Error fetching attendance:", error);
         }
     };
     
-
     useEffect(() => {
-        // getEmployees();
         getAttendance();
     }, []);
 
@@ -84,15 +73,15 @@ const Attendance = () => {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {attendance?.data?.attendanceRecords?.length > 0 ? (
-                                                    attendance?.data?.attendanceRecords?.map((employee, index) => (
+                                                {attendance?.data?.length > 0 ? (
+                                                    attendance?.data?.map((employee, index) => (
                                                         <tr key={employee.id || index}>
                                                             <th scope="row">{index + 1}</th>
                                                             <td>
                                                                 <img src={ProfileImg} alt="" className="tbl-empImg" />
                                                                 {employee.name}
                                                             </td>
-                                                            <td>{employee.username}</td>
+                                                            <td>{employee.user_name}</td>
                                                             <td>{employee.role}</td>
                                                             <td>{employee.date}</td>
                                                             <td>{employee.user_entry_time}</td>

@@ -5,6 +5,7 @@ import ProfileImg from '../assets/images/pro-img.png'
 
 const Attendance = () => {
     const [attendanceEmployees, setAttendanceEmployees] = useState([]);
+    const [attendance, setAttendance] = useState([]);
     const [currentDate, setCurrentDate] = useState(new Date().toISOString().split("T")[0]);
 
     // Get Employees
@@ -22,8 +23,24 @@ const Attendance = () => {
         }
     };
 
+    const getAttendance = async () => {
+        try {
+            const response = await fetch("http://localhost:4000/api/attendance/bulk", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+            });
+            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+    
+            const result = await response.json();
+            setAttendance(result);
+          } catch (error) {
+            console.error("Error fetching employees:", error.message);
+          }
+    };
+
     useEffect(() => {
         getEmployees();
+        getAttendance();
     }, []);
 
     return (
@@ -60,9 +77,9 @@ const Attendance = () => {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {attendanceEmployees.length > 0 ? (
-                                                    attendanceEmployees.map((employee, index) => (
-                                                        <tr key={employee.id}>
+                                                {attendance.length > 0 ? (
+                                                    attendance.map((employee, index) => (
+                                                        <tr key={employee.id || index}>
                                                             <th scope="row">{index + 1}</th>
                                                             <td>
                                                                 <img src={ProfileImg} alt="" className="tbl-empImg" />
@@ -70,14 +87,14 @@ const Attendance = () => {
                                                             </td>
                                                             <td>{employee.username}</td>
                                                             <td>{employee.role}</td>
-                                                            <td>12/03/2021</td>
-                                                            <td>10:00 Am</td>
-                                                            <td>07:00 Pm</td>
+                                                            <td>{employee.date}</td>
+                                                            <td>{employee.user_entry_time}</td>
+                                                            <td>{employee.user_exit_time}</td>
                                                             <td>
                                                                 <select class="form-select" aria-label="Default select example">
-                                                                    <option value="1" selected>Present</option>
-                                                                    <option value="2">Absent</option>
-                                                                    <option value="3">WFH</option>
+                                                                            <option  value="1" selected>Present</option>
+                                                                            <option value="2">Absent</option>
+                                                                            <option value="3">WFH</option>
                                                                 </select>
                                                             </td>
                                                             <td>

@@ -2,7 +2,6 @@ import React from 'react';
 import { useState, useEffect } from "react";
 import Header from '../Components/Header'
 import ProfileImg from '../assets/images/pro-img.png'
-import callAPI from './Common_Method/api';
 
 const LeaveRequest = () => {
     const [employees, setEmployees] = useState([]);
@@ -10,14 +9,18 @@ const LeaveRequest = () => {
     // Get Employees
     const getEmployees = async () => {
         try {
-            const response = await callAPI.get("/applications");
-            if(response?.data)
-            setEmployees(response?.data || []); 
+            const response = await fetch("http://localhost:4000/api/applications", {
+                method: "GET",
+                headers: { "Content-Type": "application/json" },
+            });
+            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`)
+            const result = await response.json();
+            setEmployees(result);
         } catch (error) {
             console.error("Error fetching employees:", error.message);
         }
     };
-    
+
     useEffect(() => {
         getEmployees();
     }, []);

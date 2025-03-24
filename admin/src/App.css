@@ -19,9 +19,10 @@
 }
 
 /* Login-CSS Start */
-.login-page{
+.login-page {
   height: 100vh;
 }
+
 /* Login-CSS End */
 
 /* Navbar-CSS Start */
@@ -56,12 +57,20 @@
     background: #FFF;
     border-radius: 40px;
   }
+
   .dropdown-menu[data-bs-popper] {
     top: 130%;
     right: 0;
     left: auto;
     margin-top: var(--bs-dropdown-spacer);
-}
+  }
+
+  .dropdown-item.active,
+  .dropdown-item:active {
+    color: var(--bs-dropdown-link-active-color);
+    text-decoration: none;
+    background-color: #303030;
+  }
 }
 
 /* Navbar-CSS End */

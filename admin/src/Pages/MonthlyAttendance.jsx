@@ -3,20 +3,20 @@ import { useState, useEffect } from "react";
 import Header from '../Components/Header'
 import ProfileImg from '../assets/images/pro-img.png'
 
-const Attendance = () => {
-    const [attendanceEmployees, setAttendanceEmployees] = useState([]);
+const MonthlyAttendance = () => {
+    const [employees, setEmployees] = useState([]);
     const [currentDate, setCurrentDate] = useState(new Date().toISOString().split("T")[0]);
 
     // Get Employees
     const getEmployees = async () => {
         try {
-            const response = await fetch("http://localhost:4000/api/attendance/employees", {
+            const response = await fetch("http://localhost:4000/api/users", {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
             });
             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`)
             const result = await response.json();
-            setAttendanceEmployees(result);
+            setEmployees(result);
         } catch (error) {
             console.error("Error fetching employees:", error.message);
         }
@@ -38,7 +38,7 @@ const Attendance = () => {
                         <div className="col-md-12 mb-4">
                             <div className="card bg-ffffff94 border-0 rounded-5 h-100">
                                 <div className="card-header pt-3 d-flex justify-content-between bg-transparent border-bottom-0">
-                                    <h4 className="mb-0 fw-bold ">Attendance</h4>
+                                    <h4 className="mb-0 fw-bold ">Monthly Attendance</h4>
                                     <div className="">
                                         <input type="date" value={currentDate} onChange={(e) => setCurrentDate(e.target.value)} />
                                     </div>
@@ -49,19 +49,16 @@ const Attendance = () => {
                                             <thead>
                                                 <tr className="table-warning">
                                                     <th scope="col">#</th>
-                                                    <th scope="col">Name</th>
+                                                    <th scope="col">Employee</th>
                                                     <th scope="col">User Name</th>
                                                     <th scope="col">Job Title</th>
-                                                    <th scope="col">Date</th>
-                                                    <th scope="col">Punching</th>
-                                                    <th scope="col">Punch out</th>
                                                     <th scope="col">Attendance</th>
                                                     <th scope="col">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {attendanceEmployees.length > 0 ? (
-                                                    attendanceEmployees.map((employee, index) => (
+                                                {employees.length > 0 ? (
+                                                    employees.map((employee, index) => (
                                                         <tr key={employee.id}>
                                                             <th scope="row">{index + 1}</th>
                                                             <td>
@@ -70,9 +67,6 @@ const Attendance = () => {
                                                             </td>
                                                             <td>{employee.username}</td>
                                                             <td>{employee.role}</td>
-                                                            <td>12/03/2021</td>
-                                                            <td>10:00 Am</td>
-                                                            <td>07:00 Pm</td>
                                                             <td>
                                                                 <select class="form-select" aria-label="Default select example">
                                                                     <option value="1" selected>Present</option>
@@ -108,4 +102,4 @@ const Attendance = () => {
     )
 }
 
-export default Attendance
+export default MonthlyAttendance

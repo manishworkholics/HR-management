@@ -17,12 +17,15 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
     <Routes>
-      <Route path='./login' element={<Login />} />
-      <Route path="./dashboard" element={<ProtectedRoute element={<Dashboard />} />} />
-      <Route path='./employee' element={<ProtectedRoute element={<Employee />} />} />
-      <Route path='./attendance' element={<ProtectedRoute element={<Attendance />} />} />
-      <Route path='./leave-request' element={<ProtectedRoute element={<LeaveRequest />} />} />
-      <Route path='./monthly-attendance' element={<MonthlyAttendance />} />
+      <Route path='/login' element={<Login />} />
+      <Route path="/dashboard" element={<ProtectedRoute element={<Dashboard />}  />} />
+      <Route path='/employee' element={<ProtectedRoute element = {<Employee />}/>} />
+      <Route path='/attendance' element={<ProtectedRoute element = {<Attendance/>} />} />
+      <Route path='/leave-request' element={<ProtectedRoute element = {<LeaveRequest/>}/>} />
+      <Route path='/employee' element={<ProtectedRoute element = {<Employee/>} />} />
+      <Route path='/attendance' element={<ProtectedRoute element = {<Attendance />} />} />
+      <Route path='/monthly-attendance' element={<ProtectedRoute element = {<MonthlyAttendance />} />} />
+      <Route path='/leave-request' element={<ProtectedRoute element = {<LeaveRequest />} />} />
     </Routes>
   </BrowserRouter>
 );

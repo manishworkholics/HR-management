@@ -2,28 +2,52 @@ import React from 'react';
 import { useState, useEffect } from "react";
 import Header from '../Components/Header'
 import ProfileImg from '../assets/images/pro-img.png'
+import callAPI from './Common_Method/api';
 
 const Attendance = () => {
     const [attendanceEmployees, setAttendanceEmployees] = useState([]);
+    const [attendance, setAttendance] = useState([]);
     const [currentDate, setCurrentDate] = useState(new Date().toISOString().split("T")[0]);
 
     // Get Employees
-    const getEmployees = async () => {
+    // const getEmployees = async () => {
+    //     try {
+    //         const response = await fetch("http://localhost:4000/api/attendance/employees", {
+    //             method: "GET",
+    //             headers: { "Content-Type": "application/json" },
+    //         });
+    //         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`)
+    //         const result = await response.json();
+    //         setAttendanceEmployees(result);
+    //     } catch (error) {
+    //         console.error("Error fetching employees:", error.message);
+    //     }
+    // };
+
+    const getAttendance = async () => {
         try {
-            const response = await fetch("http://localhost:4000/api/attendance/employees", {
-                method: "GET",
-                headers: { "Content-Type": "application/json" },
+            const response = await callAPI.post("/attendance/bulk", {
+                attendanceRecords: attendanceEmployees.map(emp => ({
+                    user_id: emp._id,
+                    date: currentDate,
+                    user_entry_time: emp.user_entry_time || "09:00 AM", 
+                    user_exit_time: emp.user_exit_time || "06:00 PM",  
+                }))
             });
-            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`)
-            const result = await response.json();
-            setAttendanceEmployees(result);
+            console.log("API Response:", response.data);
+    
+            if (response?.data?.attendanceRecords) {
+                setAttendance(response.data.attendanceRecords);
+            }
         } catch (error) {
-            console.error("Error fetching employees:", error.message);
+            console.error("Error fetching attendance:", error);
         }
     };
+    
 
     useEffect(() => {
-        getEmployees();
+        // getEmployees();
+        getAttendance();
     }, []);
 
     return (
@@ -60,9 +84,9 @@ const Attendance = () => {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {attendanceEmployees.length > 0 ? (
-                                                    attendanceEmployees.map((employee, index) => (
-                                                        <tr key={employee.id}>
+                                                {attendance?.data?.attendanceRecords?.length > 0 ? (
+                                                    attendance?.data?.attendanceRecords?.map((employee, index) => (
+                                                        <tr key={employee.id || index}>
                                                             <th scope="row">{index + 1}</th>
                                                             <td>
                                                                 <img src={ProfileImg} alt="" className="tbl-empImg" />
@@ -70,14 +94,14 @@ const Attendance = () => {
                                                             </td>
                                                             <td>{employee.username}</td>
                                                             <td>{employee.role}</td>
-                                                            <td>12/03/2021</td>
-                                                            <td>10:00 Am</td>
-                                                            <td>07:00 Pm</td>
+                                                            <td>{employee.date}</td>
+                                                            <td>{employee.user_entry_time}</td>
+                                                            <td>{employee.user_exit_time}</td>
                                                             <td>
-                                                                <select class="form-select" aria-label="Default select example">
-                                                                    <option value="1" selected>Present</option>
-                                                                    <option value="2">Absent</option>
-                                                                    <option value="3">WFH</option>
+                                                                <select className="form-select" aria-label="Default select example">
+                                                                            <option  value="1" selected>Present</option>
+                                                                            <option value="2">Absent</option>
+                                                                            <option value="3">WFH</option>
                                                                 </select>
                                                             </td>
                                                             <td>

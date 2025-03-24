@@ -13,7 +13,10 @@ router.get('/', attendanceController.getAllAttendance);
 
 router.get('/employees', attendanceController.getAllEmployeesForAttendance);
 router.post('/bulk', attendanceController.bulkAttendance);
-router.get('/user/:user_id', attendanceController.getUserAttendance);
+router.get('/user/:id', attendanceController.getUserAttendance);
+
+router.get('/salary/:user_id', attendanceController.calculateSalary);
+router.get('/salaries', attendanceController.getAllEmployeeSalaries);
 
 
 

@@ -2,6 +2,7 @@ import React from 'react';
 import { useState, useEffect } from "react";
 import Header from '../Components/Header'
 import ProfileImg from '../assets/images/pro-img.png'
+import callAPI from './Common_Method/api';
 
 const Attendance = () => {
     const [attendanceEmployees, setAttendanceEmployees] = useState([]);
@@ -9,37 +10,43 @@ const Attendance = () => {
     const [currentDate, setCurrentDate] = useState(new Date().toISOString().split("T")[0]);
 
     // Get Employees
-    const getEmployees = async () => {
-        try {
-            const response = await fetch("http://localhost:4000/api/attendance/employees", {
-                method: "GET",
-                headers: { "Content-Type": "application/json" },
-            });
-            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`)
-            const result = await response.json();
-            setAttendanceEmployees(result);
-        } catch (error) {
-            console.error("Error fetching employees:", error.message);
-        }
-    };
+    // const getEmployees = async () => {
+    //     try {
+    //         const response = await fetch("http://localhost:4000/api/attendance/employees", {
+    //             method: "GET",
+    //             headers: { "Content-Type": "application/json" },
+    //         });
+    //         if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`)
+    //         const result = await response.json();
+    //         setAttendanceEmployees(result);
+    //     } catch (error) {
+    //         console.error("Error fetching employees:", error.message);
+    //     }
+    // };
 
     const getAttendance = async () => {
         try {
-            const response = await fetch("http://localhost:4000/api/attendance/bulk", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
+            const response = await callAPI.post("/attendance/bulk", {
+                attendanceRecords: attendanceEmployees.map(emp => ({
+                    user_id: emp._id,
+                    date: currentDate,
+                    user_entry_time: emp.user_entry_time || "09:00 AM", 
+                    user_exit_time: emp.user_exit_time || "06:00 PM",  
+                }))
             });
-            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+            console.log("API Response:", response.data);
     
-            const result = await response.json();
-            setAttendance(result);
-          } catch (error) {
-            console.error("Error fetching employees:", error.message);
-          }
+            if (response?.data?.attendanceRecords) {
+                setAttendance(response.data.attendanceRecords);
+            }
+        } catch (error) {
+            console.error("Error fetching attendance:", error);
+        }
     };
+    
 
     useEffect(() => {
-        getEmployees();
+        // getEmployees();
         getAttendance();
     }, []);
 
@@ -77,8 +84,8 @@ const Attendance = () => {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {attendance.length > 0 ? (
-                                                    attendance.map((employee, index) => (
+                                                {attendance?.data?.attendanceRecords?.length > 0 ? (
+                                                    attendance?.data?.attendanceRecords?.map((employee, index) => (
                                                         <tr key={employee.id || index}>
                                                             <th scope="row">{index + 1}</th>
                                                             <td>
@@ -91,7 +98,7 @@ const Attendance = () => {
                                                             <td>{employee.user_entry_time}</td>
                                                             <td>{employee.user_exit_time}</td>
                                                             <td>
-                                                                <select class="form-select" aria-label="Default select example">
+                                                                <select className="form-select" aria-label="Default select example">
                                                                             <option  value="1" selected>Present</option>
                                                                             <option value="2">Absent</option>
                                                                             <option value="3">WFH</option>

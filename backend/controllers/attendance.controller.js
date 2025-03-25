@@ -84,6 +84,7 @@ exports.getAllEmployeesForAttendance = async (req, res) => {
     }
 };
 
+
 // Bulk Attendance Submission by Admin
 exports.bulkAttendance = async (req, res) => {
     try {

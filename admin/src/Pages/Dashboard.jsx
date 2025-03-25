@@ -1,10 +1,33 @@
-import React from 'react'
+import React from 'react';
+import { useState, useEffect } from "react";
 import Header from '../Components/Header'
 import TotalAppImg from '../assets/images/interview.1710874b575c5c9a24cde4ad43a4c04b.svg'
 import totalEmployeeGraph from '../assets/images/totalEmployeeGraph.png'
 import Calendar from '../Components/Calendar'
 
 const Dashboard = () => {
+
+    const [employees, setEmployees] = useState([]);
+
+    // Get Employees
+    const getEmployees = async () => {
+        try {
+            const response = await fetch("http://localhost:4000/api/applications", {
+                method: "GET",
+                headers: { "Content-Type": "application/json" },
+            });
+            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`)
+            const result = await response.json();
+            setEmployees(result);
+        } catch (error) {
+            console.error("Error fetching employees:", error.message);
+        }
+    };
+
+    useEffect(() => {
+        getEmployees();
+    }, []);
+
     return (
         <>
             <div className="container-fluid">
@@ -96,41 +119,34 @@ const Dashboard = () => {
                                                     <thead>
                                                         <tr className="table-warning">
                                                             <th scope="col">#</th>
-                                                            <th scope="col">First</th>
-                                                            <th scope="col">Last</th>
-                                                            <th scope="col">Handle</th>
+                                                            <th scope="col">Name</th>
+                                                            <th scope="col">Leave Type</th>
+                                                            <th scope="col">From Date</th>
+                                                            <th scope="col">To Date</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
-                                                            <th scope="row">1</th>
-                                                            <td>Mark</td>
-                                                            <td>Otto</td>
-                                                            <td>@mdo</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th scope="row">2</th>
-                                                            <td>Jacob</td>
-                                                            <td>Thornton</td>
-                                                            <td>@fat</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th scope="row">3</th>
-                                                            <td colspan="2">Larry the Bird</td>
-                                                            <td>@twitter</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th scope="row">4</th>
-                                                            <td>Jacob</td>
-                                                            <td>Thornton</td>
-                                                            <td>@fat</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th scope="row">5</th>
-                                                            <td>Jacob</td>
-                                                            <td>Thornton</td>
-                                                            <td>@fat</td>
-                                                        </tr>
+                                                        {employees.length > 0 ? (
+                                                            employees.map((employee, index) => (
+                                                                <tr key={employee.id}>
+                                                                    <th scope="row">{index + 1}</th>
+                                                                  
+
+                                                                    <td>{employee.user_id.name}</td>
+
+                                                                    <td>{employee.leave_type}</td>
+                                                                    <td>{employee.from_date}</td>
+                                                                    <td>{employee.to_date}</td>
+
+                                                                </tr>
+                                                            ))
+                                                        ) : (
+                                                            <tr>
+                                                                <td colSpan="9" className="text-center">
+
+                                                                </td>
+                                                            </tr>
+                                                        )}
                                                     </tbody>
                                                 </table>
                                             </div>

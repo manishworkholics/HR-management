@@ -3,14 +3,16 @@ import { useState, useEffect } from "react";
 import Header from '../Components/Header'
 import ProfileImg from '../assets/images/pro-img.png'
 
-const LeaveRequest = () => {
+const Archives = () => {
+
+
     const [employees, setEmployees] = useState([]);
-    const [status, setStatus] = useState('');
+
 
     // Get Employees
     const getEmployees = async () => {
         try {
-            const response = await fetch("http://localhost:4000/api/applications", {
+            const response = await fetch("http://localhost:4000/api/users/archives", {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
             });
@@ -26,40 +28,44 @@ const LeaveRequest = () => {
         getEmployees();
     }, []);
 
-    const updateStatus = async (id, newStatus) => {
+    // Delete Employee
+    const handleDelete = async (id) => {
+        if (!window.confirm("Are you sure you want to undo this employee?")) return;
+
         try {
-            const response = await fetch(`http://localhost:4000/api/applications/${id}`, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ status: newStatus }) // Correct JSON structure
+            const response = await fetch(`http://localhost:4000/api/users/undo-user/${id}`, {
+                method: "DELETE",
             });
 
             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
-            const result = await response.json();
-            console.log("Status updated:", result);
-            alert("Status updated successfully!");
-            getEmployees();
-            // Optional: Refresh or update state after status change
+            alert("Employee undo successfully!");
+            getEmployees(); // Refresh list after deletion
         } catch (error) {
-            console.error("Error updating application status:", error.message);
+            console.error("Error deleting employee:", error.message);
         }
     };
 
 
+
     return (
-        <>
-            <div className="container-fluid attendance-page">
+        <div>
+            <div className="container-fluid employee-page">
                 <Header />
                 <div className="px-lg-5 px-0">
                     <div className="row">
                         <div className="col-12 px-4">
-                            <h1 className="my-4">Leave Request</h1>
+                            <h1 className="my-4">Previous Employees List</h1>
                         </div>
                         <div className="col-md-12 mb-4">
                             <div className="card bg-ffffff94 border-0 rounded-5 h-100">
                                 <div className="card-header pt-3 d-flex justify-content-between bg-transparent border-bottom-0">
-                                    <h4 className="mb-0 fw-bold ">Attendance List</h4>
+                                    <h4 className="mb-0 fw-bold ">Employee List</h4>
+                                    <div className="">
+                                        {/* <button type="button" className="btn btn-dark rounded-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                            <span className="me-2"><i className="fa-solid fa-circle-plus"></i></span>Add Employee
+                                        </button> */}
+                                    </div>
                                 </div>
                                 <div className="card-body">
                                     <div className="table-responsive">
@@ -67,15 +73,14 @@ const LeaveRequest = () => {
                                             <thead>
                                                 <tr className="table-warning">
                                                     <th scope="col">#</th>
-                                                    <th scope="col">Image</th>
-                                                    <th scope="col">User Name</th>
                                                     <th scope="col">Name</th>
-                                                    <th scope="col">Leave Type</th>
-                                                    <th scope="col">From</th>
-                                                    <th scope="col">To</th>
-                                                    <th scope="col">Reason</th>
-                                                    <th scope="col">Status</th>
-                                                    <th scope="col" className=''>Action</th>
+                                                    <th scope="col">User Name</th>
+                                                    <th scope="col">Job Title</th>
+                                                    <th scope="col">Department</th>
+                                                    <th scope="col">Site</th>
+                                                    <th scope="col">Salary</th>
+                                                    <th scope="col">Start Date</th>
+                                                    <th scope="col">Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -87,38 +92,28 @@ const LeaveRequest = () => {
                                                                 <img src={ProfileImg} alt="" className="tbl-empImg" />
                                                                 {employee.name}
                                                             </td>
-                                                            <td>{employee.user_id.username}</td>
-                                                            <td>{employee.user_id.name}</td>
-
-                                                            <td>{employee.leave_type}</td>
-                                                            <td>{employee.from_date}</td>
-                                                            <td>{employee.to_date}</td>
-                                                            <td>{employee.reason}</td>
-                                                            <td>{employee.status}</td>
+                                                            <td>{employee.username}</td>
+                                                            <td>{employee.role}</td>
+                                                            <td>NA</td>
+                                                            <td>NA</td>
+                                                            <td className=''>{employee.wages_per_day}</td>
+                                                            <td>NA</td>
                                                             <td>
-                                                                <button
-                                                                    type="button"
-                                                                    className="btn btn-success text-white rounded-5 me-3"
-                                                                    onClick={() => updateStatus(employee._id, "approved")} // Pass ID & status
-                                                                >
-                                                                    Approve <span className="ms-2"><i className="fa-solid fa-thumbs-up"></i></span>
-                                                                </button>
+                                                                {/* <button type="button" className="btn btn-warning text-white rounded-5 me-3" onClick={() => handleEdit(employee)}>
+                                                                    Edit
+                                                                    <span className="ms-2"><i className="fa-solid fa-user-pen"></i></span>
+                                                                </button> */}
+                                                                <button type="button" className="btn btn-danger rounded-5" onClick={() => handleDelete(employee._id)}>
+                                                                    Undo
 
-                                                                <button
-                                                                    type="button"
-                                                                    className="btn btn-danger text-white rounded-5 me-3"
-                                                                    onClick={() => updateStatus(employee._id, "rejected")} // Pass ID & status
-                                                                >
-                                                                    Reject <span className="ms-2"><i className="fa-solid fa-thumbs-down"></i></span>
                                                                 </button>
                                                             </td>
-
                                                         </tr>
                                                     ))
                                                 ) : (
                                                     <tr>
                                                         <td colSpan="9" className="text-center">
-
+                                                            No employees found
                                                         </td>
                                                     </tr>
                                                 )}
@@ -131,11 +126,17 @@ const LeaveRequest = () => {
                     </div>
                 </div>
             </div>
-        </>
+
+
+
+
+
+
+
+        </div>
+
+
     )
 }
 
-export default LeaveRequest
-
-
-
+export default Archives

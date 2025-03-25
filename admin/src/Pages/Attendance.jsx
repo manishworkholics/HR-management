@@ -20,10 +20,10 @@ const Attendance = () => {
     
             if (response?.data?.length > 0) {
                 const selectedDate = getTodayDate(); 
-                const filteredData = response.data.find(item => item._id === selectedDate);
+                const filteredData = response?.data?.find(item => item._id);
                 
-                if (filteredData) {
-                    setAttendance(filteredData.records || []);
+                if (filteredData?.records) {
+                    setAttendance(filteredData?.records || []);
                     console.log("Updated Attendance State:", filteredData.records);
                 } else {
                     setAttendance([]);
@@ -35,6 +35,19 @@ const Attendance = () => {
         }
     };
     
+     // API ko update karne ke liye function
+     const updateAttendance = async (employeeId, newStatus) => {
+        try {
+            await callAPI.put(`/attendance/${employeeId}`, { status: newStatus });
+            setAttendance(prevAttendance =>
+                prevAttendance.map(emp =>
+                    emp.id === employeeId ? { ...emp, status: newStatus } : emp
+                )
+            );
+        } catch (error) {
+            console.error("Error updating attendance:", error);
+        }
+    };
     useEffect(() => {
         getAttendance();
     }, []);
@@ -73,8 +86,8 @@ const Attendance = () => {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {attendance?.data?.length > 0 ? (
-                                                    attendance?.data?.map((employee, index) => (
+                                                {attendance?.length > 0 ? (
+                                                    attendance?.map((employee, index) => (
                                                         <tr key={employee.id || index}>
                                                             <th scope="row">{index + 1}</th>
                                                             <td>

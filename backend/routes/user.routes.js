@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/user.controller');
+const dashboardController = require('../controllers/dashboard.controller');
 const { authenticate, isAdmin } = require('../middlewares/auth.middleware');
 
 // router.post('/', authenticate, isAdmin, userController.createUser);
@@ -17,5 +18,6 @@ router.put('/:id', userController.updateUser);
 router.delete('/:id', userController.deleteUser);
 router.delete('/undo-user/:id', userController.undoUser);
 router.post('/login-user', userController.loginUser);
+
 
 module.exports = router;

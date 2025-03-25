@@ -8,6 +8,7 @@ const { authenticate } = require('../middlewares/auth.middleware');
 // router.get('/', authenticate, attendanceController.getAllAttendance);
 
 router.post('/', attendanceController.markAttendance);
+router.get("/:month/:year", attendanceController.getMonthlyAttendance);
 router.get('/user/:id', attendanceController.getUserAttendance);
 router.get('/', attendanceController.getAllAttendance);
 

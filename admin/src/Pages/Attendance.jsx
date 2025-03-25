@@ -147,6 +147,7 @@ const Attendance = () => {
     const [attendance, setAttendance] = useState([]);
     const [updatedData, setUpdatedData] = useState({});
     const [currentDate, setCurrentDate] = useState(new Date().toISOString().split("T")[0]);
+    const [loading, setLoading] = useState(false);
 
     const getAttendance = async () => {
         try {
@@ -159,6 +160,8 @@ const Attendance = () => {
             }
         } catch (error) {
             console.error("Error fetching attendance:", error);
+        } finally {
+            setLoading(false);
         }
     };
 

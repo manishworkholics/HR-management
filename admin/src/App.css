@@ -71,6 +71,12 @@
     text-decoration: none;
     background-color: #303030;
   }
+
+  @media only screen and (max-width: 767px) {
+    .navbar-brand .logo {
+      width: 159px;
+    }
+  }
 }
 
 /* Navbar-CSS End */
@@ -82,6 +88,11 @@
   object-fit: cover;
   border-radius: 50px;
   margin-right: 10px;
+}
+
+.table {
+  width: 100%;
+  min-width: max-content;
 }
 
 .table tr th,

@@ -41,16 +41,19 @@ const Header = () => {
                                     </ul>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link active me-1" aria-current="page" to="/leave-request">Requests</Link>
+                                    <Link className="nav-link  me-1" aria-current="page" to="/leave-request">Requests</Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link className="nav-link me-1" aria-current="page" to="#">Hiring</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link me-1" aria-current="page" to="#">Salary</Link>
+                                    <Link className="nav-link me-1" aria-current="page" to="/salary">Salary</Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link className="nav-link" aria-current="page" to="#">Calendar</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link" aria-current="page" to="/archives">Archives</Link>
                                 </li>
                             </ul>
                             <ul className="navbar-nav navbar-nav-white mb-2 mb-lg-0">

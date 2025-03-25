@@ -39,14 +39,14 @@ const Attendance = () => {
         const bulkData = {
             attendanceRecords: attendanceRecords.map((record) => ({
                 user_id: record.user_id,
-                date: currentDate, // Make sure currentDate is valid and in the correct format
-                user_entry_time: record.user_entry_time || "09:00 AM", // Default entry time if not available
-                user_exit_time: record.user_exit_time || "06:00 PM", // Default exit time if not available
+                date: currentDate,
+                user_entry_time: record.user_entry_time || "09:00 AM", 
+                user_exit_time: record.user_exit_time || "06:00 PM", 
                 status: record.status,
             })),
         };
 
-        console.log("Bulk data being sent:", bulkData); // Debug log
+        console.log("Bulk data being sent:", bulkData);
 
         const requestOptions = {
             method: "POST",
@@ -75,9 +75,6 @@ const Attendance = () => {
             });
     };
 
-
-
-    // Fetch attendance data when the component mounts or the date changes
     useEffect(() => {
         fetchAttendanceData(currentDate);
     }, [currentDate]);

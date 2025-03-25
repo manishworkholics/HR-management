@@ -47,7 +47,7 @@ const Header = () => {
                                     <Link className="nav-link me-1" aria-current="page" to="#">Hiring</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link me-1" aria-current="page" to="#">Salary</Link>
+                                    <Link className="nav-link me-1" aria-current="page" to="/salary">Salary</Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link className="nav-link" aria-current="page" to="#">Calendar</Link>

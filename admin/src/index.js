@@ -12,6 +12,7 @@ import LeaveRequest from './Pages/LeaveRequest';
 import Login from './Pages/Login';
 import ProtectedRoute from './Pages/Common_Method/protectedroute'
 import MonthlyAttendance from './Pages/MonthlyAttendance';
+import Salary from './Pages/Salary';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -26,6 +27,7 @@ root.render(
       <Route path='/attendance' element={<ProtectedRoute element = {<Attendance />} />} />
       <Route path='/monthly-attendance' element={<ProtectedRoute element = {<MonthlyAttendance />} />} />
       <Route path='/leave-request' element={<ProtectedRoute element = {<LeaveRequest />} />} />
+      <Route path='/salary' element={<ProtectedRoute element = {<Salary />} />} />
     </Routes>
   </BrowserRouter>
 );

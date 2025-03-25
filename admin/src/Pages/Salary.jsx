@@ -56,7 +56,7 @@ const Salary = () => {
 
     useEffect(() => {
         const currentDate = new Date();
-        const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1)
+        const firstDayOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 2)
             .toISOString()
             .split("T")[0];
 
@@ -78,12 +78,12 @@ const Salary = () => {
             <div className="px-lg-5 px-0">
                 <div className="row">
                     <div className="col-12 px-4">
-                        <h1 className="my-4">Employee Management</h1>
+                        <h1 className="my-4">Salary</h1>
                     </div>
                     <div className="col-md-12 mb-4">
                         <div className="card bg-ffffff94 border-0 rounded-5 h-100">
                             <div className="card-header pt-3 d-block d-lg-flex justify-content-between align-items-center bg-transparent border-bottom-0">
-                                <h4 className="mb-3 fw-bold">Employee List</h4>
+                                <h4 className="mb-3 fw-bold">Salary List</h4>
                                 <form className="row g-3" onSubmit={handleSubmit}>
                                     <div className="col-6 col-md-4">
                                         <label htmlFor="startDate" className="form-label">

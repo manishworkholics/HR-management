@@ -5,6 +5,7 @@ import ProfileImg from '../assets/images/pro-img.png'
 
 const Employee = () => {
     const [employees, setEmployees] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     const [formData, setFormData] = useState({
         username: "",
@@ -13,13 +14,14 @@ const Employee = () => {
         role: "",
         wages_per_day: "",
     });
-    
+
     const [selectedEmployee, setSelectedEmployee] = useState(null);
     const [showEditModal, setShowEditModal] = useState(false);
 
     // Get Employees
     const getEmployees = async () => {
         try {
+            setLoading(true);
             const response = await fetch("http://localhost:4000/api/users", {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
@@ -29,6 +31,8 @@ const Employee = () => {
             setEmployees(result);
         } catch (error) {
             console.error("Error fetching employees:", error.message);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -136,58 +140,65 @@ const Employee = () => {
                                     </div>
                                 </div>
                                 <div className="card-body">
-                                    <div className="table-responsive">
-                                        <table className="table table-hover mb-0 rounded-4 overflow-hidden">
-                                            <thead>
-                                                <tr className="table-warning">
-                                                    <th scope="col">#</th>
-                                                    <th scope="col">Name</th>
-                                                    <th scope="col">User Name</th>
-                                                    <th scope="col">Job Title</th>
-                                                    <th scope="col">Department</th>
-                                                    <th scope="col">Site</th>
-                                                    <th scope="col">Salary</th>
-                                                    <th scope="col">Start Date</th>
-                                                    <th scope="col">Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {employees.length > 0 ? (
-                                                    employees.map((employee, index) => (
-                                                        <tr key={employee.id}>
-                                                            <th scope="row">{index + 1}</th>
-                                                            <td>
-                                                                <img src={ProfileImg} alt="" className="tbl-empImg" />
-                                                                {employee.name}
-                                                            </td>
-                                                            <td>{employee.username}</td>
-                                                            <td>{employee.role}</td>
-                                                            <td>NA</td>
-                                                            <td>NA</td>
-                                                            <td className=''>{employee.wages_per_day}</td>
-                                                            <td>NA</td>
-                                                            <td>
-                                                                <button type="button" className="btn btn-warning text-white rounded-5 me-3" onClick={() => handleEdit(employee)}>
-                                                                    Edit
-                                                                    <span className="ms-2"><i className="fa-solid fa-user-pen"></i></span>
-                                                                </button>
-                                                                <button type="button" className="btn btn-danger rounded-5" onClick={() => handleDelete(employee._id)}>
-                                                                    Delete
-                                                                    <span className="ms-2"><i className="fa-solid fa-trash-can"></i></span>
-                                                                </button>
+                                    {loading ? (
+                                        <div className="text-center">
+                                            <div className="spinner-border text-dark"
+                                                role='status'></div>
+                                        </div>
+                                    ) : (
+                                        <div className="table-responsive">
+                                            <table className="table table-hover mb-0 rounded-4 overflow-hidden">
+                                                <thead>
+                                                    <tr className="table-warning">
+                                                        <th scope="col">#</th>
+                                                        <th scope="col">Name</th>
+                                                        <th scope="col">User Name</th>
+                                                        <th scope="col">Job Title</th>
+                                                        <th scope="col">Department</th>
+                                                        <th scope="col">Site</th>
+                                                        <th scope="col">Salary</th>
+                                                        <th scope="col">Start Date</th>
+                                                        <th scope="col">Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {employees.length > 0 ? (
+                                                        employees.map((employee, index) => (
+                                                            <tr key={employee.id}>
+                                                                <th scope="row">{index + 1}</th>
+                                                                <td>
+                                                                    <img src={ProfileImg} alt="" className="tbl-empImg" />
+                                                                    {employee.name}
+                                                                </td>
+                                                                <td>{employee.username}</td>
+                                                                <td>{employee.role}</td>
+                                                                <td>NA</td>
+                                                                <td>NA</td>
+                                                                <td className=''>{employee.wages_per_day}</td>
+                                                                <td>NA</td>
+                                                                <td>
+                                                                    <button type="button" className="btn btn-warning text-white rounded-5 me-3" onClick={() => handleEdit(employee)}>
+                                                                        Edit
+                                                                        <span className="ms-2"><i className="fa-solid fa-user-pen"></i></span>
+                                                                    </button>
+                                                                    <button type="button" className="btn btn-danger rounded-5" onClick={() => handleDelete(employee._id)}>
+                                                                        Delete
+                                                                        <span className="ms-2"><i className="fa-solid fa-trash-can"></i></span>
+                                                                    </button>
+                                                                </td>
+                                                            </tr>
+                                                        ))
+                                                    ) : (
+                                                        <tr>
+                                                            <td colSpan="9" className="text-center">
+                                                                No employees found
                                                             </td>
                                                         </tr>
-                                                    ))
-                                                ) : (
-                                                    <tr>
-                                                        <td colSpan="9" className="text-center">
-                                                            No employees found
-                                                        </td>
-                                                    </tr>
-                                                )}
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                                    )}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>

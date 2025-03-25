@@ -7,21 +7,23 @@ import callAPI from './Common_Method/api';
 const Attendance = () => {
     const [attendance, setAttendance] = useState([]);
     const [currentDate, setCurrentDate] = useState(new Date().toISOString().split("T")[0]);
+    const [loading, setLoading] = useState(false);
 
     const getTodayDate = () => {
         const today = new Date();
-        return today.toISOString().split("T")[0]; 
+        return today.toISOString().split("T")[0];
     };
 
     const getAttendance = async () => {
         try {
+            setLoading(true);
             const response = await callAPI.get("/attendance");
-            console.log("API Response:", response.data); 
-    
+            console.log("API Response:", response.data);
+
             if (response?.data?.length > 0) {
-                const selectedDate = getTodayDate(); 
+                const selectedDate = getTodayDate();
                 const filteredData = response?.data?.find(item => item._id);
-                
+
                 if (filteredData?.records) {
                     setAttendance(filteredData?.records || []);
                     console.log("Updated Attendance State:", filteredData.records);
@@ -32,11 +34,13 @@ const Attendance = () => {
             }
         } catch (error) {
             console.error("Error fetching attendance:", error);
+        } finally {
+            setLoading(false);
         }
     };
-    
-     // API ko update karne ke liye function
-     const updateAttendance = async (employeeId, newStatus) => {
+
+    // API ko update karne ke liye function
+    const updateAttendance = async (employeeId, newStatus) => {
         try {
             await callAPI.put(`/attendance/${employeeId}`, { status: newStatus });
             setAttendance(prevAttendance =>
@@ -70,60 +74,71 @@ const Attendance = () => {
                                     </div>
                                 </div>
                                 <div className="card-body">
-                                    <div className="table-responsive">
-                                        <table className="table table-hover mb-0 rounded-4 overflow-hidden">
-                                            <thead>
-                                                <tr className="table-warning">
-                                                    <th scope="col">#</th>
-                                                    <th scope="col">Name</th>
-                                                    <th scope="col">User Name</th>
-                                                    <th scope="col">Job Title</th>
-                                                    <th scope="col">Date</th>
-                                                    <th scope="col">Punching</th>
-                                                    <th scope="col">Punch out</th>
-                                                    <th scope="col">Attendance</th>
-                                                    <th scope="col">Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {attendance?.length > 0 ? (
-                                                    attendance?.map((employee, index) => (
-                                                        <tr key={employee.id || index}>
-                                                            <th scope="row">{index + 1}</th>
-                                                            <td>
-                                                                <img src={ProfileImg} alt="" className="tbl-empImg" />
-                                                                {employee.name}
-                                                            </td>
-                                                            <td>{employee.user_name}</td>
-                                                            <td>{employee.role}</td>
-                                                            <td>{employee.date}</td>
-                                                            <td>{employee.user_entry_time}</td>
-                                                            <td>{employee.user_exit_time}</td>
-                                                            <td>
-                                                                <select className="form-select" aria-label="Default select example">
-                                                                            <option  value="1" selected>Present</option>
+                                    {
+                                        loading ? (
+                                            <div className="text-center">
+                                                <div
+                                                    className="spinner-border text-dark"
+                                                    role="status"
+                                                ></div>
+                                                <p>Loading data...</p>
+                                            </div>
+                                        ) : (
+                                            <div className="table-responsive">
+                                                <table className="table table-hover mb-0 rounded-4 overflow-hidden">
+                                                    <thead>
+                                                        <tr className="table-warning">
+                                                            <th scope="col">#</th>
+                                                            <th scope="col">Name</th>
+                                                            <th scope="col">User Name</th>
+                                                            <th scope="col">Job Title</th>
+                                                            <th scope="col">Date</th>
+                                                            <th scope="col">Punching</th>
+                                                            <th scope="col">Punch out</th>
+                                                            <th scope="col">Attendance</th>
+                                                            <th scope="col">Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {attendance?.length > 0 ? (
+                                                            attendance?.map((employee, index) => (
+                                                                <tr key={employee.id || index}>
+                                                                    <th scope="row">{index + 1}</th>
+                                                                    <td>
+                                                                        <img src={ProfileImg} alt="" className="tbl-empImg" />
+                                                                        {employee.name}
+                                                                    </td>
+                                                                    <td>{employee.user_name}</td>
+                                                                    <td>{employee.role}</td>
+                                                                    <td>{employee.date}</td>
+                                                                    <td>{employee.user_entry_time}</td>
+                                                                    <td>{employee.user_exit_time}</td>
+                                                                    <td>
+                                                                        <select className="form-select" aria-label="Default select example">
+                                                                            <option value="1" selected>Present</option>
                                                                             <option value="2">Absent</option>
                                                                             <option value="3">WFH</option>
-                                                                </select>
-                                                            </td>
-                                                            <td>
-                                                                <button type="button" className="btn btn-warning text-white rounded-5 me-3">
-                                                                    Edit
-                                                                    <span className="ms-2"><i className="fa-solid fa-user-pen"></i></span>
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-                                                    ))
-                                                ) : (
-                                                    <tr>
-                                                        <td colSpan="9" className="text-center">
-                                                            No employees found
-                                                        </td>
-                                                    </tr>
-                                                )}
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                                                        </select>
+                                                                    </td>
+                                                                    <td>
+                                                                        <button type="button" className="btn btn-warning text-white rounded-5 me-3">
+                                                                            Edit
+                                                                            <span className="ms-2"><i className="fa-solid fa-user-pen"></i></span>
+                                                                        </button>
+                                                                    </td>
+                                                                </tr>
+                                                            ))
+                                                        ) : (
+                                                            <tr>
+                                                                <td colSpan="9" className="text-center">
+                                                                    No employees found
+                                                                </td>
+                                                            </tr>
+                                                        )}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        )}
                                 </div>
                             </div>
                         </div>

@@ -12,11 +12,8 @@ import LeaveRequest from './Pages/LeaveRequest';
 import Login from './Pages/Login';
 import ProtectedRoute from './Pages/Common_Method/protectedroute'
 import MonthlyAttendance from './Pages/MonthlyAttendance';
-<<<<<<< HEAD
 import Salary from './Pages/Salary';
-=======
 import Archives from './Pages/Archives';
->>>>>>> 6bf3647dd8440c70f56c0dbe795f2a8f261e20ff
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

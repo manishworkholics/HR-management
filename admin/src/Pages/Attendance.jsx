@@ -140,7 +140,7 @@ const Attendance = () => {
                                                                 >
                                                                     <option value="Present">Present</option>
                                                                     <option value="Absent">Absent</option>
-                                                                    <option value="WFH">WFH</option>
+                                                                    <option value="WorkFromHome">WFH</option>
                                                                 </select>
                                                             </td>
                                                         </tr>

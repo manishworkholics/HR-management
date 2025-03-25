@@ -42,7 +42,6 @@ const Attendance = () => {
 
       const handleSubmitChange = async () => {
         try {
-          // Assuming you want to save all the updates for all employees' attendance
           const updatedAttendance = attendance.map(employee => ({
             id: employee.id,
             status: employee.status,

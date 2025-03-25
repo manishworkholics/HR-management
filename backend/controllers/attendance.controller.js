@@ -5,73 +5,24 @@ const User = require('../models/user.model');
 exports.markAttendance = async (req, res) => {
     try {
         const { user_id, date, user_entry_time, user_exit_time } = req.body;
-        const formattedDate = new Date(date);
-        const attendance = new Attendance({ user_id, date: formattedDate, user_entry_time, user_exit_time });
+
+        const attendance = new Attendance({ user_id, date, user_entry_time, user_exit_time });
         await attendance.save();
-        res.status(201).json({ message: "Attendance recorded", attendance });
+
+        res.status(201).json({ message: 'Attendance recorded', attendance });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
 
-
-exports.getMonthlyAttendance = async (req, res) => {
+exports.getUserAttendance = async (req, res) => {
     try {
-        const { month, year } = req.params;
-        const requestedMonth = parseInt(month);
-        const requestedYear = parseInt(year);
-
-        const currentDate = new Date();
-        const currentMonth = currentDate.getMonth() + 1;
-        const currentYear = currentDate.getFullYear();
-
-        // Block future months and years
-        if (requestedYear > currentYear || (requestedYear === currentYear && requestedMonth > currentMonth)) {
-            return res.status(400).json({ message: "Invalid request: Future data not available" });
-        }
-
-        // Define start and end date for the requested month
-        const startDate = new Date(requestedYear, requestedMonth - 1, 1); // 1st of the month
-        const endDate = new Date(requestedYear, requestedMonth, 0, 23, 59, 59); // Last day of the month
-
-        // Fetch attendance records within the date range
-        const attendance = await Attendance.find({
-            date: { $gte: startDate, $lte: endDate }
-        });
-
-        res.status(200).json({ attendance });
+        const attendance = await Attendance.find({ user_id: req.params.id });
+        res.json(attendance);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
-
-
-exports.getMonthlyAttendance = async (req, res) => {
-    try {
-        const { month, year } = req.params;
-        const requestedMonth = parseInt(month);
-        const requestedYear = parseInt(year);
-        const currentDate = new Date();
-        const currentMonth = currentDate.getMonth() + 1;
-        const currentYear = currentDate.getFullYear();
-        if (requestedYear > currentYear){
-            return res.status(400).json({ message: "Invalid request: Future data not available" });
-        }
-        if(requestedYear === currentYear && requestedMonth > currentMonth){
-            return res.status(400).json({ message: "Invalid request: Future data not available" });
-        }
-        const attendance = await Attendance.find({
-            date: {
-                $regex: `^${requestedYear}-${requestedMonth.toString().padStart(2, '0')}`
-            }
-        });
-
-        res.status(200).json({ attendance });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-};
-
 
 // exports.getAllAttendance = async (req, res) => {
 //     try {
@@ -233,6 +184,9 @@ exports.calculateSalary = async (req, res) => {
         res.status(500).json({ message: "Server error" });
     }
 };
+
+
+
 
 exports.getAllEmployeeSalaries = async (req, res) => {
     try {

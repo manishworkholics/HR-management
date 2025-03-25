@@ -11,9 +11,11 @@ const { authenticate, isAdmin } = require('../middlewares/auth.middleware');
 
 router.post('/', userController.createUser);
 router.get('/', userController.getAllUsers);
+router.get('/archives', userController.getArchives);
 router.get('/:id', userController.getUserById);
 router.put('/:id', userController.updateUser);
 router.delete('/:id', userController.deleteUser);
+router.delete('/undo-user/:id', userController.undoUser);
 router.post('/login-user', userController.loginUser);
 
 module.exports = router;

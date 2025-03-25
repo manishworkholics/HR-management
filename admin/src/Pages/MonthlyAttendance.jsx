@@ -211,7 +211,7 @@ const MonthlyAttendance = () => {
 
   const preprocessAttendanceData = (data, daysInMonth) => {
     const userMap = {};
-  
+
     data.forEach((dayRecord) => {
       dayRecord.records.forEach(({ user_id, user_name }) => {
         if (!userMap[user_id]) {
@@ -270,7 +270,14 @@ const MonthlyAttendance = () => {
           <div className="col-md-12 mb-4">
             <div className="card bg-ffffff94 border-0 rounded-5 h-100">
               <div className="card-header pt-3 d-block d-lg-flex justify-content-between bg-transparent border-bottom-0">
-                <h4 className="mb-3 mb-lg-0 fw-bold">Monthly Attendance</h4>
+                <div className="">
+                  <h4 className="mb-3 mb-lg-2 fw-bold">Monthly Attendance</h4>
+                  <div className="d-block d-lg-flex">
+                    <h6 className="me-3">✔️ Full Day Present</h6>
+                    <h6 className="me-3">🔶 Half Day Present</h6>
+                    <h6 className="me-3">❌ Full Day Absence</h6>
+                  </div>
+                </div>
                 <div className="d-flex justify-content-between align-items-center">
                   <button className="btn btn-warning rounded-pill" onClick={() => handleMonthChange(-1)}>
                     <i className="fa-solid fa-arrow-left"></i>
@@ -313,19 +320,19 @@ const MonthlyAttendance = () => {
                                   status === "Present"
                                     ? "text-success"
                                     : status === "Half Day"
-                                    ? "text-warning"
-                                    : status === "Absent"
-                                    ? "text-danger"
-                                    : ""
+                                      ? "text-warning"
+                                      : status === "Absent"
+                                        ? "text-danger"
+                                        : ""
                                 }
                               >
                                 {status === "Present"
                                   ? "✔️"
                                   : status === "WorkFromHome"
-                                  ? "🔶"
-                                  : status === "Absent"
-                                  ? "❌"
-                                  : ""}
+                                    ? "🔶"
+                                    : status === "Absent"
+                                      ? "❌"
+                                      : ""}
                               </td>
                             ))}
                           </tr>

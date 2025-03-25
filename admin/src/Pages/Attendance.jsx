@@ -112,7 +112,6 @@ const Attendance = () => {
                                                 <tr className="table-warning">
                                                     <th scope="col">#</th>
                                                     <th scope="col">User Name</th>
-                                                    <th scope="col">Date</th>
                                                     <th scope="col">Entry Time</th>
                                                     <th scope="col">Exit Time</th>
                                                     <th scope="col">Status</th>
@@ -127,7 +126,6 @@ const Attendance = () => {
                                                                 <img src={ProfileImg} alt="" className="tbl-empImg" />
                                                                 {record.user_name}
                                                             </td>
-                                                            <td>{record.date}</td>
                                                             <td>{record.user_entry_time}</td>
                                                             <td>{record.user_exit_time}</td>
                                                             <td>
@@ -140,7 +138,7 @@ const Attendance = () => {
                                                                 >
                                                                     <option value="Present">Present</option>
                                                                     <option value="Absent">Absent</option>
-                                                                    <option value="WorkFromHome">WFH</option>
+                                                                    <option value="WorkFromHome">Work From Home</option>
                                                                 </select>
                                                             </td>
                                                         </tr>

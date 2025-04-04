@@ -24,4 +24,7 @@ router.get('/emp', attendController.getattend);
 router.get('/save', attendController.saveAttendanceLogs);
 router.get('/save-per-day', attendController.saveTodayAttendance);
 
+router.get('/get-attendance-by-date', attendController.getAttendanceByDate);
+router.put('/update-attendance-single/:id', attendController.updateAttendanceStatus);
+
 module.exports = router;

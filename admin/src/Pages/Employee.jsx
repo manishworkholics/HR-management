@@ -13,6 +13,7 @@ const Employee = () => {
         name: "",
         role: "",
         wages_per_day: "",
+        device_id: "",
     });
 
     const [selectedEmployee, setSelectedEmployee] = useState(null);
@@ -153,6 +154,7 @@ const Employee = () => {
                                                         <th scope="col">#</th>
                                                         <th scope="col">Name</th>
                                                         <th scope="col">User Name</th>
+                                                        <th scope="col">Device Id</th>
                                                         <th scope="col">Job Title</th>
                                                         <th scope="col">Department</th>
                                                         <th scope="col">Site</th>
@@ -171,6 +173,7 @@ const Employee = () => {
                                                                     {employee.name}
                                                                 </td>
                                                                 <td>{employee.username}</td>
+                                                                <td>{employee.device_id}</td>
                                                                 <td>{employee.role}</td>
                                                                 <td>NA</td>
                                                                 <td>NA</td>
@@ -275,6 +278,18 @@ const Employee = () => {
                                         required
                                     />
                                 </div>
+                                <div className="mb-3">
+                                    <label className="form-label">Device ID:</label>
+                                    <input
+                                        type="number"
+                                        className="form-control"
+                                        name="device_id"
+                                        value={formData.device_id}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </div>
+
                                 <div className="d-flex justify-content-center align-items-center">
                                     <button type="submit" className="btn btn-dark rounded-5 w-50">
                                         Submit

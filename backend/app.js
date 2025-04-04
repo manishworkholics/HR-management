@@ -1,17 +1,17 @@
-require('dotenv').config();
 const express = require('express');
-const mongoose = require('mongoose');
+require('dotenv').config();
+
+
 const cors = require('cors');
-const app = express()
+
 
 
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger-output.json');
 
+const app = express();
 
-
-require('./db/conn')
-
+require('./db/conn');
 
 const routes = require('./routes');
 
@@ -20,11 +20,10 @@ app.use(cors());
 
 app.use('/api', routes);
 
-
-
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 
+
 app.listen(4000, () => {
-    console.log('server is start')
-})
+    console.log('Server started on port 4000');
+});

@@ -29,4 +29,30 @@ const attendanceSchema = new mongoose.Schema({
   ]
 });
 
+// const attendanceSchema = new mongoose.Schema({
+//   userSn: Number,
+//   deviceUserId: Number,
+//   date: String, // Format: YYYY-MM-DD
+//   logs: [
+//     {
+//       recordTime: { type: Date, unique: true },
+//       ip: String
+//     }
+//   ]
+// });
+
+
+// const logSchema = new mongoose.Schema({
+//   recordTime: Date,
+//   ip: String
+// });
+
+// const attendanceSchema = new mongoose.Schema({
+//   userSn: Number,
+//   deviceUserId: Number,
+//   date: String, // Format: YYYY-MM-DD
+//   logs: [logSchema]
+// });
+
+
 module.exports = mongoose.model('Attend', attendanceSchema);

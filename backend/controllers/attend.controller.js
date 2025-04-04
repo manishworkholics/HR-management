@@ -122,3 +122,81 @@ exports.saveTodayAttendance = async (req, res) => {
         res.status(500).json({ error: 'Something went wrong' });
     }
 }
+
+
+
+// app.get('/api/save-today-attendance', async (req, res) => {
+//     const zk = new ZKLib('192.168.29.200', 4370, 10000, 4000);
+  
+//     try {
+//       await zk.createSocket();
+  
+//       const logs = await zk.getAttendances();
+//       await zk.disconnect();
+  
+//       const todayDate = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+  
+//       // Group by userSn + date
+//       const groupedLogs = {};
+  
+//       logs.data.forEach(log => {
+//         const date = new Date(log.recordTime).toISOString().split('T')[0];
+//         if (date !== todayDate) return; // Only today's logs
+  
+//         const key = `${log.userSn}_${date}`;
+  
+//         if (!groupedLogs[key]) {
+//           groupedLogs[key] = {
+//             userSn: log.userSn,
+//             deviceUserId: log.deviceUserId,
+//             date,
+//             logs: []
+//           };
+//         }
+  
+//         groupedLogs[key].logs.push({
+//           recordTime: new Date(log.recordTime),
+//           ip: log.ip
+//         });
+//       });
+  
+//       // Save or update MongoDB
+//       for (const key in groupedLogs) {
+//         const entry = groupedLogs[key];
+  
+//         const existingDoc = await Attendance.findOne({
+//           userSn: entry.userSn,
+//           date: entry.date
+//         });
+  
+//         let newLogs = entry.logs;
+  
+//         if (existingDoc) {
+//           const existingTimes = new Set(
+//             existingDoc.logs.map(log => new Date(log.recordTime).toISOString())
+//           );
+  
+//           newLogs = entry.logs.filter(
+//             log => !existingTimes.has(new Date(log.recordTime).toISOString())
+//           );
+//         }
+  
+//         if (newLogs.length > 0) {
+//           await Attendance.findOneAndUpdate(
+//             { userSn: entry.userSn, date: entry.date },
+//             {
+//               $push: { logs: { $each: newLogs } },
+//               deviceUserId: entry.deviceUserId
+//             },
+//             { upsert: true, new: true }
+//           );
+//         }
+//       }
+  
+//       res.status(200).json({ message: 'Today\'s attendance saved successfully' });
+  
+//     } catch (err) {
+//       console.error('Error:', err);
+//       res.status(500).json({ error: 'Failed to fetch or save attendance logs' });
+//     }
+//   });

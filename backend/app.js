@@ -5,6 +5,10 @@ const cors = require('cors');
 const app = express()
 
 
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger-output.json');
+
+
 
 require('./db/conn')
 
@@ -18,7 +22,7 @@ app.use('/api', routes);
 
 
 
-
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 
 app.listen(4000, () => {

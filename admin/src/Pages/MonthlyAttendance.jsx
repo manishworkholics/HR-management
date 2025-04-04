@@ -274,7 +274,7 @@ const MonthlyAttendance = () => {
                   <h4 className="mb-3 mb-lg-2 fw-bold">Monthly Attendance</h4>
                   <div className="d-block d-lg-flex">
                     <h6 className="me-3">✔️ Full Day Present</h6>
-                    <h6 className="me-3">🔶 Half Day Present</h6>
+                    <h6 className="me-3">🔶 Work from Home</h6>
                     <h6 className="me-3">❌ Full Day Absence</h6>
                   </div>
                 </div>

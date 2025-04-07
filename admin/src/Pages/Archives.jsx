@@ -11,7 +11,7 @@ const Archives = () => {
     const getEmployees = async () => {
         try {
             setLoading(true);
-            const response = await fetch("http://localhost:4000/api/users/archives", {
+            const response = await fetch("http://206.189.130.102:5050/api/users/archives", {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
             });
@@ -34,7 +34,7 @@ const Archives = () => {
         if (!window.confirm("Are you sure you want to undo this employee?")) return;
 
         try {
-            const response = await fetch(`http://localhost:4000/api/users/undo-user/${id}`, {
+            const response = await fetch(`http://206.189.130.102:5050/api/users/undo-user/${id}`, {
                 method: "DELETE",
             });
 

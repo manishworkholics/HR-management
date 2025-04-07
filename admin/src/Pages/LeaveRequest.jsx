@@ -12,7 +12,7 @@ const LeaveRequest = () => {
     const getEmployees = async () => {
         try {
             setLoading(true);
-            const response = await fetch("http://localhost:4000/api/applications", {
+            const response = await fetch("http://206.189.130.102:5050/api/applications", {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
             });
@@ -32,7 +32,7 @@ const LeaveRequest = () => {
 
     const updateStatus = async (id, newStatus) => {
         try {
-            const response = await fetch(`http://localhost:4000/api/applications/${id}`, {
+            const response = await fetch(`http://206.189.130.102:5050/api/applications/${id}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ status: newStatus }) // Correct JSON structure

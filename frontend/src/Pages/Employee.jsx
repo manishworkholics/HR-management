@@ -4,7 +4,120 @@ import Header from '../Components/Header'
 import ProfileImg from '../assets/images/pro-img.png'
 
 const Employee = () => {
+<<<<<<< HEAD
   
+=======
+    const [employees, setEmployees] = useState([]);
+    const [formData, setFormData] = useState({
+        username: "",
+        password: "",
+        name: "",
+        role: "",
+        wages_per_day: "",
+    });
+    const [selectedEmployee, setSelectedEmployee] = useState(null);
+    const [showEditModal, setShowEditModal] = useState(false);
+
+    // Get Employees
+    const getEmployees = async () => {
+        try {
+            const response = await fetch("http://206.189.130.102:5050/api/users", {
+                method: "GET",
+                headers: { "Content-Type": "application/json" },
+            });
+            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`)
+            const result = await response.json();
+            setEmployees(result);
+        } catch (error) {
+            console.error("Error fetching employees:", error.message);
+        }
+    };
+
+    useEffect(() => {
+        getEmployees();
+    }, []);
+
+    // Open Edit Modal
+    const handleEdit = (employee) => {
+        setSelectedEmployee(employee);
+        setFormData(employee);
+        setShowEditModal(true);
+    };
+
+    // Handle Input Change
+    const handleInputChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    // Update Employee
+    const handleUpdate = async () => {
+        try {
+            const response = await fetch(`http://206.189.130.102:5050/api/users/${selectedEmployee._id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formData),
+            });
+
+            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+
+            alert("Employee updated successfully!");
+            setShowEditModal(false);
+            getEmployees();
+        } catch (error) {
+            console.error("Error updating employee:", error.message);
+        }
+    };
+
+    // Delete Employee
+    const handleDelete = async (id) => {
+        if (!window.confirm("Are you sure you want to delete this employee?")) return;
+
+        try {
+            const response = await fetch(`http://206.189.130.102:5050/api/users/${id}`, {
+                method: "DELETE",
+            });
+
+            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+
+            alert("Employee deleted successfully!");
+            getEmployees(); // Refresh list after deletion
+        } catch (error) {
+            console.error("Error deleting employee:", error.message);
+        }
+    };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await fetch("http://206.189.130.102:5050/api/users", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const result = await response.json();
+            console.log("User Created:", result);
+            alert("User successfully created!");
+        } catch (error) {
+            console.error("Error:", error.message);
+            alert("Failed to create user!");
+        }
+    };
+
+>>>>>>> f7684707ae5a847a992330645223c022f88aea37
     return (
         <>
             <div className="container-fluid employee-page">

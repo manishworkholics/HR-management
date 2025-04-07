@@ -16,7 +16,7 @@ const MonthlyAttendance = () => {
   const fetchAttendanceData = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:4000/api/attendance`);
+      const response = await fetch(`http://206.189.130.102:5050/api/attendance`);
       const data = await response.json();
       console.log("API Response:", data); // Debugging purpose
       setAttendanceData(preprocessAttendanceData(data, daysInMonth));

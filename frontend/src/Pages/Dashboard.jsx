@@ -38,9 +38,11 @@ const Dashboard = () => {
                             <div className="card border-0 rounded-5 bg-ffffff94 h-100">
                                 <div className="card-body">
                                     <div className="row g-0 bg-white rounded-4">
-                                        {users?.data?.length &&
+                                        {/* {users?.data?.length &&
                                         users?.data?.map((user,index)=>{
-                                            <div className="col-md-3 d-flex align-items-center">
+                                            
+                                        })} */}
+                                        <div className="col-md-3 d-flex align-items-center">
                                             <div className='mx-auto'>
                                                 <img
                                                     src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg"
@@ -81,7 +83,6 @@ const Dashboard = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                        })}
                                     </div>
                                 </div>
                             </div>

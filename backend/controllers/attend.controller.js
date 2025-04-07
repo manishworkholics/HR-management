@@ -1,5 +1,4 @@
 const ZKLib = require('node-zklib');
-const Attendances = require('../models/atten.model');
 const User = require('../models/user.model');
 const Attendance = require('../models/attendance.model');
 

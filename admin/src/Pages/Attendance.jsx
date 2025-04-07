@@ -9,7 +9,7 @@ const Attendance = () => {
     // Fetch attendance for selected date
     const fetchAttendanceData = (date) => {
         setLoading(true);
-        fetch(`http://localhost:4000/api/attendance/get-attendance-by-date?date=${date}`)
+        fetch(`http://206.189.130.102:5050/api/attendance/get-attendance-by-date?date=${date}`)
             .then((response) => response.json())
             .then((data) => {
                 if (data) {
@@ -43,7 +43,7 @@ const Attendance = () => {
             })),
         };
 
-        fetch("http://localhost:4000/api/attendance/bulk", {
+        fetch("http://206.189.130.102:5050/api/attendance/bulk", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

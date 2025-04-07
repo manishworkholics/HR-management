@@ -216,8 +216,6 @@ exports.calculateSalary = async (req, res) => {
     }
 };
 
-<<<<<<< HEAD
-=======
 // exports.getAllEmployeeSalaries = async (req, res) => {
 //     try {
 //         const { start_date, end_date } = req.query;
@@ -272,7 +270,6 @@ exports.calculateSalary = async (req, res) => {
 //         res.status(500).json({ message: "Server error" });
 //     }
 // };
->>>>>>> 9e71b0284e4881691a7c848ec9ef9a7ed36ea029
 
 
 

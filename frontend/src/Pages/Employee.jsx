@@ -4,9 +4,6 @@ import Header from '../Components/Header'
 import ProfileImg from '../assets/images/pro-img.png'
 
 const Employee = () => {
-<<<<<<< HEAD
-  
-=======
     const [employees, setEmployees] = useState([]);
     const [formData, setFormData] = useState({
         username: "",
@@ -117,7 +114,6 @@ const Employee = () => {
         }
     };
 
->>>>>>> f7684707ae5a847a992330645223c022f88aea37
     return (
         <>
             <div className="container-fluid employee-page">

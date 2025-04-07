@@ -8,22 +8,50 @@ import { FaMapMarkerAlt } from 'react-icons/fa';
 import callAPI from '../Pages/Common_Method/api'
 
 const Dashboard = () => {
-    const [users,setUsers] = useState('');
+    const [users, setUsers] = useState({});
+    const [attendance, setAttendance] = useState([]);
+    const userId = localStorage.getItem('user_id')
 
-    const fetchUsersData = async () =>{
-      try {
-        const response = await callAPI.get(`/users`);
-        if(response?.data){
-            setUsers(response?.data || []);
+    const fetchUsersData = async () => {
+        if (!userId) {
+            console.log("user id is missing");
+        } else {
+            console.log("user id", userId)
         }
-      } catch (error) {
-        console.error("Error in fetching user:", error);
-      }
-    } 
+
+        try {
+            const response = await callAPI.get(`/users/${userId}`);
+            if (response?.data) {
+                setUsers(response.data);
+            }
+        } catch (error) {
+            console.error("Error in fetching user:", error);
+        }
+    };
+
+    const fetchUserAttendace = async () => {
+        if (!userId) {
+            console.log("user id is missing");
+        } else {
+            console.log("user id", userId)
+        }
+
+        try {
+            const response = await callAPI.get(`/users/user/${userId}`);
+            if (response?.data) {
+                setAttendance(response.data);
+            }
+        } catch (error) {
+            console.error("Error in fetching user:", error);
+        }
+    };
+
+
 
     useEffect(() => {
         fetchUsersData();
-    });
+        fetchUserAttendace();
+    }, [userId]);
 
     return (
         <>
@@ -38,52 +66,45 @@ const Dashboard = () => {
                             <div className="card border-0 rounded-5 bg-ffffff94 h-100">
                                 <div className="card-body">
                                     <div className="row g-0 bg-white rounded-4">
-                                        {/* {users?.data?.length &&
-                                        users?.data?.map((user,index)=>{
-                                            
-                                        })} */}
-                                        <div className="col-md-3 d-flex align-items-center">
-                                            <div className='mx-auto'>
-                                                <img
-                                                    src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg"
-                                                    className="img-fluid rounded-start"
-                                                    alt="User"
-                                                    style={{ height: "200px", width: "200px", objectFit: "cover" }}
-                                                />
-                                                <div className=" ms-3 align-items-center">
-                                                    <h5 className='text-center'>Web Developer</h5>
-                                                    <p className='text-center'>User Id: 0001</p>
-                                                </div>
-                                            </div>
-                                            {/* <!-- Vertical line --> */}
-                                            <div className="border-start d-none d-lg-block" style={{ "height": "250px" }}></div>
-                                        </div>
-                                        <div className="col-md-8">
-                                            <div className="card-body">
-                                                <h1 className="card-title text-bold">Priyanshi Choudhary</h1>
-                                                <p className="card-text pt-2 pt-md-4">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                                <div className='row pt-4'>
-                                                    <div className='col-md-6 col-5'>
-                                                        <p>
-                                                            <FaPhone size={15} color="green" /> 987-653-149
-                                                        </p>
-                                                        <p>
-                                                            <FaBirthdayCake size={15} color="purple" /> 14/03/2002
-                                                        </p>
+                                        <div className="d-flex flex-wrap bg-white rounded-4 mb-4">
+                                            <div className="col-md-3 d-flex align-items-center">
+                                                <div className="mx-auto text-center">
+                                                    <img
+                                                        src={users?.profileImage || "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg"}
+                                                        className="img-fluid rounded-start"
+                                                        alt="User"
+                                                        style={{ height: "200px", width: "200px", objectFit: "cover" }}
+                                                    />
+                                                    <div className="mt-2">
+                                                        <h5 className="text-center">{users?.role || "Web Developer"}</h5>
+                                                        <p className="text-center">User Id: {users?._id || "0001"}</p>
                                                     </div>
-                                                    <div className='col-md-6 col-7'>
+                                                </div>
+                                                <div className="border-start d-none d-lg-block ms-3" style={{ height: "250px" }}></div>
+                                            </div>
 
-                                                        <p>
-                                                            <FaEnvelope size={15} color="blue" /> priyanshi@gmail.com
-                                                        </p>
-                                                        <p>
-                                                            <FaMapMarkerAlt size={15} color="green" /> 123 Main Street, Cityville
-                                                        </p>
+                                            <div className="col-md-8 p-3">
+                                                <div className="card-body">
+                                                    <h1 className="card-title fw-bold">{users?.name || "Priyanshi Choudhary"}</h1>
+                                                    <p className="card-text pt-2 pt-md-4">
+                                                        {users?.description || "This is a wider card with supporting text below as a natural lead-in to additional content."}
+                                                    </p>
+                                                    <div className="row pt-4">
+                                                        <div className="col-md-6 col-5">
+                                                            <p><FaPhone size={15} color="green" /> {users?.phone || "987-653-149"}</p>
+                                                            <p><FaBirthdayCake size={15} color="purple" /> {users?.dob || "14/03/2002"}</p>
+                                                        </div>
+                                                        <div className="col-md-6 col-7">
+                                                            <p><FaEnvelope size={15} color="blue" /> {users?.email || "priyanshi@gmail.com"}</p>
+                                                            <p><FaMapMarkerAlt size={15} color="green" /> {users?.address || "123 Main Street, Cityville"}</p>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+
+
                                 </div>
                             </div>
                         </div>
@@ -99,7 +120,7 @@ const Dashboard = () => {
                                                 <div className="card-body ">
                                                     <i className="fa-solid fa-user-check fs-3 text-success"></i>
                                                     <h5 className="mb-0 fw-bold small-14">Attendance</h5>
-                                                    <span className="text-muted">400</span>
+                                                    <span className="text-muted" >400</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -143,7 +164,7 @@ const Dashboard = () => {
                                 </div>
                                 <div className="card-body">
                                     <div className="table-responsive">
-                                        <table className="table table-hover mb-0 rounded-4 overflow-hidden h-100 overflow-y-scroll" style={{"max-height": "333px"}}>
+                                        <table className="table table-hover mb-0 rounded-4 overflow-hidden h-100 overflow-y-scroll" style={{ "max-height": "333px" }}>
                                             <thead>
                                                 <tr className="table-warning">
                                                     <th scope="col">#</th>
@@ -154,97 +175,16 @@ const Dashboard = () => {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <th scope="row">1</th>
-                                                    <td>20/03/25</td>
-                                                    <td>10:30 AM</td>
-                                                    <td>7:15 PM</td>
-                                                    <td>Present</td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">2</th>
-                                                    <td>21/03/25</td>
-                                                    <td>10:30 AM</td>
-                                                    <td>7:15 PM</td>
-                                                    <td>Present</td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">3</th>
-                                                    <td>22/03/25</td>
-                                                    <td>10:30 AM</td>
-                                                    <td>7:15 PM</td>
-                                                    <td>Present</td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">4</th>
-                                                    <td>23/03/25</td>
-                                                    <td>10:30 AM</td>
-                                                    <td>7:15 PM</td>
-                                                    <td>Present</td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">5</th>
-                                                    <td>24/03/25</td>
-                                                    <td>10:30 AM</td>
-                                                    <td>7:15 PM</td>
-                                                    <td>Present</td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">5</th>
-                                                    <td>24/03/25</td>
-                                                    <td>10:30 AM</td>
-                                                    <td>7:15 PM</td>
-                                                    <td>Present</td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">5</th>
-                                                    <td>24/03/25</td>
-                                                    <td>10:30 AM</td>
-                                                    <td>7:15 PM</td>
-                                                    <td>Present</td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">5</th>
-                                                    <td>24/03/25</td>
-                                                    <td>10:30 AM</td>
-                                                    <td>7:15 PM</td>
-                                                    <td>Present</td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">5</th>
-                                                    <td>24/03/25</td>
-                                                    <td>10:30 AM</td>
-                                                    <td>7:15 PM</td>
-                                                    <td>Present</td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">5</th>
-                                                    <td>24/03/25</td>
-                                                    <td>10:30 AM</td>
-                                                    <td>7:15 PM</td>
-                                                    <td>Present</td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">5</th>
-                                                    <td>24/03/25</td>
-                                                    <td>10:30 AM</td>
-                                                    <td>7:15 PM</td>
-                                                    <td>Present</td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">5</th>
-                                                    <td>24/03/25</td>
-                                                    <td>10:30 AM</td>
-                                                    <td>7:15 PM</td>
-                                                    <td>Present</td>
-                                                </tr>
-                                                <tr>
-                                                    <th scope="row">5</th>
-                                                    <td>24/03/25</td>
-                                                    <td>10:30 AM</td>
-                                                    <td>7:15 PM</td>
-                                                    <td>Present</td>
-                                                </tr>
+                                                {attendance?.length &&
+                                                    attendance?.map((presence, index1) => (
+                                                        <tr key={index1}>
+                                                            <th scope="row">1</th>
+                                                            <td>{presence.date || "20/03/25"}</td>
+                                                            <td>{presence.user_entry_time || "10:30 AM"}</td>
+                                                            <td>{presence.user_exit_time || "7:15 PM"}</td>
+                                                            <td>{presence.status || "Present"}</td>
+                                                        </tr>
+                                                    ))}
                                             </tbody>
                                         </table>
                                     </div>

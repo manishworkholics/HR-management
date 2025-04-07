@@ -30,7 +30,7 @@ const Login = () => {
             const data = response.data;
             if (response.status === 200) { 
                 localStorage.setItem("authToken", data.token);
-               localStorage.setItem("user_id",data.user_id); 
+                localStorage.setItem("user_id", data.user._id);
                 toast.success("Login successful!");
                  setTimeout(() => {
                 navigate("/dashboard");

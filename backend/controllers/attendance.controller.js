@@ -190,7 +190,7 @@ exports.calculateSalary = async (req, res) => {
 
 exports.getAllEmployeeSalaries = async (req, res) => {
     try {
-        const { start_date, end_date } = req.query; // Get date range filter from query params
+        const { start_date, end_date } = req.query;
 
         if (!start_date || !end_date) {
             return res.status(400).json({ message: "Start Date and End Date are required" });
@@ -203,17 +203,24 @@ exports.getAllEmployeeSalaries = async (req, res) => {
         const salaryDetails = [];
 
         for (let user of users) {
-            // Fetch attendance records for the given date range
+            // Fetch attendance records for the given date range where status is Present or WFH
             const attendanceRecords = await Attendance.find({
                 user_id: user._id,
-                date: { $gte: start_date, $lte: end_date }
+                status: { $in: ["Present", "WorkFromHome"] },
+                date: {
+                    $gte: new Date(start_date).toISOString().split("T")[0], 
+                    $lte: new Date(end_date).toISOString().split("T")[0] 
+                }
             });
 
-            // Count the number of present days
-            const presentDays = attendanceRecords.length; // Assuming each record is a present day
+            // Count present days
+            const presentDays = attendanceRecords.length;
+
+            // Convert wages_per_day to number (if stored as string)
+            const wagesPerDay = parseFloat(user.wages_per_day);
 
             // Calculate total salary
-            const totalSalary = presentDays * user.wages_per_day;
+            const totalSalary = presentDays * wagesPerDay;
 
             // Store the salary details
             salaryDetails.push({
@@ -221,7 +228,7 @@ exports.getAllEmployeeSalaries = async (req, res) => {
                 name: user.name,
                 role: user.role,
                 total_present_days: presentDays,
-                wages_per_day: user.wages_per_day,
+                wages_per_day: wagesPerDay,
                 total_salary: totalSalary,
                 start_date,
                 end_date
@@ -235,3 +242,4 @@ exports.getAllEmployeeSalaries = async (req, res) => {
         res.status(500).json({ message: "Server error" });
     }
 };
+

@@ -132,11 +132,11 @@ const Dashboard = () => {
                                                                     <th scope="row">{index + 1}</th>
                                                                   
 
-                                                                    <td>{employee.user_id.name}</td>
+                                                                    <td>{employee?.user_id?.name}</td>
 
-                                                                    <td>{employee.leave_type}</td>
-                                                                    <td>{employee.from_date}</td>
-                                                                    <td>{employee.to_date}</td>
+                                                                    <td>{employee?.leave_type}</td>
+                                                                    <td>{employee?.from_date}</td>
+                                                                    <td>{employee?.to_date}</td>
 
                                                                 </tr>
                                                             ))

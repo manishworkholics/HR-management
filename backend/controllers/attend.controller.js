@@ -104,19 +104,57 @@ exports.saveTodayAttendance = async (req, res) => {
 
         const attendanceResults = [];
 
+        // for (const user of allUsers) {
+        //     const logs = attendanceMap[user.device_id]; // match using device_id
+        //     let user_entry_time = null;
+        //     let user_exit_time = null;
+        //     let status = 'Absent';
+
+        //     if (logs && logs.length > 0) {
+        //         logs.sort(); // ascending
+        //         user_entry_time = logs[0];
+        //         user_exit_time = logs[logs.length - 1];
+        //         status = 'Present';
+        //     }
+
+        //     const attendance = await Attendance.findOneAndUpdate(
+        //         { user_id: user._id, date: today },
+        //         {
+        //             user_id: user._id,
+        //             date: today,
+        //             user_entry_time,
+        //             user_exit_time,
+        //             status,
+        //             updated_at: new Date()
+        //         },
+        //         { upsert: true, new: true }
+        //     );
+
+        //     attendanceResults.push(attendance);
+        // }
+
+
         for (const user of allUsers) {
             const logs = attendanceMap[user.device_id]; // match using device_id
             let user_entry_time = null;
             let user_exit_time = null;
             let status = 'Absent';
-
+        
             if (logs && logs.length > 0) {
                 logs.sort(); // ascending
                 user_entry_time = logs[0];
                 user_exit_time = logs[logs.length - 1];
-                status = 'Present';
+        
+                const entryTime = new Date(`${today}T${user_entry_time}`);
+                const thresholdTime = new Date(`${today}T10:20:00`);
+        
+                if (entryTime > thresholdTime) {
+                    status = 'HalfDay';
+                } else {
+                    status = 'Present';
+                }
             }
-
+        
             const attendance = await Attendance.findOneAndUpdate(
                 { user_id: user._id, date: today },
                 {
@@ -129,9 +167,10 @@ exports.saveTodayAttendance = async (req, res) => {
                 },
                 { upsert: true, new: true }
             );
-
+        
             attendanceResults.push(attendance);
         }
+        
 
         res.status(200).json({
             message: `Attendance saved for ${attendanceResults.length} users.`,

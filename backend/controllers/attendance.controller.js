@@ -24,6 +24,37 @@ exports.getUserAttendance = async (req, res) => {
     }
 };
 
+<<<<<<< HEAD
+=======
+
+exports.getMonthlyAttendance = async (req, res) => {
+    try {
+        const { month, year } = req.params;
+        const requestedMonth = parseInt(month);
+        const requestedYear = parseInt(year);
+        const currentDate = new Date();
+        const currentMonth = currentDate.getMonth() + 1;
+        const currentYear = currentDate.getFullYear();
+        if (requestedYear > currentYear) {
+            return res.status(400).json({ message: "Invalid request: Future data not available" });
+        }
+        if (requestedYear === currentYear && requestedMonth > currentMonth) {
+            return res.status(400).json({ message: "Invalid request: Future data not available" });
+        }
+        const attendance = await Attendance.find({
+            date: {
+                $regex: `^${requestedYear}-${requestedMonth.toString().padStart(2, '0')}`
+            }
+        });
+
+        res.status(200).json({ attendance });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+
+>>>>>>> 9e71b0284e4881691a7c848ec9ef9a7ed36ea029
 // exports.getAllAttendance = async (req, res) => {
 //     try {
 //         const attendance = await Attendance.find();
@@ -185,6 +216,63 @@ exports.calculateSalary = async (req, res) => {
     }
 };
 
+<<<<<<< HEAD
+=======
+// exports.getAllEmployeeSalaries = async (req, res) => {
+//     try {
+//         const { start_date, end_date } = req.query;
+
+//         if (!start_date || !end_date) {
+//             return res.status(400).json({ message: "Start Date and End Date are required" });
+//         }
+
+//         // Fetch all employees
+//         const users = await User.find();
+
+//         // Create an array to store salary details
+//         const salaryDetails = [];
+
+//         for (let user of users) {
+//             // Fetch attendance records for the given date range where status is Present or WFH
+//             const attendanceRecords = await Attendance.find({
+//                 user_id: user._id,
+//                 status: { $in: ["Present", "WorkFromHome"] },
+//                 date: {
+//                     $gte: new Date(start_date).toISOString().split("T")[0], 
+//                     $lte: new Date(end_date).toISOString().split("T")[0] 
+//                 }
+//             });
+
+//             // Count present days
+//             const presentDays = attendanceRecords.length;
+
+//             // Convert wages_per_day to number (if stored as string)
+//             const wagesPerDay = parseFloat(user.wages_per_day);
+
+//             // Calculate total salary
+//             const totalSalary = presentDays * wagesPerDay;
+
+//             // Store the salary details
+//             salaryDetails.push({
+//                 user_id: user._id,
+//                 name: user.name,
+//                 role: user.role,
+//                 total_present_days: presentDays,
+//                 wages_per_day: wagesPerDay,
+//                 total_salary: totalSalary,
+//                 start_date,
+//                 end_date
+//             });
+//         }
+
+//         res.status(200).json(salaryDetails);
+
+//     } catch (error) {
+//         console.error("Error fetching employee salaries:", error);
+//         res.status(500).json({ message: "Server error" });
+//     }
+// };
+>>>>>>> 9e71b0284e4881691a7c848ec9ef9a7ed36ea029
 
 
 
@@ -196,33 +284,32 @@ exports.getAllEmployeeSalaries = async (req, res) => {
             return res.status(400).json({ message: "Start Date and End Date are required" });
         }
 
-        // Fetch all employees
         const users = await User.find();
-
-        // Create an array to store salary details
         const salaryDetails = [];
 
         for (let user of users) {
-            // Fetch attendance records for the given date range where status is Present or WFH
+            // Fetch attendance records within date range
             const attendanceRecords = await Attendance.find({
                 user_id: user._id,
-                status: { $in: ["Present", "WorkFromHome"] },
+                status: { $in: ["Present", "WorkFromHome", "HalfDay"] },
                 date: {
-                    $gte: new Date(start_date).toISOString().split("T")[0], 
-                    $lte: new Date(end_date).toISOString().split("T")[0] 
+                    $gte: new Date(start_date).toISOString().split("T")[0],
+                    $lte: new Date(end_date).toISOString().split("T")[0]
                 }
             });
 
-            // Count present days
-            const presentDays = attendanceRecords.length;
+            let presentDays = 0;
+            for (let record of attendanceRecords) {
+                if (record.status === "HalfDay") {
+                    presentDays += 0.5;
+                } else {
+                    presentDays += 1;
+                }
+            }
 
-            // Convert wages_per_day to number (if stored as string)
-            const wagesPerDay = parseFloat(user.wages_per_day);
-
-            // Calculate total salary
+            const wagesPerDay = parseFloat(user.wages_per_day) || 0;
             const totalSalary = presentDays * wagesPerDay;
 
-            // Store the salary details
             salaryDetails.push({
                 user_id: user._id,
                 name: user.name,
@@ -242,4 +329,3 @@ exports.getAllEmployeeSalaries = async (req, res) => {
         res.status(500).json({ message: "Server error" });
     }
 };
-

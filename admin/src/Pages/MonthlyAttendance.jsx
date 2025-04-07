@@ -25,7 +25,7 @@ const MonthlyAttendance = () => {
     } finally {
       setLoading(false);
     }
-  }, [currentMonth, currentYear]);
+  }, [currentMonth, currentYear]);// eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     fetchAttendanceData();
@@ -99,6 +99,7 @@ const MonthlyAttendance = () => {
                     <h6 className="me-3">✔️ Full Day Present</h6>
                     <h6 className="me-3">🔶 Work from Home</h6>
                     <h6 className="me-3">❌ Full Day Absence</h6>
+                    <h6 className="me-3">❌=1/2 Half Day Absence</h6>
                   </div>
                 </div>
                 <div className="d-flex justify-content-between align-items-center">
@@ -133,7 +134,7 @@ const MonthlyAttendance = () => {
                           <tr key={index}>
                             <td>{index + 1}</td>
                             <td>
-                              <img src={ProfileImg} alt="" className="tbl-empImg" />
+                              {/* <img src={ProfileImg} alt="" className="tbl-empImg" /> */}
                               {employee.name}
                             </td>
                             {employee.attendance.map((status, i) => (
@@ -155,6 +156,8 @@ const MonthlyAttendance = () => {
                                     ? "🔶"
                                     : status === "Absent"
                                       ? "❌"
+                                      :status==="HalfDay"
+                                      ? "1/2"
                                       : ""}
                               </td>
                             ))}

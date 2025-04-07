@@ -118,7 +118,12 @@ const Employee = () => {
 
             const result = await response.json();
             console.log("User Created:", result);
+<<<<<<< HEAD
             toast.success("User successfully created!");
+=======
+            alert("User successfully created!");
+            getEmployees(); // Refresh list after deletion
+>>>>>>> 9e71b0284e4881691a7c848ec9ef9a7ed36ea029
         } catch (error) {
             console.error("Error:", error.message);
             toast.error("Failed to create user!");

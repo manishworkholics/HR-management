@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Header from "../Components/Header";
+<<<<<<< HEAD
 import ProfileImg from "../assets/images/pro-img.png";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+=======
+
+>>>>>>> 9e71b0284e4881691a7c848ec9ef9a7ed36ea029
 
 const Attendance = () => {
     const [currentDate, setCurrentDate] = useState(new Date().toISOString().split("T")[0]);
@@ -15,8 +19,8 @@ const Attendance = () => {
         fetch(`http://localhost:4000/api/attendance/get-attendance-by-date?date=${date}`)
             .then((response) => response.json())
             .then((data) => {
-                if (data && data.length > 0) {
-                    setAttendanceRecords(data[0].records || []);
+                if (data) {
+                    setAttendanceRecords(data?.data || []);
                 } else {
                     setAttendanceRecords([]);
                 }
@@ -40,8 +44,8 @@ const Attendance = () => {
             attendanceRecords: attendanceRecords.map((record) => ({
                 user_id: record.user_id,
                 date: currentDate,
-                user_entry_time: record.user_entry_time || "09:00 AM",
-                user_exit_time: record.user_exit_time || "06:00 PM",
+                user_entry_time: record.user_entry_time || "10:00 AM",
+                user_exit_time: record.user_exit_time || "07:00 PM",
                 status: record.status,
             })),
         };
@@ -68,36 +72,6 @@ const Attendance = () => {
             .catch((error) => {
                 alert("Error updating attendance records: " + error.message);
                 console.error("Bulk update error:", error);
-            });
-    };
-
-    // Single user update
-    const handleSingleUpdate = (userId, status) => {
-        const data = {
-            status: status,
-            date: currentDate, // include if your API expects it
-        };
-
-        fetch(`http://localhost:4000/api/attendance/update-attendance-single/${userId}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Failed to update attendance.");
-                }
-                return response.json();
-            })
-            .then((result) => {
-                alert("Attendance updated successfully!");
-                console.log("Single update success:", result);
-            })
-            .catch((error) => {
-                alert("Error updating attendance: " + error.message);
-                console.error("Single update error:", error);
             });
     };
 
@@ -141,7 +115,7 @@ const Attendance = () => {
                                                     <th>Entry Time</th>
                                                     <th>Exit Time</th>
                                                     <th>Status</th>
-                                                    <th>Action</th>
+
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -150,15 +124,20 @@ const Attendance = () => {
                                                         <tr key={record.user_id}>
                                                             <th>{index + 1}</th>
                                                             <td>
+<<<<<<< HEAD
                                                                 <img src={ProfileImg} alt="Profile" className="tbl-empImg me-2" />
                                                                 {record.user_id.name}
+=======
+
+                                                                {record?.user_id?.name}
+>>>>>>> 9e71b0284e4881691a7c848ec9ef9a7ed36ea029
                                                             </td>
-                                                            <td>{record.user_entry_time}</td>
-                                                            <td>{record.user_exit_time}</td>
+                                                            <td>{record?.user_entry_time}</td>
+                                                            <td>{record?.user_exit_time}</td>
                                                             <td>
                                                                 <select
                                                                     className="form-select"
-                                                                    value={record.status}
+                                                                    value={record?.status}
                                                                     onChange={(e) =>
                                                                         handleStatusChange(record.user_id, e.target.value)
                                                                     }
@@ -166,18 +145,10 @@ const Attendance = () => {
                                                                     <option value="Present">Present</option>
                                                                     <option value="Absent">Absent</option>
                                                                     <option value="WorkFromHome">Work From Home</option>
+                                                                    <option value="HalfDay">Half Day</option>
                                                                 </select>
                                                             </td>
-                                                            <td>
-                                                                <button
-                                                                    className="btn btn-sm btn-primary"
-                                                                    onClick={() =>
-                                                                        handleSingleUpdate(record.user_id, record.status)
-                                                                    }
-                                                                >
-                                                                    Edit
-                                                                </button>
-                                                            </td>
+
                                                         </tr>
                                                     ))
                                                 ) : (

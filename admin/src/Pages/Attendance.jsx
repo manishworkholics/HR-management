@@ -175,13 +175,9 @@
 
 import React, { useState, useEffect } from "react";
 import Header from "../Components/Header";
-<<<<<<< HEAD
-import ProfileImg from '../assets/images/pro-img.png';
+import ProfileImg from "../assets/images/pro-img.png";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-=======
-import ProfileImg from "../assets/images/pro-img.png";
->>>>>>> f9ede269c4885ced03c944a7245c8794b3c1ea59
 
 const Attendance = () => {
     const [currentDate, setCurrentDate] = useState(new Date().toISOString().split("T")[0]);
@@ -241,14 +237,6 @@ const Attendance = () => {
                 return response.json();
             })
             .then((result) => {
-<<<<<<< HEAD
-                console.log("Bulk update successful:", result);
-                toast.success("Attendance records updated successfully.");
-            })
-            .catch((error) => {
-                console.error("Error updating attendance records:", error);
-                toast.error("Error updating attendance records: " + error.message);
-=======
                 alert("Attendance records updated successfully.");
                 console.log("Bulk update successful:", result);
             })
@@ -285,7 +273,6 @@ const Attendance = () => {
             .catch((error) => {
                 alert("Error updating attendance: " + error.message);
                 console.error("Single update error:", error);
->>>>>>> f9ede269c4885ced03c944a7245c8794b3c1ea59
             });
     };
 
@@ -333,13 +320,13 @@ const Attendance = () => {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {attendanceRecords.length > 0 ? (
-                                                    attendanceRecords.map((record, index) => (
+                                                {attendanceRecords?.data?.length > 0 ? (
+                                                    attendanceRecords?.data?.map((record, index) => (
                                                         <tr key={record.user_id}>
                                                             <th>{index + 1}</th>
                                                             <td>
                                                                 <img src={ProfileImg} alt="Profile" className="tbl-empImg me-2" />
-                                                                {record.user_name}
+                                                                {record.user_id.name}
                                                             </td>
                                                             <td>{record.user_entry_time}</td>
                                                             <td>{record.user_exit_time}</td>

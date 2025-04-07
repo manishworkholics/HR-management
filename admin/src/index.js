@@ -14,11 +14,6 @@ import ProtectedRoute from './Pages/Common_Method/protectedroute'
 import MonthlyAttendance from './Pages/MonthlyAttendance';
 import Salary from './Pages/Salary';
 import Archives from './Pages/Archives';
-<<<<<<< HEAD
-
-
-=======
->>>>>>> be2ccd9589d5fe3ea898f55e7ea7afdacdd292dd
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

@@ -115,6 +115,7 @@ const Employee = () => {
             const result = await response.json();
             console.log("User Created:", result);
             alert("User successfully created!");
+            getEmployees(); // Refresh list after deletion
         } catch (error) {
             console.error("Error:", error.message);
             alert("Failed to create user!");

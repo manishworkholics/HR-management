@@ -149,11 +149,11 @@ const Salary = () => {
                                                         <tr key={employee.id}>
                                                             <th scope="row">{index + 1}</th>
                                                             <td>
-                                                                <img
+                                                                {/* <img
                                                                     src={ProfileImg}
                                                                     alt=""
                                                                     className="tbl-empImg"
-                                                                />
+                                                                /> */}
                                                                 {employee.name || "NA"}
                                                             </td>
                                                             <td>{employee.role || "NA"}</td>

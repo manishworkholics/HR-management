@@ -32,9 +32,15 @@ exports.loginUser = async (req, res) => {
             return res.status(401).json({ message: 'Invalid credentials' });
         }
 
+        // Generate user_id if not exists
+        if (!user.user_id) {
+            user.user_id = new mongoose.Types.ObjectId().toHexString();
+            await user.save();
+        }
+
         // Generate JWT Token
         const token = jwt.sign(
-            { userId: user._id, role: user.role },
+            { userId: user._id, user_id: user.user_id, role: user.role },
             process.env.JWT_SECRET,
             { expiresIn: '1d' }
         );
@@ -45,6 +51,7 @@ exports.loginUser = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
+
 
 exports.getAllUsers = async (req, res) => {
     try {

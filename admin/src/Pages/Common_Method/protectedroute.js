@@ -7,7 +7,7 @@ const ProtectedRoute = ({ element }) => {
 
     if (!token) {
         // If there's no token, redirect to the login page
-        return <Navigate to="/login" />;
+        return <Navigate to="/hr-management" />;
     }
     return element;
 };

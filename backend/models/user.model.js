@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
+  user_id: {type: String,unique: true,required: true,
+    default: function () {
+        return new mongoose.Types.ObjectId().toHexString();
+    }},
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   name: { type: String, required: true },

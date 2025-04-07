@@ -126,9 +126,9 @@ const Dashboard = () => {
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {employees.length > 0 ? (
-                                                            employees.map((employee, index) => (
-                                                                <tr key={employee.id}>
+                                                        {employees?.data?.length > 0 ? (
+                                                            employees?.data?.map((employee, index) => (
+                                                                <tr key={index}>
                                                                     <th scope="row">{index + 1}</th>
                                                                   
 

@@ -127,11 +127,6 @@ const Employee = () => {
                             <div className="card bg-ffffff94 border-0 rounded-5 h-100">
                                 <div className="card-header pt-3 d-flex justify-content-between bg-transparent border-bottom-0">
                                     <h4 className="mb-0 fw-bold ">Employee List</h4>
-                                    <div className="">
-                                        <button type="button" className="btn btn-dark rounded-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                            <span className="me-2"><i className="fa-solid fa-circle-plus"></i></span>Add Employee
-                                        </button>
-                                    </div>
                                 </div>
                                 <div className="card-body">
                                     <div className="table-responsive">
@@ -139,50 +134,104 @@ const Employee = () => {
                                             <thead>
                                                 <tr className="table-warning">
                                                     <th scope="col">#</th>
-                                                    <th scope="col">Name</th>
-                                                    <th scope="col">User Name</th>
-                                                    <th scope="col">Job Title</th>
-                                                    <th scope="col">Department</th>
-                                                    <th scope="col">Site</th>
-                                                    <th scope="col">Salary</th>
-                                                    <th scope="col">Start Date</th>
-                                                    <th scope="col">Action</th>
+                                                    <th scope="col">Date</th>
+                                                    <th scope="col">Entry Time</th>
+                                                    <th scope="col">Exit Time</th>
+                                                    <th scope="col">Status</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {employees.length > 0 ? (
-                                                    employees.map((employee, index) => (
-                                                        <tr key={employee.id}>
-                                                            <th scope="row">{index + 1}</th>
-                                                            <td>
-                                                                <img src={ProfileImg} alt="" className="tbl-empImg" />
-                                                                {employee.name}
-                                                            </td>
-                                                            <td>{employee.username}</td>
-                                                            <td>{employee.role}</td>
-                                                            <td>NA</td>
-                                                            <td>NA</td>
-                                                            <td className=''>{employee.wages_per_day}</td>
-                                                            <td>NA</td>
-                                                            <td>
-                                                                <button type="button" className="btn btn-warning text-white rounded-5 me-3" onClick={() => handleEdit(employee)}>
-                                                                    Edit
-                                                                    <span className="ms-2"><i className="fa-solid fa-user-pen"></i></span>
-                                                                </button>
-                                                                <button type="button" className="btn btn-danger rounded-5" onClick={() => handleDelete(employee._id)}>
-                                                                    Delete
-                                                                    <span className="ms-2"><i className="fa-solid fa-trash-can"></i></span>
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-                                                    ))
-                                                ) : (
-                                                    <tr>
-                                                        <td colSpan="9" className="text-center">
-                                                            No employees found
-                                                        </td>
-                                                    </tr>
-                                                )}
+                                                <tr>
+                                                    <th scope="row">1</th>
+                                                    <td>20/03/25</td>
+                                                    <td>10:30 AM</td>
+                                                    <td>7:15 PM</td>
+                                                    <td>Present</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">2</th>
+                                                    <td>21/03/25</td>
+                                                    <td>10:30 AM</td>
+                                                    <td>7:15 PM</td>
+                                                    <td>Present</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">3</th>
+                                                    <td>22/03/25</td>
+                                                    <td>10:30 AM</td>
+                                                    <td>7:15 PM</td>
+                                                    <td>Present</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">4</th>
+                                                    <td>23/03/25</td>
+                                                    <td>10:30 AM</td>
+                                                    <td>7:15 PM</td>
+                                                    <td>Present</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">5</th>
+                                                    <td>24/03/25</td>
+                                                    <td>10:30 AM</td>
+                                                    <td>7:15 PM</td>
+                                                    <td>Present</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">5</th>
+                                                    <td>24/03/25</td>
+                                                    <td>10:30 AM</td>
+                                                    <td>7:15 PM</td>
+                                                    <td>Present</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">5</th>
+                                                    <td>24/03/25</td>
+                                                    <td>10:30 AM</td>
+                                                    <td>7:15 PM</td>
+                                                    <td>Present</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">5</th>
+                                                    <td>24/03/25</td>
+                                                    <td>10:30 AM</td>
+                                                    <td>7:15 PM</td>
+                                                    <td>Present</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">5</th>
+                                                    <td>24/03/25</td>
+                                                    <td>10:30 AM</td>
+                                                    <td>7:15 PM</td>
+                                                    <td>Present</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">5</th>
+                                                    <td>24/03/25</td>
+                                                    <td>10:30 AM</td>
+                                                    <td>7:15 PM</td>
+                                                    <td>Present</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">5</th>
+                                                    <td>24/03/25</td>
+                                                    <td>10:30 AM</td>
+                                                    <td>7:15 PM</td>
+                                                    <td>Present</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">5</th>
+                                                    <td>24/03/25</td>
+                                                    <td>10:30 AM</td>
+                                                    <td>7:15 PM</td>
+                                                    <td>Present</td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">5</th>
+                                                    <td>24/03/25</td>
+                                                    <td>10:30 AM</td>
+                                                    <td>7:15 PM</td>
+                                                    <td>Present</td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -192,132 +241,6 @@ const Employee = () => {
                     </div>
                 </div>
             </div>
-
-            {/* Modal Add-Employee */}
-            <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h1 className="modal-title fs-5" id="exampleModalLabel">Add Employee</h1>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div className="modal-body">
-                            <form onSubmit={handleSubmit}>
-                                <div className="mb-3">
-                                    <label className="form-label">Username:</label>
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        name="username"
-                                        value={formData.username}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </div>
-
-                                <div className="mb-3">
-                                    <label className="form-label">Password:</label>
-                                    <input
-                                        type="password"
-                                        className="form-control"
-                                        name="password"
-                                        value={formData.password}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </div>
-
-                                <div className="mb-3">
-                                    <label className="form-label">Name:</label>
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        name="name"
-                                        value={formData.name}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </div>
-
-                                <div className="mb-3">
-                                    <label className="form-label">Role:</label>
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        name="role"
-                                        value={formData.role}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </div>
-
-                                <div className="mb-3">
-                                    <label className="form-label">Wages Per Day:</label>
-                                    <input
-                                        type="number"
-                                        className="form-control"
-                                        name="wages_per_day"
-                                        value={formData.wages_per_day}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </div>
-                                <div className="d-flex justify-content-center align-items-center">
-                                    <button type="submit" className="btn btn-dark rounded-5 w-50">
-                                        Submit
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {/* Modal Edit-Employee */}
-            {showEditModal && (
-                <div className="modal show d-block fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <h1 className="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div className="modal-body">
-                                <form>
-                                    <div className="mb-3">
-                                        <label className="form-label">Username</label>
-                                        <input type="text" className="form-control" name="username" value={formData.username} onChange={handleInputChange} />
-                                    </div>
-                                    <div className="mb-3">
-                                        <label className="form-label">Password</label>
-                                        <input type="password" className="form-control" name="password" value={formData.password} onChange={handleInputChange} />
-                                    </div>
-                                    <div className="mb-3">
-                                        <label className="form-label">Name</label>
-                                        <input type="text" className="form-control" name="name" value={formData.name} onChange={handleInputChange} />
-                                    </div>
-                                    <div className="mb-3">
-                                        <label className="form-label">Role</label>
-                                        <input type="text" className="form-control" name="role" value={formData.role} onChange={handleInputChange} />
-                                    </div>
-                                    <div className="mb-3">
-                                        <label className="form-label">Wages Per Day</label>
-                                        <input type="text" className="form-control" name="wages_per_day" value={formData.wages_per_day} onChange={handleInputChange} />
-                                    </div>
-                                </form>
-                            </div>
-                            <div className="modal-footer">
-                                <button type="button" className="btn btn-secondary" onClick={() => setShowEditModal(false)}>
-                                    Cancel
-                                </button>
-                                <button type="button" className="btn btn-primary" onClick={handleUpdate}>
-                                    Update
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
         </>
     )
 }

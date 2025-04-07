@@ -2,6 +2,9 @@ import React from 'react';
 import { useState, useEffect } from "react";
 import Header from '../Components/Header'
 import ProfileImg from '../assets/images/pro-img.png'
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const Archives = () => {
     const [employees, setEmployees] = useState([]);
@@ -40,9 +43,10 @@ const Archives = () => {
 
             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
-            alert("Employee undo successfully!");
+            toast.success("Employee undo successfully!");
             getEmployees(); // Refresh list after deletion
         } catch (error) {
+            toast.error("Error in deleting employees")
             console.error("Error deleting employee:", error.message);
         }
     };
@@ -52,6 +56,7 @@ const Archives = () => {
     return (
         <div>
             <div className="container-fluid employee-page">
+                <ToastContainer position="top-right" autoClose={3000} />
                 <Header />
                 <div className="px-lg-5 px-0">
                     <div className="row">

@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Header from "../Components/Header";
 import ProfileImg from "../assets/images/pro-img.png";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const MonthlyAttendance = () => {
   const [attendanceData, setAttendanceData] = useState([]);
@@ -81,6 +83,7 @@ const MonthlyAttendance = () => {
 
   return (
     <div className="container-fluid attendance-page">
+       <ToastContainer position="top-right" autoClose={3000} />
       <Header />
       <div className="px-lg-5 px-0">
         <div className="row">
@@ -95,8 +98,8 @@ const MonthlyAttendance = () => {
                   <div className="d-block d-lg-flex">
                     <h6 className="me-3">✔️ Full Day Present</h6>
                     <h6 className="me-3">🔶 Work from Home</h6>
+                    <h6 className="me-3">🔻 Halfday</h6>
                     <h6 className="me-3">❌ Full Day Absence</h6>
-                    <h6 className="me-3">❌=1/2 Half Day Absence</h6>
                   </div>
                 </div>
                 <div className="d-flex justify-content-between align-items-center">
@@ -151,11 +154,11 @@ const MonthlyAttendance = () => {
                                   ? "✔️"
                                   : status === "WorkFromHome"
                                     ? "🔶"
-                                    : status === "Absent"
-                                      ? "❌"
-                                      :status==="HalfDay"
-                                      ? "1/2"
-                                      : ""}
+                                    : status === "HalfDay"
+                                      ? "🔻"
+                                      : status === "Absent"
+                                        ? "❌"
+                                        : ""}
                               </td>
                             ))}
                           </tr>

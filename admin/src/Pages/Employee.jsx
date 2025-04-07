@@ -2,6 +2,8 @@ import React from 'react';
 import { useState, useEffect } from "react";
 import Header from '../Components/Header'
 import ProfileImg from '../assets/images/pro-img.png'
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Employee = () => {
     const [employees, setEmployees] = useState([]);
@@ -64,10 +66,11 @@ const Employee = () => {
 
             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
-            alert("Employee updated successfully!");
+            toast.success("Employee updated successfully!");
             setShowEditModal(false);
             getEmployees();
         } catch (error) {
+            toast.error("Error updating employee")
             console.error("Error updating employee:", error.message);
         }
     };
@@ -83,10 +86,11 @@ const Employee = () => {
 
             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
-            alert("Employee deleted successfully!");
+            toast.success("Employee deleted successfully!");
             getEmployees(); // Refresh list after deletion
         } catch (error) {
             console.error("Error deleting employee:", error.message);
+            toast.error("Error deleting employee");
         }
     };
 
@@ -114,17 +118,21 @@ const Employee = () => {
 
             const result = await response.json();
             console.log("User Created:", result);
-            alert("User successfully created!");
+            toast.success("User successfully created!");
+            setShowEditModal(false);
             getEmployees(); // Refresh list after deletion
         } catch (error) {
             console.error("Error:", error.message);
-            alert("Failed to create user!");
+            toast.error("Failed to create user!");
         }
     };
+
+   
 
     return (
         <>
             <div className="container-fluid employee-page">
+                 <ToastContainer position="top-right" autoClose={3000} />
                 <Header />
                 <div className="px-lg-5 px-0">
                     <div className="row">
@@ -211,7 +219,7 @@ const Employee = () => {
             </div>
 
             {/* Modal Add-Employee */}
-            <div className="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                     <div className="modal-content">
                         <div className="modal-header">
@@ -292,7 +300,7 @@ const Employee = () => {
                                 </div>
 
                                 <div className="d-flex justify-content-center align-items-center">
-                                    <button type="submit" className="btn btn-dark rounded-5 w-50">
+                                    <button type="submit"  className="btn btn-dark rounded-5 w-50 "  >
                                         Submit
                                     </button>
                                 </div>

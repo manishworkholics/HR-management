@@ -14,7 +14,6 @@ import ProtectedRoute from './Pages/Common_Method/protectedroute'
 import MonthlyAttendance from './Pages/MonthlyAttendance';
 import Salary from './Pages/Salary';
 import Archives from './Pages/Archives';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 
 

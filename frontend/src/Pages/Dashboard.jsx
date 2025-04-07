@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../Components/Header'
 import Calendar from '../Components/Calendar'
 import { FaPhone } from 'react-icons/fa';
@@ -8,6 +8,23 @@ import { FaMapMarkerAlt } from 'react-icons/fa';
 import callAPI from '../Pages/Common_Method/api'
 
 const Dashboard = () => {
+    const [users,setUsers] = useState('');
+
+    const fetchUsersData = async () =>{
+      try {
+        const response = await callAPI.get(`/users`);
+        if(response?.data){
+            setUsers(response?.data || []);
+        }
+      } catch (error) {
+        console.error("Error in fetching user:", error);
+      }
+    } 
+
+    useEffect(() => {
+        fetchUsersData();
+    });
+
     return (
         <>
             <div className='container-fluid'>
@@ -21,7 +38,9 @@ const Dashboard = () => {
                             <div className="card border-0 rounded-5 bg-ffffff94 h-100">
                                 <div className="card-body">
                                     <div className="row g-0 bg-white rounded-4">
-                                        <div className="col-md-3 d-flex align-items-center">
+                                        {users?.data?.length &&
+                                        users?.data?.map((user,index)=>{
+                                            <div className="col-md-3 d-flex align-items-center">
                                             <div className='mx-auto'>
                                                 <img
                                                     src="https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg"
@@ -62,6 +81,7 @@ const Dashboard = () => {
                                                 </div>
                                             </div>
                                         </div>
+                                        })}
                                     </div>
                                 </div>
                             </div>

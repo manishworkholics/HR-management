@@ -24,8 +24,6 @@ exports.getUserAttendance = async (req, res) => {
     }
 };
 
-<<<<<<< HEAD
-=======
 
 exports.getMonthlyAttendance = async (req, res) => {
     try {
@@ -54,7 +52,6 @@ exports.getMonthlyAttendance = async (req, res) => {
 };
 
 
->>>>>>> 9e71b0284e4881691a7c848ec9ef9a7ed36ea029
 // exports.getAllAttendance = async (req, res) => {
 //     try {
 //         const attendance = await Attendance.find();

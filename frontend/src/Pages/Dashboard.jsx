@@ -176,9 +176,9 @@ const Dashboard = () => {
                                             </thead>
                                             <tbody>
                                                 {attendance?.length &&
-                                                    attendance?.map((presence, index1) => (
-                                                        <tr key={index1}>
-                                                            <th scope="row">1</th>
+                                                    attendance?.map((presence, index) => (
+                                                        <tr key={index}>
+                                                            <th scope="row">{index + 1}</th>
                                                             <td>{presence.date || "20/03/25"}</td>
                                                             <td>{presence.user_entry_time || "10:30 AM"}</td>
                                                             <td>{presence.user_exit_time || "7:15 PM"}</td>

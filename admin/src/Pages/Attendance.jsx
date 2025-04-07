@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Header from "../Components/Header";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
 
 const Attendance = () => {
     const [currentDate, setCurrentDate] = useState(new Date().toISOString().split("T")[0]);
@@ -76,7 +75,6 @@ const Attendance = () => {
 
     return (
         <div className="container-fluid attendance-page">
-            <ToastContainer position="top-right" autoClose={3000} />
             <Header />
             <div className="px-lg-5 px-0">
                 <div className="row">
@@ -114,8 +112,8 @@ const Attendance = () => {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {attendanceRecords?.data?.length > 0 ? (
-                                                    attendanceRecords?.data?.map((record, index) => (
+                                                {attendanceRecords.length > 0 ? (
+                                                    attendanceRecords.map((record, index) => (
                                                         <tr key={record.user_id}>
                                                             <th>{index + 1}</th>
                                                             <td>

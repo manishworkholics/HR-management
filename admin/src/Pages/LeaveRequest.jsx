@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from "react";
 import Header from '../Components/Header'
-import ProfileImg from '../assets/images/pro-img.png'
+// import ProfileImg from '../assets/images/pro-img.png'
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -84,7 +84,7 @@ const LeaveRequest = () => {
                                                 <thead>
                                                     <tr className="table-warning">
                                                         <th scope="col">#</th>
-                                                        <th scope="col">Image</th>
+                                                        {/* <th scope="col">Image</th> */}
                                                         <th scope="col">User Name</th>
                                                         <th scope="col">Name</th>
                                                         <th scope="col">Leave Type</th>
@@ -100,10 +100,10 @@ const LeaveRequest = () => {
                                                         employees.map((employee, index) => (
                                                             <tr key={employee.id}>
                                                                 <th scope="row">{index + 1}</th>
-                                                                <td>
+                                                                {/* <td>
                                                                     <img src={ProfileImg} alt="" className="tbl-empImg" />
                                                                     {employee.name}
-                                                                </td>
+                                                                </td> */}
                                                                 <td>{employee.user_id.username}</td>
                                                                 <td>{employee.user_id.name}</td>
 

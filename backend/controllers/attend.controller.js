@@ -70,7 +70,7 @@ exports.saveAttendanceLogs = async (req, res) => {
 const formatDate = (date) => date.toISOString().split('T')[0];
 
 exports.saveTodayAttendance = async (req, res) => {
-    const zk = new ZKLib('192.168.29.200', 4370, 10000, 4000);
+    const zk = new ZKLib('192.168.29.200', 4370, 10000, 5050);
 
     try {
         // 1. Connect to the biometric device

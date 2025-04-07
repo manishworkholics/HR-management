@@ -10,11 +10,8 @@
     "apexcharts": "^4.5.0",
     "axios": "^1.8.4",
     "react": "^19.0.0",
-<<<<<<< HEAD
     "react-apexcharts": "^1.7.0",
     "react-bootstrap": "^2.10.9",
-=======
->>>>>>> 835ac46b594be2cd8bf37644f490ac97919c4cc0
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.3.0",
     "react-scripts": "5.0.1",

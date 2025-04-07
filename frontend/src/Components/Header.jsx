@@ -11,7 +11,7 @@ const Header = () => {
         localStorage.removeItem("authToken");
         localStorage.removeItem("user_id")
 
-        navigate("/login");
+        navigate("/hr-management-user");
     };
 
     return (
@@ -28,10 +28,10 @@ const Header = () => {
                         <div className="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul className="navbar-nav ms-auto mb-2 mb-lg-0 bg-white rounded-5 p-1 me-1">
                                 <li className="nav-item">
-                                    <Link className="nav-link  me-1" aria-current="page" to="/dashboard">Dashboard</Link>
+                                    <Link className="nav-link  me-1" aria-current="page" to="/hr-management-user/dashboard">Dashboard</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link  me-1" aria-current="page" to="/employee">Employee</Link>
+                                    <Link className="nav-link  me-1" aria-current="page" to="/hr-management-user/employee">Employee</Link>
                                 </li>
                             </ul>
                             <ul className="navbar-nav navbar-nav-white mb-2 mb-lg-0">

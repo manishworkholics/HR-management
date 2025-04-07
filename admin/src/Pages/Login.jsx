@@ -32,7 +32,7 @@ const Login = () => {
                 localStorage.setItem("authToken", data.token);
                 toast.success("Login successful!");
                 setTimeout(() => {
-                    navigate("/dashboard");
+                    navigate("/hr-management/dashboard");
                 }, 2000);
             } else {
                 toast.error(data.message || "Login failed, please try again.");
@@ -56,7 +56,7 @@ const Login = () => {
                             <div className="card border-0 rounded-5 shadow bg-ffffff94">
                                 <div className="card-body p-3 p-md-4 p-xl-5">
                                     <div className="text-center mb-3">
-                                        <Link to="/dashboard">
+                                        <Link to="/hr-management-user/dashboard">
                                             <img src={Logo} alt="Logo" width="280" className='' />
                                         </Link>
                                     </div>

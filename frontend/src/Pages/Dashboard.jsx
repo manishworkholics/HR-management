@@ -59,7 +59,7 @@ const Dashboard = () => {
                 <Header />
                 <div className="px-lg-5 px-0">
                     <div className="col-12 px-4">
-                        <h1 className="my-4">Welcome, Priyanshi</h1>
+                        <h1 className="my-4">Welcome, {users?.username}</h1>
                     </div>
                     <div className='row'>
                         <div className='col-lg-8 mb-4'>

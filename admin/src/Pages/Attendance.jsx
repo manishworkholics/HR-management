@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Header from "../Components/Header";
-<<<<<<< HEAD
-import ProfileImg from "../assets/images/pro-img.png";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-=======
-
->>>>>>> 9e71b0284e4881691a7c848ec9ef9a7ed36ea029
 
 const Attendance = () => {
     const [currentDate, setCurrentDate] = useState(new Date().toISOString().split("T")[0]);
@@ -124,13 +117,8 @@ const Attendance = () => {
                                                         <tr key={record.user_id}>
                                                             <th>{index + 1}</th>
                                                             <td>
-<<<<<<< HEAD
-                                                                <img src={ProfileImg} alt="Profile" className="tbl-empImg me-2" />
-                                                                {record.user_id.name}
-=======
 
                                                                 {record?.user_id?.name}
->>>>>>> 9e71b0284e4881691a7c848ec9ef9a7ed36ea029
                                                             </td>
                                                             <td>{record?.user_entry_time}</td>
                                                             <td>{record?.user_exit_time}</td>

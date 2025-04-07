@@ -275,6 +275,7 @@ const MonthlyAttendance = () => {
                   <div className="d-block d-lg-flex">
                     <h6 className="me-3">✔️ Full Day Present</h6>
                     <h6 className="me-3">🔶 Work from Home</h6>
+                    <h6 className="me-3">🔻 Halfday</h6>
                     <h6 className="me-3">❌ Full Day Absence</h6>
                   </div>
                 </div>
@@ -330,9 +331,11 @@ const MonthlyAttendance = () => {
                                   ? "✔️"
                                   : status === "WorkFromHome"
                                     ? "🔶"
-                                    : status === "Absent"
-                                      ? "❌"
-                                      : ""}
+                                    : status === "HalfDay"
+                                      ? "🔻"
+                                      : status === "Absent"
+                                        ? "❌"
+                                        : ""}
                               </td>
                             ))}
                           </tr>

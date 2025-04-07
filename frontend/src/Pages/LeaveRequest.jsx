@@ -9,7 +9,7 @@ const LeaveRequest = () => {
     // Get Employees
     const getEmployees = async () => {
         try {
-            const response = await fetch("http://localhost:4000/api/users", {
+            const response = await fetch("http://206.189.130.102:5050/api/users", {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
             });

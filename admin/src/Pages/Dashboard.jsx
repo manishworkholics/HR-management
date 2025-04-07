@@ -12,7 +12,7 @@ const Dashboard = () => {
     // Get Employees
     const getEmployees = async () => {
         try {
-            const response = await fetch("http://localhost:4000/api/applications", {
+            const response = await fetch("http://206.189.130.102:5050/api/applications", {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
             });
@@ -132,11 +132,11 @@ const Dashboard = () => {
                                                                     <th scope="row">{index + 1}</th>
                                                                   
 
-                                                                    <td>{employee.user_id.name}</td>
+                                                                    <td>{employee?.user_id?.name}</td>
 
-                                                                    <td>{employee.leave_type}</td>
-                                                                    <td>{employee.from_date}</td>
-                                                                    <td>{employee.to_date}</td>
+                                                                    <td>{employee?.leave_type}</td>
+                                                                    <td>{employee?.from_date}</td>
+                                                                    <td>{employee?.to_date}</td>
 
                                                                 </tr>
                                                             ))

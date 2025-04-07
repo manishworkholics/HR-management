@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/user.controller');
+const attendanceController = require('../controllers/attendance.controller');
 const dashboardController = require('../controllers/dashboard.controller');
 const { authenticate, isAdmin } = require('../middlewares/auth.middleware');
 
@@ -18,6 +19,8 @@ router.put('/:id', userController.updateUser);
 router.delete('/:id', userController.deleteUser);
 router.delete('/undo-user/:id', userController.undoUser);
 router.post('/login-user', userController.loginUser);
+
+router.get('/user/:id', attendanceController.getUserAttendance);
 
 
 module.exports = router;

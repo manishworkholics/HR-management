@@ -13,7 +13,7 @@ const Salary = () => {
         try {
             setLoading(true); // Set loading to true
             const response = await fetch(
-                `http://localhost:4000/api/attendance/salaries?start_date=${start}&end_date=${end}`,
+                `http://206.189.130.102:5050/api/attendance/salaries?start_date=${start}&end_date=${end}`,
                 {
                     method: "GET",
                     headers: { "Content-Type": "application/json" },
@@ -149,11 +149,11 @@ const Salary = () => {
                                                         <tr key={employee.id}>
                                                             <th scope="row">{index + 1}</th>
                                                             <td>
-                                                                <img
+                                                                {/* <img
                                                                     src={ProfileImg}
                                                                     alt=""
                                                                     className="tbl-empImg"
-                                                                />
+                                                                /> */}
                                                                 {employee.name || "NA"}
                                                             </td>
                                                             <td>{employee.role || "NA"}</td>

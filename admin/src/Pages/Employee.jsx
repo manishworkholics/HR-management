@@ -23,7 +23,7 @@ const Employee = () => {
     const getEmployees = async () => {
         try {
             setLoading(true);
-            const response = await fetch("http://localhost:4000/api/users", {
+            const response = await fetch("http://206.189.130.102:5050/api/users", {
                 method: "GET",
                 headers: { "Content-Type": "application/json" },
             });
@@ -56,7 +56,7 @@ const Employee = () => {
     // Update Employee
     const handleUpdate = async () => {
         try {
-            const response = await fetch(`http://localhost:4000/api/users/${selectedEmployee._id}`, {
+            const response = await fetch(`http://206.189.130.102:5050/api/users/${selectedEmployee._id}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData),
@@ -77,7 +77,7 @@ const Employee = () => {
         if (!window.confirm("Are you sure you want to delete this employee?")) return;
 
         try {
-            const response = await fetch(`http://localhost:4000/api/users/${id}`, {
+            const response = await fetch(`http://206.189.130.102:5050/api/users/${id}`, {
                 method: "DELETE",
             });
 
@@ -100,7 +100,7 @@ const Employee = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch("http://localhost:4000/api/users", {
+            const response = await fetch("http://206.189.130.102:5050/api/users", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -115,6 +115,7 @@ const Employee = () => {
             const result = await response.json();
             console.log("User Created:", result);
             alert("User successfully created!");
+            getEmployees(); // Refresh list after deletion
         } catch (error) {
             console.error("Error:", error.message);
             alert("Failed to create user!");

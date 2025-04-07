@@ -19,17 +19,17 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
     <Routes>
-      <Route path='/login' element={<Login />} />
-      <Route path="/dashboard" element={<ProtectedRoute element={<Dashboard />}  />} />
-      <Route path='/employee' element={<ProtectedRoute element = {<Employee />}/>} />
-      <Route path='/archives' element={<ProtectedRoute element = {<Archives />}/>} />
-      <Route path='/attendance' element={<ProtectedRoute element = {<Attendance/>} />} />
-      <Route path='/leave-request' element={<ProtectedRoute element = {<LeaveRequest/>}/>} />
-      <Route path='/employee' element={<ProtectedRoute element = {<Employee/>} />} />
-      <Route path='/attendance' element={<ProtectedRoute element = {<Attendance />} />} />
-      <Route path='/monthly-attendance' element={<ProtectedRoute element = {<MonthlyAttendance />} />} />
-      <Route path='/leave-request' element={<ProtectedRoute element = {<LeaveRequest />} />} />
-      <Route path='/salary' element={<ProtectedRoute element = {<Salary />} />} />
+      <Route path='/hr-management' element={<Login />} />
+      <Route path="/hr-management/dashboard" element={<ProtectedRoute element={<Dashboard />}  />} />
+      <Route path='/hr-management/employee' element={<ProtectedRoute element = {<Employee />}/>} />
+      <Route path='/hr-management/archives' element={<ProtectedRoute element = {<Archives />}/>} />
+      <Route path='/hr-management/attendance' element={<ProtectedRoute element = {<Attendance/>} />} />
+      <Route path='/hr-management/leave-request' element={<ProtectedRoute element = {<LeaveRequest/>}/>} />
+      <Route path='/hr-management/employee' element={<ProtectedRoute element = {<Employee/>} />} />
+      <Route path='/hr-management/attendance' element={<ProtectedRoute element = {<Attendance />} />} />
+      <Route path='/hr-management/monthly-attendance' element={<ProtectedRoute element = {<MonthlyAttendance />} />} />
+      <Route path='/hr-management/leave-request' element={<ProtectedRoute element = {<LeaveRequest />} />} />
+      <Route path='/hr-management/salary' element={<ProtectedRoute element = {<Salary />} />} />
     </Routes>
   </BrowserRouter>
 );

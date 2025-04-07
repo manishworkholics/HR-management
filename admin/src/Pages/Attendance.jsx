@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Header from "../Components/Header";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Attendance = () => {
     const [currentDate, setCurrentDate] = useState(new Date().toISOString().split("T")[0]);

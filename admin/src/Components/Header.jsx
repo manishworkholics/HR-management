@@ -12,7 +12,7 @@ const Header = () => {
         localStorage.removeItem("authToken");
         toast.success("logout successfully")
         setTimeout(() => {
-            navigate("/login");
+            navigate("/hr-management");
         }, 2000);
     };
 
@@ -31,34 +31,34 @@ const Header = () => {
                         <div className="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul className="navbar-nav ms-auto mb-2 mb-lg-0 bg-white rounded-5 p-1 me-1">
                                 <li className="nav-item">
-                                    <Link className="nav-link  me-1" aria-current="page" to="/dashboard">Dashboard</Link>
+                                    <Link className="nav-link  me-1" aria-current="page" to="/hr-management/dashboard">Dashboard</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link  me-1" aria-current="page" to="/employee">Employee</Link>
+                                    <Link className="nav-link  me-1" aria-current="page" to="/hr-management/employee">Employee</Link>
                                 </li>
                                 <li class="nav-item dropdown">
                                     <Link class="nav-link dropdown-toggle me-1" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                         Attendance
                                     </Link>
                                     <ul class="dropdown-menu">
-                                        <li><Link class="dropdown-item" to="/attendance">Take Attendance</Link></li>
-                                        <li><Link class="dropdown-item" to="/monthly-attendance">Monthly Attendance</Link></li>
+                                        <li><Link class="dropdown-item" to="/hr-management/attendance">Take Attendance</Link></li>
+                                        <li><Link class="dropdown-item" to="/hr-management/monthly-attendance">Monthly Attendance</Link></li>
                                     </ul>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link  me-1" aria-current="page" to="/leave-request">Requests</Link>
+                                    <Link className="nav-link  me-1" aria-current="page" to="/hr-management/leave-request">Requests</Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link className="nav-link me-1" aria-current="page" to="#">Hiring</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link me-1" aria-current="page" to="/salary">Salary</Link>
+                                    <Link className="nav-link me-1" aria-current="page" to="/hr-management/salary">Salary</Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link className="nav-link" aria-current="page" to="#">Calendar</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link" aria-current="page" to="/archives">Archives</Link>
+                                    <Link className="nav-link" aria-current="page" to="/hr-management/archives">Archives</Link>
                                 </li>
                             </ul>
                             <ul className="navbar-nav navbar-nav-white mb-2 mb-lg-0">

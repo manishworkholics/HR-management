@@ -32,7 +32,7 @@ const Login = () => {
                 localStorage.setItem("authToken", data.token);
                 toast.success("Login successful!");
                 setTimeout(() => {
-                    navigate("/dashboard");
+                    navigate("/hr-management/dashboard");
                 }, 2000);
             } else {
                 toast.error(data.message || "Login failed, please try again.");

@@ -18,7 +18,7 @@ const routes = require('./routes');
 app.use(express.json());
 app.use(cors());
 
-app.use('/api/hr-management-user', routes);
+app.use('/api', routes);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 

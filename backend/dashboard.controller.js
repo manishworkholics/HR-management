@@ -14,19 +14,19 @@ exports.dashboard = async (req, res) => {
         const today = new Date().toISOString().split('T')[0];
 
         // 1️⃣ Total Attendance Records
-        const totalAttendance = await Attendance.countDocuments({date: today});
+        const totalAttendance = await Attendance.countDocuments();
 
         // 2️⃣ Total Present Employees (Assuming entry time exists means present)
         const totalPresent = await Attendance.countDocuments({ date: today, user_entry_time: { $ne: null } });
 
         // 3️⃣ Total Absent Employees
-        const totalUsers = await User.countDocuments({active:true});
-        const totalAbsent = totalUsers - totalAttendance; // Employees who are not present today
+        const totalUsers = await User.countDocuments();
+        const totalAbsent = totalUsers - totalPresent; // Employees who are not present today
 
         // 4️⃣ Total Late-Coming Employees (Assuming late if entry time > 10:00 AM)
         const totalLateComing = await Attendance.countDocuments({
             date: today,
-            user_entry_time: { $gt: "10:20" }
+            user_entry_time: { $gt: "10:15" }
         });
 
         // 5️⃣ Total Leave Applications
@@ -34,7 +34,6 @@ exports.dashboard = async (req, res) => {
 
         // Response JSON
         res.status(200).json({
-            totalUsers,
             totalAttendance,
             totalPresent,
             totalAbsent,

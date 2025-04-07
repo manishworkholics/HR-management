@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import Logo from '../assets/images/logo.png';
 import { Link, useNavigate } from 'react-router-dom';
 import callAPI from '../Pages/Common_Method/api';
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
     const [username, setUsername] = useState("");
@@ -27,13 +29,17 @@ const Login = () => {
             const response = await callAPI.post("/users/login-user", { username, password});
             const data = response.data;
             if (response.status === 200) { 
-                console.log("Login Successful", data);
-                localStorage.setItem("authToken", data.token); 
+                localStorage.setItem("authToken", data.token);
+               localStorage.setItem("user_id",data.user_id); 
+                toast.success("Login successful!");
+                 setTimeout(() => {
                 navigate("/dashboard");
+                }, 2000);
             } else {
                 setError(data.message || "Login failed, please try again.");
             }
         } catch (error) {
+             toast.error("Login failed, please try again.");
             setError("An error occurred. Please try again later.");
         } finally {
             setIsLoading(false);
@@ -44,6 +50,7 @@ const Login = () => {
         <>
             <div className="login-page" style={{"height":"100vh"}}>
                 <div className="container h-100">
+                <ToastContainer position="top-right" autoClose={3000} />
                     <div className="row h-100 justify-content-center align-items-center">
                         <div className="col-12 col-sm-10 col-md-8 col-lg-5 col-xxl-4">
                             <div className="card border-0 rounded-5 shadow bg-ffffff94">

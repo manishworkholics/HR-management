@@ -2,6 +2,8 @@ import React from 'react';
 import { useState, useEffect } from "react";
 import Header from '../Components/Header'
 import ProfileImg from '../assets/images/pro-img.png'
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const LeaveRequest = () => {
     const [employees, setEmployees] = useState([]);
@@ -42,11 +44,12 @@ const LeaveRequest = () => {
 
             const result = await response.json();
             console.log("Status updated:", result);
-            alert("Status updated successfully!");
+            toast.success("Status updated successfully!");
             getEmployees();
             // Optional: Refresh or update state after status change
         } catch (error) {
             console.error("Error updating application status:", error.message);
+            toast.error("Error updating application status");
         }
     };
 
@@ -54,6 +57,7 @@ const LeaveRequest = () => {
     return (
         <>
             <div className="container-fluid attendance-page">
+                 <ToastContainer position="top-right" autoClose={3000} />
                 <Header />
                 <div className="px-lg-5 px-0">
                     <div className="row">

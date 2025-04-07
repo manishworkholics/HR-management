@@ -2,14 +2,18 @@ import React from 'react'
 import Logo from '../assets/images/logo.png'
 import { Link } from 'react-router-dom'
 import { useNavigate } from "react-router-dom";
-
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const Header = () => {
 
     const navigate = useNavigate();
 
     const handleLogout = () => {
         localStorage.removeItem("authToken");
-        navigate("/login");
+        toast.success("logout successfully")
+        setTimeout(() => {
+            navigate("/login");
+        }, 2000);
     };
 
     return (
@@ -17,6 +21,7 @@ const Header = () => {
             <div className="header">
                 <nav className="navbar navbar-expand-lg">
                     <div className="container-fluid">
+                    <ToastContainer position="top-right" autoClose={3000} />
                         <Link className="navbar-brand text-danger" to="#">
                             <img src={Logo} alt="" className="logo" />
                         </Link>

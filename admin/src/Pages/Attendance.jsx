@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Header from "../Components/Header";
-import ProfileImg from '../assets/images/pro-img.png'
+import ProfileImg from '../assets/images/pro-img.png';
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Attendance = () => {
     const [currentDate, setCurrentDate] = useState(new Date().toISOString().split("T")[0]);
@@ -67,11 +69,11 @@ const Attendance = () => {
             })
             .then((result) => {
                 console.log("Bulk update successful:", result);
-                alert("Attendance records updated successfully.");
+                toast.success("Attendance records updated successfully.");
             })
             .catch((error) => {
                 console.error("Error updating attendance records:", error);
-                alert("Error updating attendance records: " + error.message);
+                toast.error("Error updating attendance records: " + error.message);
             });
     };
 
@@ -81,6 +83,7 @@ const Attendance = () => {
 
     return (
         <div className="container-fluid attendance-page">
+            <ToastContainer position="top-right" autoClose={3000} />
             <Header />
             <div className="px-lg-5 px-0">
                 <div className="row">

@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import Header from "../Components/Header";
 import ProfileImg from "../assets/images/pro-img.png";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const MonthlyAttendance = () => {
   const [attendanceData, setAttendanceData] = useState([]);
@@ -81,6 +83,7 @@ const MonthlyAttendance = () => {
 
   return (
     <div className="container-fluid attendance-page">
+       <ToastContainer position="top-right" autoClose={3000} />
       <Header />
       <div className="px-lg-5 px-0">
         <div className="row">

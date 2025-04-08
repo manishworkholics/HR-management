@@ -10,11 +10,11 @@ const Dashboard = () => {
     const [employees, setEmployees] = useState();
     const [data, setData] = useState();
 
-    const maledata =data?.malepercent;
-    const femaledata =data?.femalepercent;
+    const maledata = data?.malepercent;
+    const femaledata = data?.femalepercent;
 
     const chartData = {
-        series: [70,30 ],
+        series: [70, 30],
         options: {
             chart: {
                 type: "pie",
@@ -140,7 +140,7 @@ const Dashboard = () => {
                                         <div className="card-body">
                                             <div className="row h-100">
                                                 <div className="col-12">
-                                                    
+
 
                                                     <Chart
                                                         options={chartData.options}
@@ -180,23 +180,18 @@ const Dashboard = () => {
                                                     <tbody>
 
 
-                                                        {employees?.map((employee, index) => {
-                                                            return (
-                                                                <>
-                                                                    <tr key={index}>
-                                                                        <th scope="row">{index + 1}</th>
+                                                        {employees
+                                                            ?.filter((employee) => employee?.status === 'pending')
+                                                            ?.map((employee, index) => (
+                                                                <tr key={index}>
+                                                                    <th scope="row">{index + 1}</th>
+                                                                    <td>{employee?.user_id?.name}</td>
+                                                                    <td>{employee?.leave_type}</td>
+                                                                    <td>{employee?.from_date}</td>
+                                                                    <td>{employee?.to_date}</td>
+                                                                </tr>
+                                                            ))}
 
-
-                                                                        <td>{employee?.user_id?.name}</td>
-
-                                                                        <td>{employee?.leave_type}</td>
-                                                                        <td>{employee?.from_date}</td>
-                                                                        <td>{employee?.to_date}</td>
-
-                                                                    </tr>
-                                                                </>
-                                                            )
-                                                        })}
                                                     </tbody>
                                                 </table>
                                             </div>

@@ -70,7 +70,7 @@ exports.saveAttendanceLogs = async (req, res) => {
 const formatDate = (date) => date.toISOString().split('T')[0];
 
 exports.saveTodayAttendance = async (req, res) => {
-    const zk = new ZKLib('192.168.29.200', 4370, 10000, 5050);
+    const zk = new ZKLib('192.168.29.200', 4370, 10000,4000);
 
     try {
         // 1. Connect to the biometric device
@@ -145,7 +145,7 @@ exports.saveTodayAttendance = async (req, res) => {
                 user_exit_time = logs[logs.length - 1];
         
                 const entryTime = new Date(`${today}T${user_entry_time}`);
-                const thresholdTime = new Date(`${today}T10:20:00`);
+                const thresholdTime = new Date(`${today}T10:15:00`);
         
                 if (entryTime > thresholdTime) {
                     status = 'HalfDay';

@@ -1,4 +1,5 @@
 import React from "react";
+import Logo from '../assets/images/logo.png';
 
 const Payslip = ({ employee, startDate, endDate }) => {
     if (!employee) return null;
@@ -21,10 +22,11 @@ const Payslip = ({ employee, startDate, endDate }) => {
             }}
         >
             {/* Header - hidden during print */}
-            <div className="d-print-none" style={{ display: "flex", justifyContent: "space-between", marginBottom: "20px" }}>
+            <div className="" style={{ display: "flex", justifyContent: "space-between", marginBottom: "20px" }}>
                 <div>
-                    <div style={{ fontSize: "24px", fontWeight: "bold" }}>India Payroll Inc</div>
-                    <div>Chennai, India</div>
+                    <div style={{ fontSize: "24px", fontWeight: "bold" }}>
+                        <img src={Logo} alt="Logo" width="200" className='' />
+                    </div>
                 </div>
                 <div style={{ textAlign: "right" }}>
                     <div>
@@ -36,15 +38,15 @@ const Payslip = ({ employee, startDate, endDate }) => {
             {/* Employee Details */}
             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "20px" }}>
                 <div>
-                    <p><strong>Employee Name:</strong> {employee.name || "NA"}</p>
-                    <p><strong>Job Title:</strong> {employee.role || "NA"}</p>
-                    <p><strong>Date of Joining:</strong> Jan 1, 2021</p>
+                    <p style={{marginBottom: "10px"}}><strong>Employee Name:</strong> {employee.name || "NA"}</p>
+                    <p style={{marginBottom: "10px"}}><strong>Job Title:</strong> {employee.role || "NA"}</p>
+                    <p style={{marginBottom: "10px"}}><strong>Date of Joining:</strong> Jan 1, 2021</p>
                 </div>
                 <div style={{ textAlign: "right" }}>
-                    <p><strong>Pay Period:</strong> {startDate} - {endDate}</p>
-                    <p><strong>Pay Date:</strong> {new Date().toLocaleDateString()}</p>
-                    <p><strong>Net Pay:</strong> ₹{totalSalary}</p>
-                    <p>Paid Days: {employee.total_present_days || 0} | LOP: 0</p>
+                    <p style={{marginBottom: "10px"}}><strong>Pay Period:</strong> {startDate} - {endDate}</p>
+                    <p style={{marginBottom: "10px"}}><strong>Pay Date:</strong> {new Date().toLocaleDateString()}</p>
+                    <p style={{marginBottom: "10px"}}><strong>Net Pay:</strong> ₹{totalSalary}</p>
+                    <p style={{marginBottom: "10px"}}>Paid Days: {employee.total_present_days || 0} | LOP: 0</p>
                 </div>
             </div>
 
@@ -52,7 +54,7 @@ const Payslip = ({ employee, startDate, endDate }) => {
             <div style={{ display: "flex", justifyContent: "space-between", gap: "20px", marginBottom: "20px" }}>
                 {/* Earnings */}
                 <div style={{ flex: 1 }}>
-                    <h3 style={{ fontSize: "16px" }}>Earnings</h3>
+                    <h3 style={{ fontSize: "16px", background:"grey", color:"white", padding:"3px" }}>Earnings</h3>
                     <table style={{ width: "100%" }}>
                         <tbody>
                             <tr><td>Basic</td><td style={{ textAlign: "right" }}>₹{totalSalary}</td></tr>
@@ -70,7 +72,7 @@ const Payslip = ({ employee, startDate, endDate }) => {
 
                 {/* Deductions */}
                 <div style={{ flex: 1 }}>
-                    <h3 style={{ fontSize: "16px" }}>Deductions</h3>
+                    <h3 style={{ fontSize: "16px", background:"grey", color:"white", padding:"3px" }}>Deductions</h3>
                     <table style={{ width: "100%" }}>
                         <tbody>
                             <tr><td>EPF Contribution</td><td style={{ textAlign: "right" }}>₹1,534</td></tr>

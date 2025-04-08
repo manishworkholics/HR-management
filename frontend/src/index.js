@@ -14,9 +14,9 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
     <Routes>
-    <Route path='/hr-management-user' element={<Login />} />
-      <Route path="/hr-management-user/dashboard" element={<ProtectedRoute element={<Dashboard />}  />} />
-      <Route path='/hr-management-user/employee' element={<ProtectedRoute element = {<Employee />}/>} />
+    <Route path='/hr-management/user' element={<Login />} />
+      <Route path="/hr-management/user/dashboard" element={<ProtectedRoute element={<Dashboard />}  />} />
+      <Route path='/hr-management/user/employee' element={<ProtectedRoute element = {<Employee />}/>} />
     </Routes>
   </BrowserRouter>
 );

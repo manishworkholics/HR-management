@@ -145,7 +145,7 @@ exports.saveTodayAttendance = async (req, res) => {
                 user_exit_time = logs[logs.length - 1];
         
                 const entryTime = new Date(`${today}T${user_entry_time}`);
-                const thresholdTime = new Date(`${today}T10:15:00`);
+                const thresholdTime = new Date(`${today}T10:20:00`);
         
                 if (entryTime > thresholdTime) {
                     status = 'HalfDay';

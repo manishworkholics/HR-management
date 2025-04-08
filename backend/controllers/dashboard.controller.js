@@ -14,13 +14,13 @@ exports.dashboard = async (req, res) => {
         const today = new Date().toISOString().split('T')[0];
 
         // 1️⃣ Total Attendance Records
-        const totalAttendance = await Attendance.countDocuments({date: today});
+        const totalAttendance = await Attendance.countDocuments({ date: today });
 
         // 2️⃣ Total Present Employees (Assuming entry time exists means present)
         const totalPresent = await Attendance.countDocuments({ date: today, user_entry_time: { $ne: null } });
 
         // 3️⃣ Total Absent Employees
-        const totalUsers = await User.countDocuments({active:true});
+        const totalUsers = await User.countDocuments({ active: true });
         const totalAbsent = totalUsers - totalAttendance; // Employees who are not present today
 
         // 4️⃣ Total Late-Coming Employees (Assuming late if entry time > 10:00 AM)
@@ -32,6 +32,14 @@ exports.dashboard = async (req, res) => {
         // 5️⃣ Total Leave Applications
         const totalLeaveApplications = await Application.countDocuments();
 
+
+        const male = await User.countDocuments({ gender: 'male' });
+        const female = await User.countDocuments({ gender: 'female' });
+
+        const malepercent = male / totalUsers * 100
+        const femalepercent = female / totalUsers * 100
+
+
         // Response JSON
         res.status(200).json({
             totalUsers,
@@ -39,7 +47,10 @@ exports.dashboard = async (req, res) => {
             totalPresent,
             totalAbsent,
             totalLateComing,
-            totalLeaveApplications
+            totalLeaveApplications,
+            array:[ malepercent,femalepercent]
+           
+            
         });
 
     } catch (error) {
@@ -47,3 +58,6 @@ exports.dashboard = async (req, res) => {
         res.status(500).json({ message: "Server error" });
     }
 };
+
+
+

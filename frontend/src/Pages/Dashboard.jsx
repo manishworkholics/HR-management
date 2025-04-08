@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Header from '../Components/Header'
 import Calendar from '../Components/Calendar'
 import { FaPhone } from 'react-icons/fa';
-import { FaBirthdayCake } from 'react-icons/fa';
+import { FaMars, FaVenus } from "react-icons/fa";
 import { FaEnvelope } from 'react-icons/fa';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import callAPI from '../Pages/Common_Method/api'
@@ -91,12 +91,13 @@ const Dashboard = () => {
                                                     </p>
                                                     <div className="row pt-4">
                                                         <div className="col-md-6 col-5">
-                                                            <p><FaPhone size={15} color="green" /> {users?.phone || "987-653-149"}</p>
-                                                            <p><FaBirthdayCake size={15} color="purple" /> {users?.dob || "14/03/2002"}</p>
+                                                            <p><FaPhone size={15} color="green" /> {users?.mobile || "987-653-149"}</p>
+                                                            <p><FaMars size={15} color="blue" />
+                                                            {users?.gender || "Female"}</p>
                                                         </div>
                                                         <div className="col-md-6 col-7">
-                                                            <p><FaEnvelope size={15} color="blue" /> {users?.email || "priyanshi@gmail.com"}</p>
-                                                            <p><FaMapMarkerAlt size={15} color="green" /> {users?.address || "123 Main Street, Cityville"}</p>
+                                                            <p><FaEnvelope size={15} color="blue" /> {users?.mail_id || "priyanshi@gmail.com"}</p>
+                                                            <p><FaMapMarkerAlt size={15} color="green" /> {users?.adress || "123 Main Street, Cityville"}</p>
                                                         </div>
                                                     </div>
                                                 </div>

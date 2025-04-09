@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Header from "../Components/Header";
 import Payslip from "../Components/SalarySlip";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 
 const Salary = () => {
   const [attendanceData, setAttendanceData] = useState([]);
@@ -72,6 +74,75 @@ const Salary = () => {
     getAttendanceData(firstDayOfMonth, today);
   }, []);
 
+  const handleUploadClick = async (employee) => {
+    setSelectedEmployee(employee);
+    setShowPayslip(true);
+
+    setTimeout(async () => {
+      const payslipElement = document.getElementById("payslip-to-upload");
+      if (!payslipElement) {
+        alert("Payslip not found!");
+        return;
+      }
+
+      try {
+        // Capture the payslip DOM as canvas
+        const canvas = await html2canvas(payslipElement);
+        const imgData = canvas.toDataURL("image/png");
+
+        // Generate PDF using jsPDF
+        const pdf = new jsPDF();
+        const imgProps = pdf.getImageProperties(imgData);
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+        pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+
+        // Convert PDF to blob
+        const pdfBlob = pdf.output("blob");
+        const pdfFile = new File([pdfBlob], `salary-slip-${employee.id}.pdf`, {
+          type: "application/pdf",
+        });
+
+        console.log("PDF Blob:", pdfBlob);
+        console.log("PDF File:", pdfFile);
+
+        // Prepare FormData
+        const formData = new FormData();
+        formData.append("file", pdfFile); // <-- Change to "image" if needed
+
+        // Upload to API
+        const response = await fetch(
+          `http://206.189.130.102:5050/api/v1/uploading?id=${employee.id}`,
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+
+        console.log("Raw Response:", response);
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          console.error("Upload failed:", errorText);
+          alert("Upload failed: " + response.statusText);
+          return;
+        }
+
+        const result = await response.json();
+        console.log("Upload response:", result);
+        alert("Salary slip uploaded successfully.");
+      } catch (error) {
+        console.error("Upload error:", error);
+        alert("Failed to upload salary slip.");
+      } finally {
+        setShowPayslip(false);
+      }
+    }, 500);
+  };
+
+
+
   if (error) {
     return <div className="text-center text-danger">{error}</div>;
   }
@@ -83,9 +154,12 @@ const Salary = () => {
       </div>
       <div className="px-lg-5 px-0">
 
-        {/* Show Payslip only during print */}
         {showPayslip && selectedEmployee && (
-          <div className="d-none d-print-block">
+          <div
+            className="d-none d-print-block"
+            id="payslip-to-upload"
+            style={{ padding: "20px", backgroundColor: "white" }}
+          >
             <Payslip employee={selectedEmployee} startDate={startDate} endDate={endDate} />
           </div>
         )}
@@ -120,7 +194,7 @@ const Salary = () => {
                       />
                     </div>
                     <div className="col-auto">
-                      <button type="submit" className="btn btn-dark">
+                      <button type="submit" className="btn btn-dark px-3 rounded-pill">
                         Filter
                       </button>
                     </div>
@@ -163,10 +237,16 @@ const Salary = () => {
                                 <td>{employee.end_date || "NA"}</td>
                                 <td>
                                   <button
-                                    className="btn btn-secondary rounded-5"
+                                    className="btn btn-secondary rounded-5 me-3"
                                     onClick={() => handlePrint(employee)}
                                   >
-                                    Print <i className="fa-solid fa-print ms-2"></i>
+                                    Print <i className="fa-solid fa-print ms-1"></i>
+                                  </button>
+                                  <button
+                                    className="btn btn-primary rounded-5"
+                                    onClick={() => handleUploadClick(employee)}
+                                  >
+                                    Upload <i className="fa-solid fa-upload ms-1"></i>
                                   </button>
                                 </td>
                               </tr>

@@ -20,6 +20,7 @@ const Employee = () => {
 
     const [selectedEmployee, setSelectedEmployee] = useState(null);
     const [showEditModal, setShowEditModal] = useState(false);
+    const [showAddModal, setShowAddModal] = useState(false);
 
     // Get Employees
     const getEmployees = async () => {
@@ -119,20 +120,21 @@ const Employee = () => {
             const result = await response.json();
             console.log("User Created:", result);
             toast.success("User successfully created!");
-            setShowEditModal(false);
-            getEmployees(); // Refresh list after deletion
+            setShowAddModal(false);
+            getEmployees(); 
         } catch (error) {
             console.error("Error:", error.message);
             toast.error("Failed to create user!");
         }
     };
 
-   
+
 
     return (
         <>
             <div className="container-fluid employee-page">
-                 <ToastContainer position="top-right" autoClose={3000} />
+                <ToastContainer limit={1} position="top-right" autoClose={3000}  hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover
+                />
                 <Header />
                 <div className="px-lg-5 px-0">
                     <div className="row">
@@ -144,7 +146,7 @@ const Employee = () => {
                                 <div className="card-header pt-3 d-flex justify-content-between bg-transparent border-bottom-0">
                                     <h4 className="mb-0 fw-bold ">Employee List</h4>
                                     <div className="">
-                                        <button type="button" className="btn btn-dark rounded-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                        <button type="button" className="btn btn-dark rounded-5" onClick={() => setShowAddModal(true)}>
                                             <span className="me-2"><i className="fa-solid fa-circle-plus"></i></span>Add Employee
                                         </button>
                                     </div>
@@ -219,97 +221,105 @@ const Employee = () => {
             </div>
 
             {/* Modal Add-Employee */}
-            <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h1 className="modal-title fs-5" id="exampleModalLabel">Add Employee</h1>
-                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            {showAddModal && (
+                <div
+                    className="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-dark bg-opacity-50"
+                    style={{ zIndex: 1050 }}
+                >
+                    <div className="card shadow-lg p-4" style={{ width: '35rem' }}>
+                        <div className="d-flex justify-content-between align-items-center mb-3">
+                            <h5 className="mb-0">Add Employee</h5>
+                            <button type="button" className="btn-close" onClick={() => setShowAddModal(false)}></button>
                         </div>
-                        <div className="modal-body">
-                            <form onSubmit={handleSubmit}>
-                                <div className="mb-3">
-                                    <label className="form-label">Username:</label>
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        name="username"
-                                        value={formData.username}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </div>
+                        <form onSubmit={handleSubmit}>
+                            <div className="mb-3">
+                                <label className="form-label">Username:</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    name="username"
+                                    value={formData.username}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
 
-                                <div className="mb-3">
-                                    <label className="form-label">Password:</label>
-                                    <input
-                                        type="password"
-                                        className="form-control"
-                                        name="password"
-                                        value={formData.password}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </div>
+                            <div className="mb-3">
+                                <label className="form-label">Password:</label>
+                                <input
+                                    type="password"
+                                    className="form-control"
+                                    name="password"
+                                    value={formData.password}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
 
-                                <div className="mb-3">
-                                    <label className="form-label">Name:</label>
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        name="name"
-                                        value={formData.name}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </div>
+                            <div className="mb-3">
+                                <label className="form-label">Name:</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    name="name"
+                                    value={formData.name}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
 
-                                <div className="mb-3">
-                                    <label className="form-label">Role:</label>
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        name="role"
-                                        value={formData.role}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </div>
+                            <div className="mb-3">
+                                <label className="form-label">Role:</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    name="role"
+                                    value={formData.role}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
 
-                                <div className="mb-3">
-                                    <label className="form-label">Wages Per Day:</label>
-                                    <input
-                                        type="number"
-                                        className="form-control"
-                                        name="wages_per_day"
-                                        value={formData.wages_per_day}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </div>
-                                <div className="mb-3">
-                                    <label className="form-label">Device ID:</label>
-                                    <input
-                                        type="number"
-                                        className="form-control"
-                                        name="device_id"
-                                        value={formData.device_id}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </div>
+                            <div className="mb-3">
+                                <label className="form-label">Wages Per Day:</label>
+                                <input
+                                    type="number"
+                                    className="form-control"
+                                    name="wages_per_day"
+                                    value={formData.wages_per_day}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
 
-                                <div className="d-flex justify-content-center align-items-center">
-                                    <button type="submit"  className="btn btn-dark rounded-5 w-50 "  >
-                                        Submit
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
+                            <div className="mb-3">
+                                <label className="form-label">Device ID:</label>
+                                <input
+                                    type="number"
+                                    className="form-control"
+                                    name="device_id"
+                                    value={formData.device_id}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </div>
+
+                            <div className="d-flex justify-content-end gap-2">
+                                <button type="submit" className="btn btn-primary">
+                                    Submit
+                                </button>
+                                <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={() => setShowAddModal(false)}
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
-            </div>
-
+            )}
             {/* Modal Edit-Employee */}
             {showEditModal && (
                 <div className="modal show d-block fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

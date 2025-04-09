@@ -99,7 +99,7 @@ exports.saveTodayAttendance = async (req, res) => {
         });
 
         // 4. Fetch all users
-        const allUsers = await User.find();
+        const allUsers = await User.find({active:true});
 
         const attendanceResults = [];
 

@@ -2,9 +2,9 @@ const Salary = require('../models/salary.model');
 
 exports.createSalary = async (req, res) => {
   try {
-    const { user_id, month, amount, slip_url } = req.body;
+    const { user_id, date, slip_url } = req.body;
 
-    const salary = new Salary({ user_id, month, amount, slip_url });
+    const salary = new Salary({ user_id, date, slip_url });
     await salary.save();
 
     res.status(201).json({ message: 'Salary record created', salary });

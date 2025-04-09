@@ -10,8 +10,9 @@ const LeaveRequest = () => {
         returnDate: '',
         totalDays: ''
     });
-     const[leaveData,setLeaveData] = useState({});
+    const [leaveData, setLeaveData] = useState({});
     const [errors, setErrors] = useState({});
+    const userId = localStorage.getItem('user_id')
 
     const reasonsList = [
         "Doctor Appointment", "Sick-Family", "Sick-Self", "Vacation",
@@ -19,23 +20,23 @@ const LeaveRequest = () => {
         "Casual Leave", "Emergency Leave", "Other"
     ];
 
-    const formatLeaveDetails = async () => {
+    const submitLeaveApplication = async () => {
         try {
-            const response = await callAPI.post('/applications');
+            const response = await callAPI.post("/applications", {
+                leave_type: formData.leaveReason,
+                from_date: formData.leaveDate, 
+                to_date: formData.returnDate,
+                reason: formData.reasons.join(", "), 
+                user_id: userId
+            });
+              
             if (response?.data) {
-                setLeaveData(response.data || []);
+                console.log("Leave submitted:", response.data);
             }
         } catch (error) {
-            console.error("Error fetching leave details:", error);
-            setErrors("Failed to fetch leave details."); 
+            console.error("Error submitting leave application:", error);
         }
     };
-    
-    useEffect(() => {
-        formatLeaveDetails();
-    }, []);
-    
-    
 
     const handleChange = (e) => {
         const { id, value } = e.target;
@@ -54,7 +55,7 @@ const LeaveRequest = () => {
     const validateForm = () => {
         let formErrors = {};
         if (formData.reasons.length === 0) formErrors.reasons = "Select at least one reason";
-        if(formData.leaveReason.length === 0) formErrors.leaveReason = "Leave Reason is required";
+        if (!formData.leaveReason) formErrors.leaveReason = "Leave Reason is required";
         if (!formData.leaveDate) formErrors.leaveDate = "Leave Date is required";
         if (!formData.returnDate) formErrors.returnDate = "Return Date is required";
         if (formData.leaveDate && formData.returnDate && formData.returnDate < formData.leaveDate)
@@ -71,7 +72,7 @@ const LeaveRequest = () => {
         if (validateForm()) {
             console.log("Form submitted:", formData);
             alert("Leave request submitted successfully!");
-            // Reset form if needed
+            submitLeaveApplication(); 
         }
     };
 

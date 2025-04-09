@@ -3,8 +3,8 @@ const router = express.Router();
 const salaryController = require('../controllers/salary.controller');
 const { authenticate, isAdmin } = require('../middlewares/auth.middleware');
 
-router.post('/', authenticate, isAdmin, salaryController.createSalary);
-router.get('/user/:id', authenticate, salaryController.getSalaryByUser);
-router.get('/', authenticate, isAdmin, salaryController.getAllSalaries);
+router.post('/create-salary', salaryController.createSalary);
+router.get('/get-salary-by-user/:id', salaryController.getSalaryByUser);
+router.get('/get-all-salary', salaryController.getAllSalaries);
 
 module.exports = router;

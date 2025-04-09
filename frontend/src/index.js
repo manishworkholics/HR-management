@@ -7,8 +7,10 @@ import './App.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Login from './Pages/Login'
 import Dashboard from './Pages/Dashboard';
-import Employee from './Pages/Employee';
 import ProtectedRoute from './Pages/Common_Method/protectedroute'
+import Attendance from './Pages/Attendance';
+import LeaveRequest from './Pages/LeaveRequest';
+import Salary from './Pages/Salary';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -16,7 +18,9 @@ root.render(
     <Routes>
     <Route path='/hr-management/user' element={<Login />} />
       <Route path="/hr-management/user/dashboard" element={<ProtectedRoute element={<Dashboard />}  />} />
-      <Route path='/hr-management/user/employee' element={<ProtectedRoute element = {<Employee />}/>} />
+      <Route path='/hr-management/user/attendance' element={<ProtectedRoute element = {<Attendance />}/>} />
+      <Route path='/hr-management/user/leave' element={<ProtectedRoute element = {<LeaveRequest />}/>} />
+      <Route path='/hr-management/user/salary' element={<ProtectedRoute element = {<Salary />}/>} />
     </Routes>
   </BrowserRouter>
 );

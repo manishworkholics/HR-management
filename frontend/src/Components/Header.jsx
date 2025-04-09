@@ -31,7 +31,13 @@ const Header = () => {
                                     <Link className="nav-link  me-1" aria-current="page" to="/hr-management/user/dashboard">Dashboard</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link  me-1" aria-current="page" to="/hr-management/user/employee">Employee</Link>
+                                    <Link className="nav-link  me-1" aria-current="page" to="/hr-management/user/attendance">Attendance</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link  me-1" aria-current="page" to="/hr-management/user/leave">Leave</Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link className="nav-link  me-1" aria-current="page" to="/hr-management/user/salary">Salary</Link>
                                 </li>
                             </ul>
                             <ul className="navbar-nav navbar-nav-white mb-2 mb-lg-0">

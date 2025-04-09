@@ -1,103 +1,172 @@
-import React from 'react';
-import { useState, useEffect } from "react";
-import Header from '../Components/Header'
-import ProfileImg from '../assets/images/pro-img.png'
+import React, { useEffect, useState } from 'react';
+import Header from '../Components/Header';
+import callAPI from './Common_Method/api';
 
 const LeaveRequest = () => {
-    const [employees, setEmployees] = useState([]);
+    const [formData, setFormData] = useState({
+        reasons: [],
+        leaveReason: '',
+        leaveDate: '',
+        returnDate: '',
+        totalDays: ''
+    });
+     const[leaveData,setLeaveData] = useState({});
+    const [errors, setErrors] = useState({});
 
-    // Get Employees
-    const getEmployees = async () => {
+    const reasonsList = [
+        "Doctor Appointment", "Sick-Family", "Sick-Self", "Vacation",
+        "Worker's Comp", "Funeral", "Military", "Jury Duty",
+        "Casual Leave", "Emergency Leave", "Other"
+    ];
+
+    const formatLeaveDetails = async () => {
         try {
-            const response = await fetch("http://206.189.130.102:5050/api/users", {
-                method: "GET",
-                headers: { "Content-Type": "application/json" },
-            });
-            if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`)
-            const result = await response.json();
-            setEmployees(result);
+            const response = await callAPI.post('/applications');
+            if (response?.data) {
+                setLeaveData(response.data || []);
+            }
         } catch (error) {
-            console.error("Error fetching employees:", error.message);
+            console.error("Error fetching leave details:", error);
+            setErrors("Failed to fetch leave details."); 
+        }
+    };
+    
+    useEffect(() => {
+        formatLeaveDetails();
+    }, []);
+    
+    
+
+    const handleChange = (e) => {
+        const { id, value } = e.target;
+        setFormData(prev => ({ ...prev, [id]: value }));
+    };
+
+    const handleCheckboxChange = (e) => {
+        const { id, checked, value } = e.target;
+        const updatedReasons = checked
+            ? [...formData.reasons, value]
+            : formData.reasons.filter(reason => reason !== value);
+
+        setFormData(prev => ({ ...prev, reasons: updatedReasons }));
+    };
+
+    const validateForm = () => {
+        let formErrors = {};
+        if (formData.reasons.length === 0) formErrors.reasons = "Select at least one reason";
+        if(formData.leaveReason.length === 0) formErrors.leaveReason = "Leave Reason is required";
+        if (!formData.leaveDate) formErrors.leaveDate = "Leave Date is required";
+        if (!formData.returnDate) formErrors.returnDate = "Return Date is required";
+        if (formData.leaveDate && formData.returnDate && formData.returnDate < formData.leaveDate)
+            formErrors.returnDate = "Return Date must be after Leave Date";
+        if (!formData.totalDays || formData.totalDays <= 0)
+            formErrors.totalDays = "Total Days must be greater than 0";
+
+        setErrors(formErrors);
+        return Object.keys(formErrors).length === 0;
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (validateForm()) {
+            console.log("Form submitted:", formData);
+            alert("Leave request submitted successfully!");
+            // Reset form if needed
         }
     };
 
-    useEffect(() => {
-        getEmployees();
-    }, []);
-
     return (
-        <>
-            <div className="container-fluid attendance-page">
-                <Header />
-                <div className="px-lg-5 px-0">
-                    <div className="row">
-                        <div className="col-12 px-4">
-                            <h1 className="my-4">Leave Request</h1>
-                        </div>
-                        <div className="col-md-12 mb-4">
-                            <div className="card bg-ffffff94 border-0 rounded-5 h-100">
-                                <div className="card-header pt-3 d-flex justify-content-between bg-transparent border-bottom-0">
-                                    <h4 className="mb-0 fw-bold ">Attendance List</h4>
-                                </div>
-                                <div className="card-body">
-                                    <div className="table-responsive">
-                                        <table className="table table-hover mb-0 rounded-4 overflow-hidden">
-                                            <thead>
-                                                <tr className="table-warning">
-                                                    <th scope="col">#</th>
-                                                    <th scope="col">User Name</th>
-                                                    <th scope="col">Name</th>
-                                                    <th scope="col">Leave Type</th>
-                                                    <th scope="col">From</th>
-                                                    <th scope="col">To</th>
-                                                    <th scope="col">Reason</th>
-                                                    <th scope="col" className=''>Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {employees.length > 0 ? (
-                                                    employees.map((employee, index) => (
-                                                        <tr key={employee.id}>
-                                                            <th scope="row">{index + 1}</th>
-                                                            <td>{employee.username}</td>
-                                                            <td>
-                                                                <img src={ProfileImg} alt="" className="tbl-empImg" />
-                                                                {employee.name}
-                                                            </td>
-                                                            <td>Casual Leave</td>
-                                                            <td>12/03/2021</td>
-                                                            <td>14/03/2021</td>
-                                                            <td>Going to Holiday</td>
-                                                            <td>
-                                                                <button type="button" className="btn btn-success text-white rounded-5 me-3">
-                                                                    Aprove
-                                                                    <span className="ms-2"><i className="fa-solid fa-thumbs-up"></i></span>
-                                                                </button>
-                                                                <button type="button" className="btn btn-danger text-white rounded-5 me-3">
-                                                                    Reject
-                                                                    <span className="ms-2"><i className="fa-solid fa-thumbs-down"></i></span>
-                                                                </button>
-                                                            </td>
-                                                        </tr>
-                                                    ))
-                                                ) : (
-                                                    <tr>
-                                                        <td colSpan="9" className="text-center">
-                                                            No employees found
-                                                        </td>
-                                                    </tr>
-                                                )}
-                                            </tbody>
-                                        </table>
-                                    </div>
+        <div>
+            <Header />
+            <div className='container mt-5'>
+                <div className="card bg-light border-0 rounded-5 shadow-lg">
+                    <div className="card-body px-5 py-4">
+                        <h2 className="card-title text-center mb-4">Leave Request Form</h2>
+                        <form onSubmit={handleSubmit}>
+                            <div className="mb-4">
+                                <h5>Type of Leave</h5>
+                                {errors.reasons && <div className="text-danger mb-2">{errors.reasons}</div>}
+                                <div className="row">
+                                    {reasonsList.map((reason, index) => (
+                                        <div className="col-md-3 mb-2" key={index}>
+                                            <div className="form-check">
+                                                <input
+                                                    type="checkbox"
+                                                    className="form-check-input"
+                                                    id={`reason${index}`}
+                                                    value={reason}
+                                                    onChange={handleCheckboxChange}
+                                                />
+                                                <label className="form-check-label" htmlFor={`reason${index}`}>
+                                                    {reason}
+                                                </label>
+                                            </div>
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
-                        </div>
+
+                            <div className='row mb-3'>
+                                <div className='col-md-3'>
+                                    <label htmlFor="leaveReason" className="form-label">Reason for Leave</label>
+                                </div>
+                                <div className='col-md-9'>
+                                    <input
+                                        type="text"
+                                        className={`form-control ${errors.leaveReason ? 'is-invalid' : ''}`}
+                                        id="leaveReason"
+                                        value={formData.leaveReason}
+                                        onChange={handleChange}
+                                    />
+                                    {errors.leaveReason && <div className="invalid-feedback">{errors.leaveReason}</div>}
+                                </div>
+                            </div>
+
+                            <div className="row mb-3">
+                                <div className="col-md-4">
+                                    <label htmlFor="leaveDate" className="form-label">Leave Date</label>
+                                    <input
+                                        type="date"
+                                        className={`form-control ${errors.leaveDate ? 'is-invalid' : ''}`}
+                                        id="leaveDate"
+                                        value={formData.leaveDate}
+                                        onChange={handleChange}
+                                    />
+                                    {errors.leaveDate && <div className="invalid-feedback">{errors.leaveDate}</div>}
+                                </div>
+                                <div className="col-md-4">
+                                    <label htmlFor="returnDate" className="form-label">Return Date</label>
+                                    <input
+                                        type="date"
+                                        className={`form-control ${errors.returnDate ? 'is-invalid' : ''}`}
+                                        id="returnDate"
+                                        value={formData.returnDate}
+                                        onChange={handleChange}
+                                    />
+                                    {errors.returnDate && <div className="invalid-feedback">{errors.returnDate}</div>}
+                                </div>
+                                <div className="col-md-4">
+                                    <label htmlFor="totalDays" className="form-label">Total Days Requested</label>
+                                    <input
+                                        type="number"
+                                        className={`form-control ${errors.totalDays ? 'is-invalid' : ''}`}
+                                        id="totalDays"
+                                        value={formData.totalDays}
+                                        onChange={handleChange}
+                                    />
+                                    {errors.totalDays && <div className="invalid-feedback">{errors.totalDays}</div>}
+                                </div>
+                            </div>
+
+                            <div className="text-center mt-4">
+                                <button type="submit" className="btn btn-primary px-5">Send Request</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
-        </>
-    )
-}
+        </div>
+    );
+};
 
-export default LeaveRequest
+export default LeaveRequest;

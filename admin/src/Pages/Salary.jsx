@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../Components/Header";
 import Payslip from "../Components/SalarySlip";
-import html2canvas from "html2canvas";
-import jsPDF from "jspdf";
+import html2pdf from "html2pdf.js";
+import { useRef } from "react";
 
 const Salary = () => {
   const [attendanceData, setAttendanceData] = useState([]);
@@ -12,6 +12,7 @@ const Salary = () => {
   const [endDate, setEndDate] = useState("");
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [showPayslip, setShowPayslip] = useState(false);
+  const payslipRef = useRef();
 
   const getAttendanceData = async (start, end) => {
     try {
@@ -74,78 +75,83 @@ const Salary = () => {
     getAttendanceData(firstDayOfMonth, today);
   }, []);
 
-  const handleUploadClick = async (employee) => {
+  if (error) {
+    return <div className="text-center text-danger">{error}</div>;
+  }
+
+  const handleUpload = async (employee) => {
     setSelectedEmployee(employee);
     setShowPayslip(true);
 
     setTimeout(async () => {
-      const payslipElement = document.getElementById("payslip-to-upload");
-      if (!payslipElement) {
-        alert("Payslip not found!");
-        return;
-      }
+      const element = payslipRef.current;
+
+      if (!element) return;
+
+      const opt = {
+        margin: 0,
+        filename: `${employee.name || "salary-slip"}.pdf`,
+        image: { type: "jpeg", quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
+      };
 
       try {
-        // Capture the payslip DOM as canvas
-        const canvas = await html2canvas(payslipElement);
-        const imgData = canvas.toDataURL("image/png");
+        // Generate PDF Blob
+        const pdfBlob = await html2pdf().from(element).set(opt).outputPdf('blob');
 
-        // Generate PDF using jsPDF
-        const pdf = new jsPDF();
-        const imgProps = pdf.getImageProperties(imgData);
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+        // Prepare FormData for uploading
+        const formData = new FormData();
+        formData.append("image", pdfBlob, `${employee.name || "salary-slip"}.pdf`);
 
-        pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-
-        // Convert PDF to blob
-        const pdfBlob = pdf.output("blob");
-        const pdfFile = new File([pdfBlob], `salary-slip-${employee.id}.pdf`, {
-          type: "application/pdf",
+        // Step 1: Upload PDF
+        const uploadRes = await fetch("http://206.189.130.102:5050/api/v1/uploading", {
+          method: "POST",
+          body: formData,
+          redirect: "follow",
         });
 
-        console.log("PDF Blob:", pdfBlob);
-        console.log("PDF File:", pdfFile);
+        const uploadResult = await uploadRes.json();
+        const uploadedUrl = uploadResult?.file_url || uploadResult?.data?.url; // Adjust if response format is different
 
-        // Prepare FormData
-        const formData = new FormData();
-        formData.append("file", pdfFile); // <-- Change to "image" if needed
-
-        // Upload to API
-        const response = await fetch(
-          `http://206.189.130.102:5050/api/v1/uploading?id=${employee.id}`,
-          {
-            method: "POST",
-            body: formData,
-          }
-        );
-
-        console.log("Raw Response:", response);
-
-        if (!response.ok) {
-          const errorText = await response.text();
-          console.error("Upload failed:", errorText);
-          alert("Upload failed: " + response.statusText);
-          return;
+        if (!uploadedUrl) {
+          throw new Error("Upload failed. No URL returned.");
         }
 
-        const result = await response.json();
-        console.log("Upload response:", result);
-        alert("Salary slip uploaded successfully.");
+        console.log("PDF uploaded:", uploadedUrl);
+
+        // Step 2: Submit slip URL to database
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        const today = new Date().toISOString().split("T")[0]; // format: YYYY-MM-DD
+        const payload = JSON.stringify({
+          user_id: employee.user_id, // make sure this exists in your data
+          date: today,
+          slip_url: uploadedUrl,
+        });
+
+        const requestOptions = {
+          method: "POST",
+          headers: myHeaders,
+          body: payload,
+          redirect: "follow",
+        };
+
+        const saveRes = await fetch("http://206.189.130.102:5050/api/salaries/create-salary", requestOptions);
+        const saveResult = await saveRes.text();
+
+        console.log("Salary record saved:", saveResult);
+        alert("Payslip uploaded and saved successfully ✅");
+
       } catch (error) {
-        console.error("Upload error:", error);
-        alert("Failed to upload salary slip.");
-      } finally {
-        setShowPayslip(false);
+        console.error("Error during upload and save:", error);
+        alert("Error uploading and saving payslip ❌");
       }
     }, 500);
   };
 
 
-
-  if (error) {
-    return <div className="text-center text-danger">{error}</div>;
-  }
 
   return (
     <div className="container-fluid employee-page">
@@ -154,13 +160,12 @@ const Salary = () => {
       </div>
       <div className="px-lg-5 px-0">
 
+        {/* Show Payslip only during print */}
         {showPayslip && selectedEmployee && (
-          <div
-            className="d-none d-print-block"
-            id="payslip-to-upload"
-            style={{ padding: "20px", backgroundColor: "white" }}
-          >
-            <Payslip employee={selectedEmployee} startDate={startDate} endDate={endDate} />
+          <div className="d-none">
+            <div ref={payslipRef}>
+              <Payslip employee={selectedEmployee} startDate={startDate} endDate={endDate} />
+            </div>
           </div>
         )}
 
@@ -244,7 +249,7 @@ const Salary = () => {
                                   </button>
                                   <button
                                     className="btn btn-primary rounded-5"
-                                    onClick={() => handleUploadClick(employee)}
+                                    onClick={() => handleUpload(employee)}
                                   >
                                     Upload <i className="fa-solid fa-upload ms-1"></i>
                                   </button>

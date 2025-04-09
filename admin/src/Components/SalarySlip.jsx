@@ -25,7 +25,7 @@ const Payslip = ({ employee, startDate, endDate }) => {
             <div className="" style={{ display: "flex", justifyContent: "space-between", marginBottom: "20px" }}>
                 <div>
                     <div style={{ fontSize: "24px", fontWeight: "bold" }}>
-                        <img src={Logo} alt="Logo" width="200" className='' crossOrigin="anonymous"  />
+                        <img src={Logo} alt="Logo" width="200" className='' crossOrigin="anonymous" />
                     </div>
                 </div>
                 <div style={{ textAlign: "right" }}>

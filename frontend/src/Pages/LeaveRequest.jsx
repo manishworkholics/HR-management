@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Header from '../Components/Header';
 import callAPI from './Common_Method/api';
-import leaveImg from '../assets/images/leave.png'
+import TripImg from '../assets/images/TripImg(2).gif';
 
 const LeaveRequest = () => {
     const [formData, setFormData] = useState({
@@ -16,10 +16,7 @@ const LeaveRequest = () => {
     const userId = localStorage.getItem('user_id')
 
     const reasonsList = [
-        "Doctor Appointment", "Sick-Family", "Sick-Self", "Vacation",
-        "Worker's Comp", "Funeral", "Military", "Jury Duty",
-        "Casual Leave", "Emergency Leave", "Other"
-    ];
+        , "Sick Leave","Casual Leave", "Urgent Leave", "Vacation","Clinic Visit","Halfday","Early Leave", "Funeral","Other"];
 
     const submitLeaveApplication = async () => {
         try {
@@ -81,20 +78,23 @@ const LeaveRequest = () => {
         <div>
             <Header />
             <div className='container mt-5'>
-                <div className="card bg-light border-0 rounded-5 shadow-lg">
+                <div className='row'>
+                    <div className='col-md-6 col-12'>
+                       <div className='TripImg'>
+                       <img src={TripImg}/>
+                       </div>
+                    </div>
+                    <div className='col-md-6 col-12'>
+                    <div className="card bg-light border-0 rounded-5 shadow-lg mb-3">
                     <div className="card-body px-5 py-4">
-                        <div className="row">
-                            <div className="col-md-6"></div>
-                            <div className="col-md-6"></div>
-                        </div>
                         <h2 className="card-title text-center ">Leave Request Form</h2>
                         <form onSubmit={handleSubmit}>
                             <div className="mb-4">
-                                <h5>Type of Leave</h5>
+                            <label htmlFor="leaveReason" className="form-label fw-semibold">Type of Leave</label>
                                 {errors.reasons && <div className="text-danger mb-2">{errors.reasons}</div>}
                                 <div className="row">
                                     {reasonsList.map((reason, index) => (
-                                        <div className="col-md-3 mb-2" key={index}>
+                                        <div className="col-md-4 mb-2" key={index}>
                                             <div className="form-check">
                                                 <input
                                                     type="checkbox"
@@ -103,7 +103,7 @@ const LeaveRequest = () => {
                                                     value={reason}
                                                     onChange={handleCheckboxChange}
                                                 />
-                                                <label className="form-check-label" htmlFor={`reason${index}`}>
+                                                <label className="form-check-label fs-6"  htmlFor={`reason${index}`}>
                                                     {reason}
                                                 </label>
                                             </div>
@@ -111,26 +111,23 @@ const LeaveRequest = () => {
                                     ))}
                                 </div>
                             </div>
-
-                            <div className='row mb-3'>
-                                <div className='col-md-3'>
-                                    <label htmlFor="leaveReason" className="form-label">Reason for Leave</label>
-                                </div>
-                                <div className='col-md-9'>
-                                    <input
+                                <div>
+                                    <label htmlFor="leaveReason" className="form-label fw-semibold">Reason for Leave</label>
+                                   <div className='mb-3'>
+                                   <input
                                         type="text"
                                         className={`form-control ${errors.leaveReason ? 'is-invalid' : ''}`}
                                         id="leaveReason"
                                         value={formData.leaveReason}
                                         onChange={handleChange}
                                     />
+                                   </div>
                                     {errors.leaveReason && <div className="invalid-feedback">{errors.leaveReason}</div>}
                                 </div>
-                            </div>
 
                             <div className="row mb-3">
                                 <div className="col-md-4">
-                                    <label htmlFor="leaveDate" className="form-label">From</label>
+                                    <label htmlFor="leaveDate" className="form-label fw-semibold">From</label>
                                     <input
                                         type="date"
                                         className={`form-control ${errors.leaveDate ? 'is-invalid' : ''}`}
@@ -141,7 +138,7 @@ const LeaveRequest = () => {
                                     {errors.leaveDate && <div className="invalid-feedback">{errors.leaveDate}</div>}
                                 </div>
                                 <div className="col-md-4">
-                                    <label htmlFor="returnDate" className="form-label">To</label>
+                                    <label htmlFor="returnDate" className="form-label fw-semibold">To</label>
                                     <input
                                         type="date"
                                         className={`form-control ${errors.returnDate ? 'is-invalid' : ''}`}
@@ -152,7 +149,7 @@ const LeaveRequest = () => {
                                     {errors.returnDate && <div className="invalid-feedback">{errors.returnDate}</div>}
                                 </div>
                                 <div className="col-md-4">
-                                    <label htmlFor="totalDays" className="form-label">Total Days Requested</label>
+                                    <label htmlFor="totalDays" className="form-label fw-semibold">Total Days Req.</label>
                                     <input
                                         type="number"
                                         className={`form-control ${errors.totalDays ? 'is-invalid' : ''}`}
@@ -165,9 +162,11 @@ const LeaveRequest = () => {
                             </div>
 
                             <div className="text-center mt-4">
-                                <button type="submit" className="btn btn-primary px-5">Send Request</button>
+                                <button type="submit" className="btn btn-warning border rounded-3 px-5 btnColor">Send Request</button>
                             </div>
                         </form>
+                    </div>
+                </div>
                     </div>
                 </div>
             </div>

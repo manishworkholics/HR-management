@@ -14,22 +14,22 @@ const EditAttendance = () => {
     status: "Present",
   });
 
-  const fetchAllUsers = async() => {
+  const fetchAllUsers = async () => {
     try {
       const response = await callAPI.get(`/users/`);
-      if(response?.data){
+      if (response?.data) {
         setAllUsers(response?.data || [])
       }
     } catch (error) {
-      console.log("error",error);
+      console.log("error", error);
     }
   }
 
   const fetchAttendanceUsers = async () => {
     if (!selectedDate) return;
-  
+
     console.log("Fetching attendance for date:", selectedDate);
-  
+
     try {
       const response = await callAPI.get(`/attendance/get-attendance-by-date?date=${selectedDate}`);
       if (response?.data?.records) {
@@ -43,7 +43,7 @@ const EditAttendance = () => {
       setAttendanceRecords([]);
     }
   };
-  
+
 
   const fetchUserAttendance = () => {
     const userAttendance = attendanceRecords.find(
@@ -70,7 +70,7 @@ const EditAttendance = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     const payload = {
       attendanceRecords: [
         {
@@ -82,7 +82,7 @@ const EditAttendance = () => {
         },
       ],
     };
-  
+
     try {
       const response = await callAPI.post("/attendance/bulk", payload);
       if (response?.data?.success) {
@@ -96,7 +96,7 @@ const EditAttendance = () => {
       alert("Failed to update attendance.");
     }
   };
-  
+
   useEffect(() => {
     fetchAllUsers();
   }, []);
@@ -111,7 +111,7 @@ const EditAttendance = () => {
       fetchUserAttendance();
     }
   }, [selectedUser, attendanceRecords]);
-  
+
 
   return (
     <div className="container-fluid">
@@ -156,24 +156,25 @@ const EditAttendance = () => {
           <div className="mb-3">
             <label className="form-label">Entry Time</label>
             <input
-              type="text"
+              type="time"
               className="form-control"
               name="user_entry_time"
               value={formData.user_entry_time}
               onChange={(e) => setFormData({ ...formData, user_entry_time: e.target.value })}
               placeholder="e.g., 10:00 AM"
             />
+
           </div>
 
           <div className="mb-3">
             <label className="form-label">Exit Time</label>
             <input
-              type="text"
+              type="time"
               className="form-control"
               name="user_exit_time"
               value={formData.user_exit_time}
               onChange={(e) => setFormData({ ...formData, user_exit_time: e.target.value })}
-              placeholder="e.g., 07:00 PM"
+              required
             />
           </div>
 
@@ -200,4 +201,4 @@ const EditAttendance = () => {
   );
 };
 
- export default EditAttendance;
+export default EditAttendance;

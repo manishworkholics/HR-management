@@ -180,7 +180,7 @@ const Employee = () => {
                                                             <tr key={employee.id}>
                                                                 <th scope="row">{index + 1}</th>
                                                                 <td>
-                                                                    <img src={ProfileImg} alt="" className="tbl-empImg" />
+                                                                    {/* <img src={ProfileImg} alt="" className="tbl-empImg" /> */}
                                                                     {employee.name}
                                                                 </td>
                                                                 <td>{employee.username}</td>

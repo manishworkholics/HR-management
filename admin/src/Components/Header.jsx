@@ -43,6 +43,7 @@ const Header = () => {
                                     <ul class="dropdown-menu">
                                         <li><Link class="dropdown-item" to="/hr-management/admin/attendance">Take Attendance</Link></li>
                                         <li><Link class="dropdown-item" to="/hr-management/admin/monthly-attendance">Monthly Attendance</Link></li>
+                                        <li><Link class="dropdown-item" to="/hr-management/admin/edit-attendance">Edit Attendance</Link></li>
                                     </ul>
                                 </li>
                                 <li className="nav-item">

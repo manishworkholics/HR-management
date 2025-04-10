@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Header from '../Components/Header';
 import callAPI from './Common_Method/api';
+import leaveImg from '../assets/images/leave.png'
 
 const LeaveRequest = () => {
     const [formData, setFormData] = useState({
@@ -82,7 +83,11 @@ const LeaveRequest = () => {
             <div className='container mt-5'>
                 <div className="card bg-light border-0 rounded-5 shadow-lg">
                     <div className="card-body px-5 py-4">
-                        <h2 className="card-title text-center mb-4">Leave Request Form</h2>
+                        <div className="row">
+                            <div className="col-md-6"></div>
+                            <div className="col-md-6"></div>
+                        </div>
+                        <h2 className="card-title text-center ">Leave Request Form</h2>
                         <form onSubmit={handleSubmit}>
                             <div className="mb-4">
                                 <h5>Type of Leave</h5>
@@ -125,7 +130,7 @@ const LeaveRequest = () => {
 
                             <div className="row mb-3">
                                 <div className="col-md-4">
-                                    <label htmlFor="leaveDate" className="form-label">Leave Date</label>
+                                    <label htmlFor="leaveDate" className="form-label">From</label>
                                     <input
                                         type="date"
                                         className={`form-control ${errors.leaveDate ? 'is-invalid' : ''}`}
@@ -136,7 +141,7 @@ const LeaveRequest = () => {
                                     {errors.leaveDate && <div className="invalid-feedback">{errors.leaveDate}</div>}
                                 </div>
                                 <div className="col-md-4">
-                                    <label htmlFor="returnDate" className="form-label">Return Date</label>
+                                    <label htmlFor="returnDate" className="form-label">To</label>
                                     <input
                                         type="date"
                                         className={`form-control ${errors.returnDate ? 'is-invalid' : ''}`}

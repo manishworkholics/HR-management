@@ -32,11 +32,11 @@ exports.loginUser = async (req, res) => {
             return res.status(401).json({ message: 'Invalid credentials' });
         }
 
-        // Generate user_id if not exists
-        if (!user.user_id) {
-            user.user_id = new mongoose.Types.ObjectId().toHexString();
-            await user.save();
-        }
+        // // Generate user_id if not exists
+        // if (!user.user_id) {
+        //     user.user_id = new mongoose.Types.ObjectId().toHexString();
+        //     await user.save();
+        // }
 
         // Generate JWT Token
         const token = jwt.sign(

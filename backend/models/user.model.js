@@ -17,6 +17,7 @@ const UserSchema = new mongoose.Schema({
   adress: { type: String },
   mobile: { type: String },
   mail_id: { type: String },
+  image: { type: String },
   active: { type: Boolean, default: true },
   created_at: { type: Date, default: Date.now },
   updated_at: { type: Date, default: Date.now }

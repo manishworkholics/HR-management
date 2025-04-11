@@ -51,6 +51,11 @@
     border-radius: 40px;
   }
 }
+@media only screen and (max-width: 767px) {
+  .navbar-brand .logo {
+    width: 159px !important;
+  }
+}
 
 /* Navbar-CSS End */
 
@@ -143,3 +148,12 @@
 }
 
 /* Attendance-Page-CSS End */
+
+/* Leave page css start */
+.TripImg{
+  mix-blend-mode: multiply;
+}
+.btnColor{
+  background-color: #e6c760;
+}
+/* Leave page css end */

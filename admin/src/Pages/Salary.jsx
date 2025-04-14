@@ -3,6 +3,7 @@ import Header from "../Components/Header";
 import Payslip from "../Components/SalarySlip";
 import html2pdf from "html2pdf.js";
 import { useRef } from "react";
+import ProfileImg from '../assets/images/pro-img.png'
 
 const Salary = () => {
   const [attendanceData, setAttendanceData] = useState([]);
@@ -13,6 +14,12 @@ const Salary = () => {
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [showPayslip, setShowPayslip] = useState(false);
   const payslipRef = useRef();
+  const [previewImage, setPreviewImage] = useState(null);
+
+  const handlePreview = (imgUrl) => {
+    setPreviewImage(imgUrl);
+  };
+
 
   const getAttendanceData = async (start, end) => {
     try {
@@ -233,7 +240,16 @@ const Salary = () => {
                             attendanceData.map((employee, index) => (
                               <tr key={index}>
                                 <td>{index + 1}</td>
-                                <td>{employee.name || "NA"}</td>
+                                <td>
+                                  <img
+                                    src={employee.image || ProfileImg}
+                                    alt=""
+                                    className="tbl-empImg shadow"
+                                    style={{ cursor: "pointer", width: "40px", height: "40px", objectFit: "cover", borderRadius: "50%" }}
+                                    onClick={() => handlePreview(employee.image || ProfileImg)}
+                                  />
+                                  {employee.name}
+                                </td>
                                 <td>{employee.role || "NA"}</td>
                                 <td>{employee.total_present_days || "NA"}</td>
                                 <td>{employee.wages_per_day || "NA"}/-</td>
@@ -272,8 +288,27 @@ const Salary = () => {
             </div>
           </div>
         </div>
-
       </div>
+      {/* Modal Image-Preview */}
+      {previewImage && (
+        <div
+          className="modal fade show "
+          style={{ display: "block", background: "rgba(0,0,0,0.6)" }}
+          onClick={() => setPreviewImage(null)}
+        >
+          <div className="modal-dialog modal-dialog-centered" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-content" style={{ background: "rgba(0,0,0,0.8)" }}>
+              <div className="modal-header border-0">
+                <h5 className="modal-title text-white">Image Preview</h5>
+                <button type="button" className="btn-close bg-white rounded-circle" onClick={() => setPreviewImage(null)}></button>
+              </div>
+              <div className="modal-body text-center">
+                <img src={previewImage} alt="Preview" className="img-fluid rounded shadow" />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

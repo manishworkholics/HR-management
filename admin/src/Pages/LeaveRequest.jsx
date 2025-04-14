@@ -102,7 +102,14 @@ const LeaveRequest = () => {
                                                 </thead>
                                                 <tbody>
                                                     {employees.length > 0 ? (
-                                                        employees.map((employee, index) => (
+                                                       [...employees]
+                                                       .sort((a, b) => {
+                                                           if (a.status === "pending" && b.status !== "pending") return -1;
+                                                           if (a.status !== "pending" && b.status === "pending") return 1;
+                                                           return 0;
+                                                       })
+                                                       .map((employee, index) => (
+                                                   
                                                             <tr key={employee.id}>
                                                                 <th scope="row">{index + 1}</th>
                                                                 <td>
@@ -120,7 +127,13 @@ const LeaveRequest = () => {
                                                                 <td>{employee.from_date}</td>
                                                                 <td>{employee.to_date}</td>
                                                                 <td>{employee.reason}</td>
-                                                                <td>{employee.status}</td>
+                                                                <td className={
+                                                                    employee.status === "pending" ? "text-warning":
+                                                                    employee.status === "rejected" ? "text-danger":
+                                                                    "text-success"
+                                                                }>
+                                                                    {employee.status || "approved"}
+                                                                </td>
                                                                 <td>
                                                                     <button
                                                                         type="button"

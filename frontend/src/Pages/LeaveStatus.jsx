@@ -9,7 +9,6 @@ export default function LeaveStatus() {
 
     useEffect(() => {
         const userId = localStorage.getItem("user_id");
-
         axios.get(`http://206.189.130.102:5050/api/applications/${userId}`)
             .then(res => {
                 setLeaves(res.data || []);
@@ -25,7 +24,9 @@ export default function LeaveStatus() {
                 <Header />
             </div>
             <div className="container mt-5 card bg-ffffff94 border-0 rounded-5 h-100">
-                <h3 className="text-center mb-4">Leave Status</h3>
+            <div className="card-header pt-3 pb-2 d-flex justify-content-between bg-transparent border-bottom-0">
+                  <h4 className="mb-0 fw-bold ">Leave Status</h4>
+                </div>
                 <div className="table-responsive">
                     <table
                         className="table table-hover mb-0 rounded-4 overflow-hidden h-100 overflow-y-scroll mb-4"

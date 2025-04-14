@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^13.5.0",
     "apexcharts": "^4.5.0",
     "axios": "^1.8.4",
+    "html2pdf": "^0.0.11",
     "html2pdf.js": "^0.10.3",
     "react": "^19.0.0",
     "react-apexcharts": "^1.7.0",

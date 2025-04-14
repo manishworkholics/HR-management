@@ -1,70 +1,72 @@
-import React from 'react'
-import Logo from '../assets/images/logo.png'
-import { Link } from 'react-router-dom'
-import { useNavigate } from "react-router-dom";
+//Header
+import React from 'react';
+import Logo from '../assets/images/logo.png';
+import { NavLink, useNavigate } from "react-router-dom";
 
 const Header = () => {
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("user_id");
+    navigate("/hr-management/user");
+  };
 
-    const handleLogout = () => {
-        localStorage.removeItem("authToken");
-        localStorage.removeItem("user_id")
+  const getNavLinkClass = ({ isActive }) =>
+    isActive ? "nav-link me-1 active fw-bold text-light" : "nav-link me-1";
 
-        navigate("/hr-management/user");
-    };
+  return (
+    <div className="header">
+      <nav className="navbar navbar-expand-lg">
+        <div className="container-fluid">
+          <NavLink className="navbar-brand text-danger" to="/hr-management/user/dashboard">
+            <img src={Logo} alt="Logo" className="logo" />
+          </NavLink>
+          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul className="navbar-nav ms-auto mb-2 mb-lg-0 bg-white rounded-5 p-1 me-1">
+              <li className="nav-item">
+                <NavLink className={getNavLinkClass} to="/hr-management/user/dashboard">Dashboard</NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink className={getNavLinkClass} to="/hr-management/user/attendance">Attendance</NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink className={getNavLinkClass} to="/hr-management/user/leave">Leave</NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink className={getNavLinkClass} to="/hr-management/user/salary">Salary</NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink className={getNavLinkClass} to="/hr-management/user/leave-status">Leave Status</NavLink>
+              </li>
+            </ul>
+            <ul className="navbar-nav  mb-2 mb-lg-0">
+              <li className="nav-item me-1">
+                <NavLink className={getNavLinkClass} to="#"><i className="fa-solid fa-gear me-2"></i>Setting</NavLink>
+              </li>
+              <li className="nav-item me-1">
+                <NavLink className={getNavLinkClass} to="#"><i className="fa-solid fa-bell"></i></NavLink>
+              </li>
+              <li className="nav-item dropdown">
+                <NavLink className="nav-link dropdown-toggle" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i className="fa-solid fa-user"></i>
+                </NavLink>
+                <ul className="dropdown-menu dropdown-menu-start">
+                  <li><NavLink className="dropdown-item bg-light text-dark" to="/hr-management/user/profile">Profile</NavLink></li>
+                  <li><NavLink className="dropdown-item bg-light text-dark" to="#">Another action</NavLink></li>
+                  <li><hr className="dropdown-divider" /></li>
+                  <li><button className="dropdown-item  text-dark" onClick={handleLogout}>Logout</button></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+  );
+};
 
-    return (
-        <>
-            <div className="header">
-                <nav className="navbar navbar-expand-lg">
-                    <div className="container-fluid">
-                        <Link className="navbar-brand text-danger" to="/hr-management/user/dashboard">
-                            <img src={Logo} alt="" className="logo" />
-                        </Link>
-                        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                            <span className="navbar-toggler-icon"></span>
-                        </button>
-                        <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                            <ul className="navbar-nav ms-auto mb-2 mb-lg-0 bg-white rounded-5 p-1 me-1">
-                                <li className="nav-item">
-                                    <Link className="nav-link  me-1" aria-current="page" to="/hr-management/user/dashboard">Dashboard</Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link className="nav-link  me-1" aria-current="page" to="/hr-management/user/attendance">Attendance</Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link className="nav-link  me-1" aria-current="page" to="/hr-management/user/leave">Leave</Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link className="nav-link  me-1" aria-current="page" to="/hr-management/user/salary">Salary</Link>
-                                </li>
-                            </ul>
-                            <ul className="navbar-nav navbar-nav-white mb-2 mb-lg-0">
-                                <li className="nav-item me-1">
-                                    <Link className="nav-link" aria-current="page" to="#"><i className="fa-solid fa-gear me-2"></i>Setting</Link>
-                                </li>
-                                <li className="nav-item me-1">
-                                    <Link className="nav-link" aria-current="page" to="#"><i className="fa-solid fa-bell"></i></Link>
-                                </li>
-                                <li class="nav-item dropdown">
-                                    <Link class="nav-link dropdown-toggle" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        <i className="fa-solid fa-user"></i>
-                                    </Link>
-                                    <ul class="dropdown-menu">
-                                        <li><Link class="dropdown-item" to="#">Profile</Link></li>
-                                        <li><Link class="dropdown-item" to="#">Another action</Link></li>
-                                        <li><hr class="dropdown-divider" /></li>
-                                        <li><button class="dropdown-item bg-danger text-white" to="#" onClick={handleLogout}>Logout</button></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-            </div>
-        </>
-    )
-}
-
-export default Header
+export default Header;

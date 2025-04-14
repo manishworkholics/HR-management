@@ -1,3 +1,4 @@
+//Dashboard
 import React, { useEffect, useState } from 'react'
 import Header from '../Components/Header'
 import Calendar from '../Components/Calendar'
@@ -5,7 +6,8 @@ import { FaPhone } from 'react-icons/fa';
 import { FaMars, FaVenus } from "react-icons/fa";
 import { FaEnvelope } from 'react-icons/fa';
 import { FaMapMarkerAlt } from 'react-icons/fa';
-import callAPI from '../Pages/Common_Method/api'
+import callAPI from './Common_Method/api';
+
 
 const Dashboard = () => {
     const [users, setUsers] = useState({});
@@ -142,7 +144,7 @@ const Dashboard = () => {
                                             <div className="col-md-3 d-flex align-items-center">
                                                 <div className="mx-auto text-center">
                                                     <img
-                                                        src={users?.profileImage || "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg"}
+                                                        src={users?.image || "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg"}
                                                         className="img-fluid rounded-start"
                                                         alt="User"
                                                         style={{ height: "200px", width: "200px", objectFit: "cover" }}
@@ -163,17 +165,17 @@ const Dashboard = () => {
                                                     </p>
                                                     <div className="row pt-4">
                                                         <div className="col-md-6 col-5">
-                                                            <p>
+                                                            <p style={{fontSize:"0.8rem"}}>
                                                                 <FaPhone size={15} color="green" className="me-2" />
                                                                 {users?.mobile}
                                                             </p>
 
-                                                            <p><FaMars size={15} color="blue" className="me-2" />
+                                                            <p style={{fontSize:"0.8rem"}}><FaMars size={15} color="blue" className="me-2" />
                                                                 {users?.gender || "Female"}</p>
                                                         </div>
                                                         <div className="col-md-6 col-7">
-                                                            <p><FaEnvelope size={15} color="blue" className="me-2" /> {users?.mail_id}</p>
-                                                            <p><FaMapMarkerAlt size={15} color="green" className="me-2" /> {users?.adress}</p>
+                                                            <p style={{fontSize:"0.8rem"}}><FaEnvelope size={15} color="blue" className="me-2" /> {users?.mail_id}</p>
+                                                            <p  style={{fontSize:"0.8rem"}}><FaMapMarkerAlt size={15} color="green" className="me-2"/> {users?.adress}</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -201,56 +203,3 @@ const Dashboard = () => {
 }
 
 export default Dashboard
-
-
-//  {totalAttendance ? (
-//     <div className='col-lg-4 pb-4'>
-//     <div className="card border-0 rounded-5 bg-ffffff94 h-100">
-//         <div className="card-header pt-2 d-flex justify-content-between bg-transparent border-bottom-0">
-//             <h4 className="mt-2 fw-bold">Your Availability</h4>
-//         </div>
-//         <div className="card-body pt-0">
-//             <div className="row g-2 row-deck">
-//                 <div className="col-md-6 col-6">
-//                     <div className="card border-0 rounded-4">
-//                         <div className="card-body">
-//                             <i className="fa-solid fa-user-check fs-3 text-success"></i>
-//                             <h5 className="mb-0 fw-bold small-14">Attendance</h5>
-//                             <span className="text-muted">{totalAttendance.totalAttendance}</span>
-//                         </div>
-//                     </div>
-//                 </div>
-//                 <div className="col-md-6 col-6">
-//                     <div className="card border-0 rounded-4">
-//                         <div className="card-body">
-//                             <i className="fa-solid fa-clock fs-3 text-warning"></i>
-//                             <h5 className="mb-0 fw-bold small-14">Late Coming</h5>
-//                             <span className="text-muted">{totalAttendance.totalLateComing}</span>
-//                         </div>
-//                     </div>
-//                 </div>
-//                 <div className="col-md-6 col-6">
-//                     <div className="card border-0 rounded-4">
-//                         <div className="card-body">
-//                             <i className="fa-solid fa-circle-xmark fs-3 text-danger"></i>
-//                             <h5 className="mb-0 fw-bold small-14">Absent</h5>
-//                             <span className="text-muted">{totalAttendance.totalAbsent}</span>
-//                         </div>
-//                     </div>
-//                 </div>
-//                 <div className="col-md-6 col-6">
-//                     <div className="card border-0 rounded-4">
-//                         <div className="card-body">
-//                             <i className="fa-solid fa-umbrella-beach fs-3 text-primary"></i>
-//                             <h5 className="mb-0 fw-bold small-14">Leave Apply</h5>
-//                             <span className="text-muted">{totalAttendance.totalLeaveApplications}</span>
-//                         </div>
-//                     </div>
-//                 </div>
-//             </div>
-//         </div>
-//     </div>
-// </div>
-// ) : (
-// <p>No attendance data available.</p>
-// )}

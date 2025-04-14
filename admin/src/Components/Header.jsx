@@ -53,15 +53,15 @@ const Header = () => {
                                 <li className="nav-item">
                                     <NavLink className={getNavLinkClass} to="/hr-management/admin/leave-request">Requests</NavLink>
                                 </li>
-                                <li className="nav-item">
+                                {/* <li className="nav-item">
                                     <NavLink className={getNavLinkClass} to="#">Hiring</NavLink>
-                                </li>
+                                </li> */}
                                 <li className="nav-item">
                                     <NavLink className={getNavLinkClass} to="/hr-management/admin/salary">Salary</NavLink>
                                 </li>
-                                <li className="nav-item">
+                                {/* <li className="nav-item">
                                     <NavLink className={getNavLinkClass} to="#">Calendar</NavLink>
-                                </li>
+                                </li> */}
                                 <li className="nav-item">
                                     <NavLink className={getNavLinkClass} to="/hr-management/admin/archives">Archives</NavLink>
                                 </li>
@@ -69,10 +69,10 @@ const Header = () => {
 
                             <ul className="navbar-nav navbar-nav-white mb-2 mb-lg-0">
                                 <li className="nav-item me-1">
-                                    <Link className="nav-link" to="#"><i className="fa-solid fa-gear me-2"></i></Link>
+                                    <Link className="nav-link" to="#"><i className="fa-solid fa-gear "></i></Link>
                                 </li>
                                 <li className="nav-item me-1">
-                                    <Link className="nav-link" to="#"><i className="fa-solid fa-bell me-2"></i></Link>
+                                    <Link className="nav-link" to="#"><i className="fa-solid fa-bell"></i></Link>
                                 </li>
                                 <li className="nav-item dropdown">
                                     <Link className="nav-link dropdown-toggle" to="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

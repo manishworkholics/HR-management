@@ -45,7 +45,7 @@ export default function LeaveStatus() {
                         <tbody>
                             {loading ? (
                                 <tr>
-                                    <td colSpan="5" className="text-center py-4">
+                                    <td colSpan="6" className="text-center py-4">
                                         <div
                                             className="spinner-border text-warning"
                                             role="status"
@@ -84,7 +84,7 @@ export default function LeaveStatus() {
                             ) : (
                                 <tr>
                                     <td
-                                        colSpan="5"
+                                        colSpan="6"
                                         className="text-center text-muted py-4"
                                     >
                                         No attendance records found.

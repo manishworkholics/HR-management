@@ -133,11 +133,9 @@ const Employee = () => {
         }
     };
 
-
-
     return (
         <>
-            <div className="container-fluid employee-page">
+            <div className="container-fluid  employee-page">
                 <ToastContainer limit={1} position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover
                 />
                 <Header />

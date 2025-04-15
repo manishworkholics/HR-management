@@ -58,6 +58,18 @@
   }
 }
 
+ @media only screen and (max-width: 1024px) {
+  .navbar-brand .logo {
+    width: 159px !important;
+  }
+} 
+
+@media only screen and (max-width: 1024px) {
+  .calendarStyle {
+   height:355px;
+  }
+} 
+
 .dropdown-menu-start {
   left: auto !important;
   right: 0 !important;
@@ -162,8 +174,8 @@
 .btnColor{
   background-color: #e6c760;
 }
-/* Leave page css end */
 
+/* Leave page css end */
 /* Profile css start */
 .profileImg{
   height: 160px !important;

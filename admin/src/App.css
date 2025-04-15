@@ -78,6 +78,11 @@
     }
   }
 }
+@media only screen and (max-width: 1024px) {
+  .navbar-brand .logo {
+    width: 185px !important;
+  }
+}
 
 /* Navbar-CSS End */
 
@@ -101,6 +106,25 @@
 }
 
 /* Common CSS End */
+
+/* dashboard css start */
+/* Hide by default */
+.ipad-only {
+  display: none;
+}
+
+/* Show only on iPad Mini, Air, Pro: 768px to 1024px */
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+  .ipad-only {
+    display: block;
+  }
+}
+/* Show everywhere by default */
+.ipad-cards {
+  display: block;
+}
+
+/* dashboard css start */
 
 /* Employee-Page-CSS Start */
 .employee-page {
@@ -172,6 +196,10 @@
   input[type="date"]:hover::-webkit-calendar-picker-indicator:hover {
     opacity: 0.15;
   }
+}
+
+.btnColor{
+  background-color: #9b9696;
 }
 
 /* Attendance-Page-CSS End */

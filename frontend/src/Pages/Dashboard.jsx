@@ -91,7 +91,7 @@ const Dashboard = () => {
                                     </div>
                                     <div className="card-body pt-0">
                                         <div className="row g-2 row-deck">
-                                            <div className="col-md-3 col-6">
+                                            <div className="col-md-3  col-6">
                                                 <div className="card border-0 rounded-4">
                                                     <div className="card-body">
                                                         <i className="fa-solid fa-user-check fs-3 text-success"></i>
@@ -157,14 +157,14 @@ const Dashboard = () => {
                                                 <div className="border-start d-none d-lg-block ms-3" style={{ height: "250px" }}></div>
                                             </div>
 
-                                            <div className="col-md-8 px-3">
+                                            <div className="col-md-9 px-3">
                                                 <div className="card-body">
-                                                    <h1 className="card-title fw-bold">{users?.name}</h1>
+                                                    <h2 className="card-title fw-bold">{users?.name}</h2>
                                                     <p className="card-text pt-2 pt-md-4">
                                                         {users?.description || "This is a wider card with supporting text below as a natural lead-in to additional content."}
                                                     </p>
                                                     <div className="row pt-4">
-                                                        <div className="col-md-6 col-5">
+                                                        <div className="col-md-6 col-lg-12 col-12">
                                                             <p style={{fontSize:"0.8rem"}}>
                                                                 <FaPhone size={15} color="green" className="me-2" />
                                                                 {users?.mobile}
@@ -173,7 +173,7 @@ const Dashboard = () => {
                                                             <p style={{fontSize:"0.8rem"}}><FaMars size={15} color="blue" className="me-2" />
                                                                 {users?.gender || "Female"}</p>
                                                         </div>
-                                                        <div className="col-md-6 col-7">
+                                                        <div className="col-md-6 col-lg-12 col-12">
                                                             <p style={{fontSize:"0.8rem"}}><FaEnvelope size={15} color="blue" className="me-2" /> {users?.mail_id}</p>
                                                             <p  style={{fontSize:"0.8rem"}}><FaMapMarkerAlt size={15} color="green" className="me-2"/> {users?.adress}</p>
                                                         </div>
@@ -187,7 +187,7 @@ const Dashboard = () => {
                         </div>
                         <div className='col-lg-4 mb-lg-0 mb-3'>
                             <div className="card bg-ffffff94 border-0 rounded-5 ">
-                                <div className="card-body">
+                                <div className="card-body calendarStyle">
                                     <Calendar />
                                 </div>
                             </div>

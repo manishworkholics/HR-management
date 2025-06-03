@@ -10,7 +10,7 @@ const Attendance = () => {
     // Function to fetch attendance data for a specific date
     const fetchAttendanceData = (date) => {
         setLoading(true);
-        fetch(`http://206.189.130.102:5050/api/attendance?date=${date}`)
+        fetch(`http://localhost:4000/api/attendance?date=${date}`)
             .then((response) => response.json())
             .then((data) => {
                 if (data && data.length > 0) {
@@ -56,7 +56,7 @@ const Attendance = () => {
             body: JSON.stringify(bulkData),
         };
 
-        fetch("http://206.189.130.102:5050/api/attendance/bulk", requestOptions)
+        fetch("http://localhost:4000/api/attendance/bulk", requestOptions)
             .then((response) => {
                 if (!response.ok) {
                     return response.json().then((err) => {

@@ -374,3 +374,100 @@ exports.updateAttendanceStatus = async (req, res) => {
 //       res.status(500).json({ error: 'Failed to fetch or save attendance logs' });
 //     }
 //   });
+
+
+
+
+
+
+
+
+
+
+const { subDays, format } = require('date-fns');
+
+exports.saveLast15DaysAttendance = async (req, res) => {
+    const zk = new ZKLib('192.168.29.200', 4370, 10000, 4000);
+
+    try {
+        // 1. Connect to the biometric device
+        await zk.createSocket();
+        const logs = await zk.getAttendances();
+        await zk.disconnect();
+
+        const allUsers = await User.find({ active: true });
+        const attendanceResults = [];
+
+        // 2. Loop over last 15 days
+        for (let i = 0; i < 45; i++) {
+            const targetDate = subDays(new Date(), i);
+            const formattedDate = format(targetDate, 'yyyy-MM-dd');
+
+            // 3. Filter logs for the current date
+            const dayLogs = logs.data.filter(log =>
+                format(new Date(log.recordTime), 'yyyy-MM-dd') === formattedDate
+            );
+
+            // 4. Group logs by userSn (device user ID)
+            const attendanceMap = {};
+            dayLogs.forEach(log => {
+                const deviceId = log.userSn;
+                const recordTime = new Date(log.recordTime).toTimeString().split(' ')[0];
+
+                if (!attendanceMap[deviceId]) {
+                    attendanceMap[deviceId] = [];
+                }
+
+                attendanceMap[deviceId].push(recordTime);
+            });
+
+            // 5. Loop through all users
+            for (const user of allUsers) {
+                const logs = attendanceMap[user.device_id];
+                let user_entry_time = null;
+                let user_exit_time = null;
+                let status = 'Absent';
+
+                if (logs && logs.length > 0) {
+                    logs.sort();
+                    user_entry_time = logs[0];
+                    user_exit_time = logs[logs.length - 1];
+
+                    const entryTime = new Date(`${formattedDate}T${user_entry_time}`);
+                    const thresholdTime = new Date(`${formattedDate}T10:20:00`);
+
+                    if (entryTime > thresholdTime) {
+                        status = 'HalfDay';
+                    } else {
+                        status = 'Present';
+                    }
+                }
+
+                const attendance = await Attendance.findOneAndUpdate(
+                    { user_id: user._id, date: formattedDate },
+                    {
+                        user_id: user._id,
+                        date: formattedDate,
+                        user_entry_time,
+                        user_exit_time,
+                        status,
+                        updated_at: new Date()
+                    },
+                    { upsert: true, new: true }
+                );
+
+                attendanceResults.push(attendance);
+            }
+        }
+
+        res.status(200).json({
+            message: `Attendance saved for last 15 days.`,
+            count: attendanceResults.length,
+            data: attendanceResults
+        });
+
+    } catch (err) {
+        console.error('Error saving attendance:', err);
+        res.status(500).json({ error: 'Something went wrong while saving attendance.' });
+    }
+};

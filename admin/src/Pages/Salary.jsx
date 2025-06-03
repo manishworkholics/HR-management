@@ -18,7 +18,7 @@ const Salary = () => {
     try {
       setLoading(true);
       const response = await fetch(
-        `http://206.189.130.102:5050/api/attendance/salaries?start_date=${start}&end_date=${end}`
+        `http://localhost:4000/api/attendance/salaries?start_date=${start}&end_date=${end}`
       );
       if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
       const result = await response.json();
@@ -105,7 +105,7 @@ const Salary = () => {
         formData.append("image", pdfBlob, `${employee.name || "salary-slip"}.pdf`);
 
         // Step 1: Upload PDF
-        const uploadRes = await fetch("http://206.189.130.102:5050/api/v1/uploading", {
+        const uploadRes = await fetch("http://localhost:4000/api/v1/uploading", {
           method: "POST",
           body: formData,
           redirect: "follow",
@@ -138,7 +138,7 @@ const Salary = () => {
           redirect: "follow",
         };
 
-        const saveRes = await fetch("http://206.189.130.102:5050/api/salaries/create-salary", requestOptions);
+        const saveRes = await fetch("http://localhost:4000/api/salaries/create-salary", requestOptions);
         const saveResult = await saveRes.text();
 
         console.log("Salary record saved:", saveResult);

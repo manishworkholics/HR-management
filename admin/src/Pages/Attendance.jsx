@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from "react";
 import Header from "../Components/Header";
-
+import ProfileImg from '../assets/images/pro-img.png'
 
 const Attendance = () => {
     const [currentDate, setCurrentDate] = useState(new Date().toISOString().split("T")[0]);
     const [attendanceRecords, setAttendanceRecords] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [previewImage, setPreviewImage] = useState(null);
+
+    const handlePreview = (imgUrl) => {
+        setPreviewImage(imgUrl);
+    };
+
 
     // Fetch attendance for selected date
     const fetchAttendanceData = (date) => {
@@ -117,7 +123,13 @@ const Attendance = () => {
                                                         <tr key={record.user_id}>
                                                             <th>{index + 1}</th>
                                                             <td>
-
+                                                                <img
+                                                                    src={record?.image || ProfileImg}
+                                                                    alt=""
+                                                                    className="tbl-empImg shadow"
+                                                                    style={{ cursor: "pointer", width: "40px", height: "40px", objectFit: "cover", borderRadius: "50%" }}
+                                                                    onClick={() => handlePreview(record?.image || ProfileImg)}
+                                                                />
                                                                 {record?.user_id?.name}
                                                             </td>
                                                             <td>{record?.user_entry_time}</td>
@@ -163,6 +175,26 @@ const Attendance = () => {
                     </div>
                 </div>
             </div>
+            {/* Modal Image-Preview */}
+            {previewImage && (
+                <div
+                    className="modal fade show "
+                    style={{ display: "block", background: "rgba(0,0,0,0.6)" }}
+                    onClick={() => setPreviewImage(null)}
+                >
+                    <div className="modal-dialog modal-dialog-centered" onClick={(e) => e.stopPropagation()}>
+                        <div className="modal-content" style={{ background: "rgba(0,0,0,0.8)" }}>
+                            <div className="modal-header border-0">
+                                <h5 className="modal-title text-white">Image Preview</h5>
+                                <button type="button" className="btn-close bg-white rounded-circle" onClick={() => setPreviewImage(null)}></button>
+                            </div>
+                            <div className="modal-body text-center">
+                                <img src={previewImage} alt="Preview" className="img-fluid rounded shadow" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

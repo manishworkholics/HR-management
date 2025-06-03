@@ -192,7 +192,7 @@ const EditAttendance = () => {
             </select>
           </div>
 
-          <button className="btn btn-primary" type="submit">
+          <button className="btn btnColor" type="submit">
             Save Attendance
           </button>
         </form>

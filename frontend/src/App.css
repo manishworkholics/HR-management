@@ -1,3 +1,4 @@
+/* App.css */
 * {
   margin: 0;
   padding: 0;
@@ -55,6 +56,23 @@
   .navbar-brand .logo {
     width: 159px !important;
   }
+}
+
+ @media only screen and (max-width: 1024px) {
+  .navbar-brand .logo {
+    width: 159px !important;
+  }
+} 
+
+@media only screen and (max-width: 1024px) {
+  .calendarStyle {
+   height:355px;
+  }
+} 
+
+.dropdown-menu-start {
+  left: auto !important;
+  right: 0 !important;
 }
 
 /* Navbar-CSS End */
@@ -156,4 +174,16 @@
 .btnColor{
   background-color: #e6c760;
 }
+
 /* Leave page css end */
+/* Profile css start */
+.profileImg{
+  height: 160px !important;
+}
+/* Profile css end */
+
+/* dashboard css start */
+.fontStyle{
+  font-size: 0.8 rem !important;
+}
+/* dashboard css end */

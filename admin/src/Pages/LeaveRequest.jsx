@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from "react";
 import Header from '../Components/Header'
-// import ProfileImg from '../assets/images/pro-img.png'
+import ProfileImg from '../assets/images/pro-img.png'
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -9,6 +9,12 @@ const LeaveRequest = () => {
     const [employees, setEmployees] = useState([]);
     const [status, setStatus] = useState('');
     const [loading, setLoading] = useState(false);
+    const [previewImage, setPreviewImage] = useState(null);
+
+    const handlePreview = (imgUrl) => {
+        setPreviewImage(imgUrl);
+    };
+
 
     // Get Employees
     const getEmployees = async () => {
@@ -57,7 +63,7 @@ const LeaveRequest = () => {
     return (
         <>
             <div className="container-fluid attendance-page">
-                 <ToastContainer position="top-right" autoClose={3000} />
+                <ToastContainer position="top-right" autoClose={3000} />
                 <Header />
                 <div className="px-lg-5 px-0">
                     <div className="row">
@@ -84,9 +90,8 @@ const LeaveRequest = () => {
                                                 <thead>
                                                     <tr className="table-warning">
                                                         <th scope="col">#</th>
-                                                        {/* <th scope="col">Image</th> */}
-                                                        <th scope="col">User Name</th>
                                                         <th scope="col">Name</th>
+                                                        <th scope="col">User Name</th>
                                                         <th scope="col">Leave Type</th>
                                                         <th scope="col">From</th>
                                                         <th scope="col">To</th>
@@ -97,21 +102,38 @@ const LeaveRequest = () => {
                                                 </thead>
                                                 <tbody>
                                                     {employees.length > 0 ? (
-                                                        employees.map((employee, index) => (
+                                                       [...employees]
+                                                       .sort((a, b) => {
+                                                           if (a.status === "pending" && b.status !== "pending") return -1;
+                                                           if (a.status !== "pending" && b.status === "pending") return 1;
+                                                           return 0;
+                                                       })
+                                                       .map((employee, index) => (
+                                                   
                                                             <tr key={employee.id}>
                                                                 <th scope="row">{index + 1}</th>
-                                                                {/* <td>
-                                                                    <img src={ProfileImg} alt="" className="tbl-empImg" />
-                                                                    {employee.name}
-                                                                </td> */}
+                                                                <td>
+                                                                    <img
+                                                                        src={employee.image || ProfileImg}
+                                                                        alt=""
+                                                                        className="tbl-empImg shadow"
+                                                                        style={{ cursor: "pointer", width: "40px", height: "40px", objectFit: "cover", borderRadius: "50%" }}
+                                                                        onClick={() => handlePreview(employee.image || ProfileImg)}
+                                                                    />
+                                                                    {employee.user_id.name}
+                                                                </td>
                                                                 <td>{employee.user_id.username}</td>
-                                                                <td>{employee.user_id.name}</td>
-
                                                                 <td>{employee.leave_type}</td>
                                                                 <td>{employee.from_date}</td>
                                                                 <td>{employee.to_date}</td>
                                                                 <td>{employee.reason}</td>
-                                                                <td>{employee.status}</td>
+                                                                <td className={
+                                                                    employee.status === "pending" ? "text-warning":
+                                                                    employee.status === "rejected" ? "text-danger":
+                                                                    "text-success"
+                                                                }>
+                                                                    {employee.status || "approved"}
+                                                                </td>
                                                                 <td>
                                                                     <button
                                                                         type="button"
@@ -148,6 +170,26 @@ const LeaveRequest = () => {
                         </div>
                     </div>
                 </div>
+                {/* Modal Image-Preview */}
+                {previewImage && (
+                    <div
+                        className="modal fade show "
+                        style={{ display: "block", background: "rgba(0,0,0,0.6)" }}
+                        onClick={() => setPreviewImage(null)}
+                    >
+                        <div className="modal-dialog modal-dialog-centered" onClick={(e) => e.stopPropagation()}>
+                            <div className="modal-content" style={{ background: "rgba(0,0,0,0.8)" }}>
+                                <div className="modal-header border-0">
+                                    <h5 className="modal-title text-white">Image Preview</h5>
+                                    <button type="button" className="btn-close bg-white rounded-circle" onClick={() => setPreviewImage(null)}></button>
+                                </div>
+                                <div className="modal-body text-center">
+                                    <img src={previewImage} alt="Preview" className="img-fluid rounded shadow" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </>
     )

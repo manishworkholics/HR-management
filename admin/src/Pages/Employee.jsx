@@ -21,6 +21,11 @@ const Employee = () => {
     const [selectedEmployee, setSelectedEmployee] = useState(null);
     const [showEditModal, setShowEditModal] = useState(false);
     const [showAddModal, setShowAddModal] = useState(false);
+    const [previewImage, setPreviewImage] = useState(null);
+
+    const handlePreview = (imgUrl) => {
+        setPreviewImage(imgUrl);
+    };
 
     // Get Employees
     const getEmployees = async () => {
@@ -121,19 +126,17 @@ const Employee = () => {
             console.log("User Created:", result);
             toast.success("User successfully created!");
             setShowAddModal(false);
-            getEmployees(); 
+            getEmployees();
         } catch (error) {
             console.error("Error:", error.message);
             toast.error("Failed to create user!");
         }
     };
 
-
-
     return (
         <>
-            <div className="container-fluid employee-page">
-                <ToastContainer limit={1} position="top-right" autoClose={3000}  hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover
+            <div className="container-fluid  employee-page">
+                <ToastContainer limit={1} position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover
                 />
                 <Header />
                 <div className="px-lg-5 px-0">
@@ -180,7 +183,13 @@ const Employee = () => {
                                                             <tr key={employee.id}>
                                                                 <th scope="row">{index + 1}</th>
                                                                 <td>
-                                                                    {/* <img src={ProfileImg} alt="" className="tbl-empImg" /> */}
+                                                                    <img
+                                                                        src={employee.image || ProfileImg}
+                                                                        alt=""
+                                                                        className="tbl-empImg shadow"
+                                                                        style={{ cursor: "pointer", width: "40px", height: "40px", objectFit: "cover", borderRadius: "50%" }}
+                                                                        onClick={() => handlePreview(employee.image || ProfileImg)}
+                                                                    />
                                                                     {employee.name}
                                                                 </td>
                                                                 <td>{employee.username}</td>
@@ -360,6 +369,27 @@ const Employee = () => {
                                 <button type="button" className="btn btn-primary" onClick={handleUpdate}>
                                     Update
                                 </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Modal Image-Preview */}
+            {previewImage && (
+                <div
+                    className="modal fade show "
+                    style={{ display: "block", background: "rgba(0,0,0,0.6)" }}
+                    onClick={() => setPreviewImage(null)}
+                >
+                    <div className="modal-dialog modal-dialog-centered" onClick={(e) => e.stopPropagation()}>
+                        <div className="modal-content" style={{ background: "rgba(0,0,0,0.8)" }}>
+                            <div className="modal-header border-0">
+                                <h5 className="modal-title text-white">Image Preview</h5>
+                                <button type="button" className="btn-close bg-white rounded-circle" onClick={() => setPreviewImage(null)}></button>
+                            </div>
+                            <div className="modal-body text-center">
+                                <img src={previewImage} alt="Preview" className="img-fluid rounded shadow" />
                             </div>
                         </div>
                     </div>

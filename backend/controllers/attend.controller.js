@@ -61,16 +61,10 @@ exports.saveAttendanceLogs = async (req, res) => {
     }
 }
 
-
-
-
-
-
-
 const formatDate = (date) => date.toISOString().split('T')[0];
 
 exports.saveTodayAttendance = async (req, res) => {
-    const zk = new ZKLib('192.168.29.200', 4370, 10000,4000);
+    const zk = new ZKLib('192.168.29.200', 4370, 10000, 4000);
 
     try {
         // 1. Connect to the biometric device
@@ -99,7 +93,7 @@ exports.saveTodayAttendance = async (req, res) => {
         });
 
         // 4. Fetch all users
-        const allUsers = await User.find({active:true});
+        const allUsers = await User.find({ active: true });
 
         const attendanceResults = [];
 
@@ -138,22 +132,22 @@ exports.saveTodayAttendance = async (req, res) => {
             let user_entry_time = null;
             let user_exit_time = null;
             let status = 'Absent';
-        
+
             if (logs && logs.length > 0) {
                 logs.sort(); // ascending
                 user_entry_time = logs[0];
                 user_exit_time = logs[logs.length - 1];
-        
+
                 const entryTime = new Date(`${today}T${user_entry_time}`);
                 const thresholdTime = new Date(`${today}T10:20:00`);
-        
+
                 if (entryTime > thresholdTime) {
                     status = 'HalfDay';
                 } else {
                     status = 'Present';
                 }
             }
-        
+
             const attendance = await Attendance.findOneAndUpdate(
                 { user_id: user._id, date: today },
                 {
@@ -166,10 +160,10 @@ exports.saveTodayAttendance = async (req, res) => {
                 },
                 { upsert: true, new: true }
             );
-        
+
             attendanceResults.push(attendance);
         }
-        
+
 
         res.status(200).json({
             message: `Attendance saved for ${attendanceResults.length} users.`,
@@ -232,160 +226,6 @@ exports.updateAttendanceStatus = async (req, res) => {
 };
 
 
-
-
-
-// Utility to format date to YYYY-MM-DD
-// const formatDate = (date) => date.toISOString().split('T')[0];
-
-// exports.saveTodayAttendance = async (req, res) => {
-//     const zk = new ZKLib('192.168.29.200', 4370, 10000, 4000);
-
-//     try {
-//         await zk.createSocket();
-//         const logs = await zk.getAttendances();
-//         await zk.disconnect();
-
-//         const today = formatDate(new Date());
-
-//         // Filter logs for today
-//         const todayLogs = logs.data.filter(log => {
-//             return formatDate(new Date(log.recordTime)) === today;
-//         });
-
-//         // Group logs by userSn + date
-//         const groupedLogs = {};
-
-//         todayLogs.forEach(log => {
-//             const key = `${log.userSn}_${today}`;
-
-//             if (!groupedLogs[key]) {
-//                 groupedLogs[key] = {
-//                     userSn: log.userSn,
-//                     deviceUserId: log.deviceUserId,
-//                     date: today,
-//                     logs: []
-//                 };
-//             }
-
-//             groupedLogs[key].logs.push({
-//                 recordTime: new Date(log.recordTime),
-//                 ip: log.ip
-//             });
-//         });
-
-//         // Save or update each grouped record
-//         const results = [];
-//         for (const key in groupedLogs) {
-//             const entry = groupedLogs[key];
-//             const result = await Attendance.findOneAndUpdate(
-//                 { userSn: entry.userSn, date: entry.date },
-//                 {
-//                     $push: { logs: { $each: entry.logs } },
-//                     deviceUserId: entry.deviceUserId
-//                 },
-//                 { upsert: true, new: true }
-//             );
-//             results.push(result);
-//         }
-
-//         res.status(200).json({ message: 'Today\'s attendance saved.', savedCount: results.length });
-
-//     } catch (err) {
-//         console.error('Error while saving today\'s attendance:', err);
-//         res.status(500).json({ error: 'Something went wrong' });
-//     }
-// }
-
-
-
-// app.get('/api/save-today-attendance', async (req, res) => {
-//     const zk = new ZKLib('192.168.29.200', 4370, 10000, 4000);
-  
-//     try {
-//       await zk.createSocket();
-  
-//       const logs = await zk.getAttendances();
-//       await zk.disconnect();
-  
-//       const todayDate = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
-  
-//       // Group by userSn + date
-//       const groupedLogs = {};
-  
-//       logs.data.forEach(log => {
-//         const date = new Date(log.recordTime).toISOString().split('T')[0];
-//         if (date !== todayDate) return; // Only today's logs
-  
-//         const key = `${log.userSn}_${date}`;
-  
-//         if (!groupedLogs[key]) {
-//           groupedLogs[key] = {
-//             userSn: log.userSn,
-//             deviceUserId: log.deviceUserId,
-//             date,
-//             logs: []
-//           };
-//         }
-  
-//         groupedLogs[key].logs.push({
-//           recordTime: new Date(log.recordTime),
-//           ip: log.ip
-//         });
-//       });
-  
-//       // Save or update MongoDB
-//       for (const key in groupedLogs) {
-//         const entry = groupedLogs[key];
-  
-//         const existingDoc = await Attendance.findOne({
-//           userSn: entry.userSn,
-//           date: entry.date
-//         });
-  
-//         let newLogs = entry.logs;
-  
-//         if (existingDoc) {
-//           const existingTimes = new Set(
-//             existingDoc.logs.map(log => new Date(log.recordTime).toISOString())
-//           );
-  
-//           newLogs = entry.logs.filter(
-//             log => !existingTimes.has(new Date(log.recordTime).toISOString())
-//           );
-//         }
-  
-//         if (newLogs.length > 0) {
-//           await Attendance.findOneAndUpdate(
-//             { userSn: entry.userSn, date: entry.date },
-//             {
-//               $push: { logs: { $each: newLogs } },
-//               deviceUserId: entry.deviceUserId
-//             },
-//             { upsert: true, new: true }
-//           );
-//         }
-//       }
-  
-//       res.status(200).json({ message: 'Today\'s attendance saved successfully' });
-  
-//     } catch (err) {
-//       console.error('Error:', err);
-//       res.status(500).json({ error: 'Failed to fetch or save attendance logs' });
-//     }
-//   });
-
-
-
-
-
-
-
-
-
-
-const { subDays, format } = require('date-fns');
-
 exports.saveLast15DaysAttendance = async (req, res) => {
     const zk = new ZKLib('192.168.29.200', 4370, 10000, 4000);
 
@@ -398,17 +238,39 @@ exports.saveLast15DaysAttendance = async (req, res) => {
         const allUsers = await User.find({ active: true });
         const attendanceResults = [];
 
-        // 2. Loop over last 15 days
-        for (let i = 0; i < 45; i++) {
+        const { subDays, format } = require('date-fns');
+
+        for (let i = 0; i < 25; i++) {
             const targetDate = subDays(new Date(), i);
             const formattedDate = format(targetDate, 'yyyy-MM-dd');
+            const dayOfWeek = targetDate.getDay(); // 0 = Sunday, 6 = Saturday
 
-            // 3. Filter logs for the current date
+            // 1. Weekend logic
+            if (dayOfWeek === 0 || dayOfWeek === 6) {
+                // Mark all users as Present without logs
+                for (const user of allUsers) {
+                    const attendance = await Attendance.findOneAndUpdate(
+                        { user_id: user._id, date: formattedDate },
+                        {
+                            user_id: user._id,
+                            date: formattedDate,
+                            user_entry_time: '00:00:00',
+                            user_exit_time: '00:00:00',
+                            status: 'Present',
+                            updated_at: new Date()
+                        },
+                        { upsert: true, new: true }
+                    );
+                    attendanceResults.push(attendance);
+                }
+                continue; // Skip to next day
+            }
+
+            // 2. Weekday logic (regular processing)
             const dayLogs = logs.data.filter(log =>
                 format(new Date(log.recordTime), 'yyyy-MM-dd') === formattedDate
             );
 
-            // 4. Group logs by userSn (device user ID)
             const attendanceMap = {};
             dayLogs.forEach(log => {
                 const deviceId = log.userSn;
@@ -421,7 +283,6 @@ exports.saveLast15DaysAttendance = async (req, res) => {
                 attendanceMap[deviceId].push(recordTime);
             });
 
-            // 5. Loop through all users
             for (const user of allUsers) {
                 const logs = attendanceMap[user.device_id];
                 let user_entry_time = null;
@@ -434,7 +295,7 @@ exports.saveLast15DaysAttendance = async (req, res) => {
                     user_exit_time = logs[logs.length - 1];
 
                     const entryTime = new Date(`${formattedDate}T${user_entry_time}`);
-                    const thresholdTime = new Date(`${formattedDate}T10:20:00`);
+                    const thresholdTime = new Date(`${formattedDate}T10:30:00`);
 
                     if (entryTime > thresholdTime) {
                         status = 'HalfDay';
@@ -459,6 +320,9 @@ exports.saveLast15DaysAttendance = async (req, res) => {
                 attendanceResults.push(attendance);
             }
         }
+
+
+
 
         res.status(200).json({
             message: `Attendance saved for last 15 days.`,
